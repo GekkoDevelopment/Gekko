@@ -1,0 +1,40 @@
+Economy
+
+Dashboard
+
+Embed Builder / Creator (can also do this through dashboard?)
+
+Server Backups (how are we going to store guild backup data?)
+
+Music?
+
+Tickets
+
+Logging
+
+Reaction Roles
+
+Custom welcome message
+
+Custom leave message
+
+Auto moderation
+
+Fun Commands
+(what are some fun commands that we can make?)
+
+Game Information Commands? (error information, common fixes, etc.)
+
+Game Fetch stats?
+
+Purge command?
+
+Server lockdown command?
+
+Autorole (can also do this through dashboard?)
+
+Role management (can also do this through dashboard?)
+
+Prefix commands as well?
+
+givaway commands
