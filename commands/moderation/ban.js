@@ -9,22 +9,36 @@ module.exports = {
 
     async execute(interaction) {
         if (!interaction.member.permissions.has(PermissionFlagsBits.BanMembers)) {
-            return await interaction.reply({ content: "You don't have permission to use this command.", ephemeral: true });
+            const permissionErrorEmbed = new EmbedBuilder()
+            .setTitle('Permissions Error: 50013')
+            .addFields(
+                {
+                    name: 'Error Message:',
+                    value: '```\nYou lack permissions to perform that action```',
+                    inline: true
+                }
+            )
+            .setColor('#7B598D');
+            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 
         const user = interaction.options.getUser('user');
         const reason = interaction.options.getString('reason') || 'No reason provided';
 
-        if (!user) {
-            return await interaction.reply({ content: "Please specify a user to ban.", ephemeral: true });
-        }
-
         try {
+            const successEmbed = new EmbedBuilder()
+            .setTitle('User Banned')
+            .setDescription(`> \`${user.tag}\` has been banned. \n> \n> **Moderator:** \n> <@${interaction.member.id}> \n> **Reason:** \n> \`${reason}\``)
+            .setColor('#7B598D');
             await interaction.guild.members.ban(user, { reason });
-            await interaction.reply({ content: `${user.tag} has been banned.`, ephemeral: true });
+            await interaction.reply({ embeds: [successEmbed], ephemeral: true });
         } catch (error) {
-            console.error(error);
-            await interaction.reply({ content: 'There was an error banning the user.', ephemeral: true });
+            const catchErrorEmbed = new EmbedBuilder()
+            .setTitle('Unexpected Error:')
+            .setDescription(`\`\`\`\n${error}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
+            .setColor('#7B598D')
+
+            await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true  });
         }
     },
 };
@@ -32,4 +46,3 @@ module.exports = {
 // TO DO:
 // Check Can't kick bot.
 // Check Can't kick staff / admin.
-// Build embeds.
