@@ -25,13 +25,30 @@ module.exports = {
 
         const user = interaction.options.getUser('user');
         const reason = interaction.options.getString('reason') || 'No reason provided';
+        const member = await interaction.guild.members.fetch(user.id);
+
+        if (user.bot) {
+            const botErrorEmbed = new EmbedBuilder()
+            .setTitle('Action Error:')
+            .setDescription('You cannot ban a bot from the server, please do this manually.')
+            .setColor(`${color.bot}`);
+            return await interaction.reply({ embeds: [botErrorEmbed], ephemeral: true })
+        }
+
+        if (member.roles.highest.comparePositionTo(interaction.member.roles.highest) >= 0) {
+            const roleErrorEmbed = new EmbedBuilder()
+            .setTitle('Permissions Error:')
+            .setDescription('You cannot ban a user with a role that is the same, or higher than yours.')
+            .setColor(`${color.bot}`);
+            return await interaction.reply({ embeds: [roleErrorEmbed], ephemeral: true });
+        }
 
         try {
             const successEmbed = new EmbedBuilder()
             .setTitle('User Banned')
             .setDescription(`> \`${user.tag}\` has been banned. \n> \n> **Moderator:** \n> <@${interaction.member.id}> \n> **Reason:** \n> \`${reason}\``)
             .setColor(color.bot);
-            await interaction.guild.members.ban(user, { reason });
+            await member.kick(reason);
             await interaction.reply({ embeds: [successEmbed], ephemeral: true });
         } catch (error) {
             const catchErrorEmbed = new EmbedBuilder()
@@ -43,7 +60,3 @@ module.exports = {
         }
     },
 };
-
-// TO DO:
-// Check Can't kick bot.
-// Check Can't kick staff / admin.
