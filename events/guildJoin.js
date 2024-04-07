@@ -6,7 +6,15 @@ let mysql = db.createConnection({
     host: config.database.host,
     user: config.database.username,
     password: config.database.password,
-    database: config.database.databaseName
+    database: config.database.name
+});
+
+mysql.connect(function(err) {
+    if (err) {
+        console.error('Error connecting to database:', err);
+        return;
+    }
+    console.log('Connected to MySQL database');
 });
 
 module.exports.guildMemberAdd = {

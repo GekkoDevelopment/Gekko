@@ -26,6 +26,6 @@ module.exports = {
     panel: {
         host: 'http://198.244.148.129/',
         apiKey: 'ptlc_URrfpJa5WDu9uN2dr1MCLCHODqRFyFTFPC0i07reuSN',
-        gekkoServerId: ''
+        gekkoServerId: 'f9f4a360-269b-4bd6-8572-c4f9d47fe2b4'
     }
 }
