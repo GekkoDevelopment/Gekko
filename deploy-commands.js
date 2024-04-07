@@ -1,7 +1,7 @@
 const { REST, Routes } = require('discord.js');
 const config = require('./config.js');
-const fs = require('node:fs');
-const path = require('node:path');
+const fs = require('fs');
+const path = require('path');
 
 const commands = [];
 
@@ -26,17 +26,20 @@ for (const folder of commandFolders) {
     }
 }
 
-const rest = new REST().setToken(config.bot.token);
+const rest = new REST({ version: '9' }).setToken(config.bot.token);
 
 (async () => {
     try {
         console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
         // The put method is used to fully refresh all commands in the guild with the current set
-        const data = await rest.put(Routes.applicationCommand(config.bot.clientId), { body: commands });
+        const data = await rest.put(
+            Routes.applicationCommands(config.bot.clientId), 
+            { body: commands }
+        );
 
         console.log(`Successfully reloaded ${data.length} application (/) commands`);
     } catch (err) {
         console.error(err);
     }
-})
+})();
