@@ -19,8 +19,8 @@ client.on('messageCreate', async message => {
 	
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-	const args = message.content.slice(prefix.length).split(/ +/);
-	const command = args.shift().toLocaleLowerCase();
+	const args = message.content.slice(prefix.length).trim().split(/ +/);
+	const command = args.shift().toLowerCase();
 
 	if (command === 'bot-restart') {
 		if (!message.guild.id === '1226501941249576980') return;
@@ -63,6 +63,7 @@ client.on('messageCreate', async message => {
 	}
 
 	if (command === 'bot-stats' && message.author === config.developer.dev1Id || message.author === config.developer.dev1Id) {
+		
 		if (!message.guild.id === '1226501941249576980' && !message.channel.id === '') return;
 
 		let logChannel = client.guilds.cache.get('1226501941249576980').channels.cache.get('1226548220801450074');
