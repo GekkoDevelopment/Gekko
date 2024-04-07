@@ -15,14 +15,14 @@ const pterodactyl = new NodeactylClient(config.panel.host, config.panel.apiKey);
 ///// Prefix Commands ////
 
 client.on('messageCreate', async message => {
-	let devPrefix = "-d"
+	let prefix = "-d"
 	
-	if (!message.content.startsWith(devPrefix) || message.author.bot) return;
+	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-	const args = message.content.split(devPrefix.length).split(/ +/);
-	const command = args.shift().toLowerCase();
+	const args = message.content.slice(prefix.length).split(/ +/);
+	const command = args.shift().toLocaleLowerCase();
 
-	if (command === 'bot-restart' && message.author.id === config.developer.dev1Id || message.author.id === config.developer.dev1Id) {
+	if (command === 'bot-restart') {
 		if (!message.guild.id === '1226501941249576980') return;
 
 		message.channel.send('Gekkō is now restarting this will take a few seconds...');
