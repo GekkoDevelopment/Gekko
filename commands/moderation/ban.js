@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const color = require('../../models/colors.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -18,7 +19,7 @@ module.exports = {
                     inline: true
                 }
             )
-            .setColor('#7B598D');
+            .setColor(`${color.bot}`);
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 
@@ -29,14 +30,14 @@ module.exports = {
             const successEmbed = new EmbedBuilder()
             .setTitle('User Banned')
             .setDescription(`> \`${user.tag}\` has been banned. \n> \n> **Moderator:** \n> <@${interaction.member.id}> \n> **Reason:** \n> \`${reason}\``)
-            .setColor('#7B598D');
+            .setColor(color.bot);
             await interaction.guild.members.ban(user, { reason });
             await interaction.reply({ embeds: [successEmbed], ephemeral: true });
         } catch (error) {
             const catchErrorEmbed = new EmbedBuilder()
             .setTitle('Unexpected Error:')
             .setDescription(`\`\`\`\n${error}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
-            .setColor('#7B598D')
+            .setColor(color.bot)
 
             await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true  });
         }

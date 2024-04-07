@@ -12,6 +12,7 @@
     "@discordjs/rest": "^2.2.0",
     "axios": "^1.6.8",
     "discord.js": "^14.14.1",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "nodeactyl": "^3.3.0"
   }
 }

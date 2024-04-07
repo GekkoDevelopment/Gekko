@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
+const color = require('../../models/colors.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -19,7 +20,7 @@ module.exports = {
                     inline: true
                 }
             )
-            .setColor('#7B598D');
+            .setColor(`${color.bot}`);
         return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 
