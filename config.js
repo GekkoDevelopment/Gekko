@@ -7,32 +7,25 @@ module.exports = {
 
     developer: { // This part of the config is only used for the bot developers.
         dev1Id: '795059255073177630', // Kier
-        dev2Id: '1016846998021873714' // RedMeansWar
+        dev2Id: '1016846998021873714', // RedMeansWar
+
+        devTestChannel: '1226522704195227771', // The channel in the main support discord where commands are tested.
+        devGuild: '1226501941249576980', // The guild ID for Gekkō Support / Testing.
+        devLogChennel: '1226502649978032138', // The channel that Gekkō Support user and command logs to.
+        devTestLogChannel: '1226548220801450074' //  The channel in the main support discord where commands that contains logs and .
     },
 
     database: {
-        host: '',
+        host: '198.244.148.129',
         port: 3306,
-
-        animeInfoCharacterUsername: '',
-        animeInfoUsername: '',
-        guildDatabase: '',
-        
-        animeInfoCharacterPassword: '',
-        animeInfoPassword: '',
-        
-        guildDatabasePassword: '',
-
-        embedDatabaseName: '',
-        guildDatabaseName: '',
-        
-        animeInfoDatabaseName: '',
-        animeInfoCharacterDatabaseName: '',
+        name: 's2_gekko',
+        username: 'u2_YcRpm2I6VN',
+        password: '0A!=JiH6l+T!IMZKjJH5Z0@C'
     },
 
     panel: {
-        host: '',
-        apiKey: '',
+        host: 'http://198.244.148.129/',
+        apiKey: 'ptlc_URrfpJa5WDu9uN2dr1MCLCHODqRFyFTFPC0i07reuSN',
         gekkoServerId: ''
     }
 }

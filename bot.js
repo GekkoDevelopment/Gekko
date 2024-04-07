@@ -12,8 +12,8 @@ const client = new Client({
 
 const pterodactyl = new NodeactylClient(config.panel.host, config.panel.apiKey);
 
-///// Prefix Commands ////
-
+//////// Prefix Commands ////////
+// --- Developer Commands --- //
 client.on('messageCreate', async message => {
     let prefix = "-d"
     
@@ -23,10 +23,10 @@ client.on('messageCreate', async message => {
     const command = args.shift().toLocaleLowerCase();
 
     if (command === 'bot-restart') {
-        if (message.guild.id !== '1226501941249576980') return;
+        if (message.guild.id !== config.developer.devGuild) return;
 
         message.channel.send('Gekkō is now restarting; this will take a few seconds...');
-        let logChannel = client.guilds.cache.get('1226501941249576980').channels.cache.get('1226548220801450074');
+        let logChannel = client.guilds.cache.get(config.developer.devGuild).channels.cache.get(config.developer.devTestChannel);
 
         let logEmbed = new EmbedBuilder()
             .setTitle('Gekkō Restart')
@@ -55,7 +55,7 @@ client.on('messageCreate', async message => {
     }
 
     if (command === 'bot-stats' && (message.author.id === config.developer.dev1Id || message.author.id === config.developer.dev2Id)) {
-        if (message.guild.id !== '1226501941249576980' || message.channel.id === '') return;
+        if (message.guild.id !== '1226501941249576980' || message.channel.id === config.developer) return;
 
         let logChannel = client.guilds.cache.get('1226501941249576980').channels.cache.get('1226548220801450074');
         let totalSeconds = (client.uptime / 1000);
