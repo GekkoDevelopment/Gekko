@@ -1,4 +1,5 @@
 const { Events, SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+
 const config = require('../config.js');
 const db = require('mysql');
 
@@ -17,8 +18,8 @@ mysql.connect(function(err) {
     console.log('Connected to MySQL database');
 });
 
-module.exports.guildMemberAdd = {
-    name: 'guildMemberAdd',
+module.exports = {
+    name: Events.GuildMemberAdd,
     async execute(member) {
         mysql.query(
             'SELECT welcome_message, image_url, welcome_channel_id FROM welcome_settings WHERE guild_id = ?',
@@ -39,7 +40,14 @@ module.exports.guildMemberAdd = {
                 const welcomeChannel = member.guild.channels.cache.get(welcomeChannelId);
                 if (!welcomeChannel) return;
 
-                welcomeChannel.send(welcomeMessage, { files: [imageUrl] })
+                const joinMessage = new EmbedBuilder()
+                .setTitle('Welcome!')
+                .setDescription(welcomeMessage)
+                .setImage(imageUrl)
+
+                const content = `Welcome to the server, <@${member.user.id}>!`; 
+
+                welcomeChannel.send({ content: content, embeds: [joinMessage] })
                     .catch(err => console.error('Error sending welcome message:', err));
             }
         );

@@ -6,8 +6,18 @@ let mysql = db.createConnection({
     host: config.database.host,
     user: config.database.username,
     password: config.database.password,
-    database: config.database.databaseName
+    database: config.database.name
 });
+
+mysql.query(`
+    CREATE TABLE IF NOT EXISTS welcome_settings (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        guild_id VARCHAR(255) NOT NULL,
+        welcome_message TEXT NOT NULL,
+        image_url VARCHAR(255),
+        welcome_channel_id VARCHAR(255) NOT NULL
+    )
+`);
 
 module.exports = {
     data: new SlashCommandBuilder()
