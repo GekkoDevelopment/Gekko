@@ -1,10 +1,8 @@
 const { SlashCommandBuilder, StringSelectMenuBuilder, ActionRowBuilder, EmbedBuilder } = require('discord.js');
-const colors = require('../../models/colors');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('help')
-        .setDescription('View Gekkō\'s command library.'),
+        .setName('help').setDescription('View Gekkō\'s command library.'),
     async execute(interaction) {
         const options = [
             {
@@ -49,7 +47,7 @@ module.exports = {
         const helpEmbed = new EmbedBuilder()
             .setTitle('Gekkō Command Library')
             .setDescription('Please select a category from the dropdown menu below:')
-            .setColor(colors.bot)
+            .setColor('#7B598D')
             .setImage('https://cdn.discordapp.com/attachments/1226564051488870450/1226587759502954576/card.png?ex=66254fde&is=6612dade&hm=a750c8299cf43e15b773976647ae045fc1c9e1c5cab1ec2b9b927f1e869e738e&');
 
         await interaction.reply({ embeds: [helpEmbed], components: [actionRow] });
@@ -63,19 +61,50 @@ module.exports = {
 
         collector.on('end', async collected => {
             const value = collected.first().values[0];
-            switch (value) {
-                case 'general_commands':
-                    const gCom = new EmbedBuilder()
-                    .setTitle('General Commands:')
-                    .addFields(
-                        { name: 'Commands', value: 'Help \nPing \nBug Report \nGekko', inline: true },
-                        { name: 'Usage:', value: '`!help`, `/help` \n`!ping`, `/ping` \n`!bugreport`, `/bug-report` \n`!gekko`, `/gekko`', inline: true },
-                    )
-                    .setImage('https://cdn.discordapp.com/attachments/1226564051488870450/1226587759502954576/card.png?ex=66254fde&is=6612dade&hm=a750c8299cf43e15b773976647ae045fc1c9e1c5cab1ec2b9b927f1e869e738e&')
-                    .setColor(colors.bot)
-                    await interaction.editReply({ embed: [gCom], components: [actionRow] })
+            try {
+                switch (value) {
+                    case 'general_commands':
+                        const gCom = new EmbedBuilder()
+                        .setTitle('General Commands:')
+                        .addFields(
+                            { name: 'Commands', value: 'Help \nPing \nBug Report \nGekko', inline: true },
+                            { name: 'Usage:', value: '`!help`, `/help` \n`!ping`, `/ping` \n`!bugreport`, `/bug-report` \n`!gekko`, `/gekko`', inline: true },
+                        )
+                        .setImage('https://cdn.discordapp.com/attachments/1226564051488870450/1226587759502954576/card.png?ex=66254fde&is=6612dade&hm=a750c8299cf43e15b773976647ae045fc1c9e1c5cab1ec2b9b927f1e869e738e&');
+                        await interaction.editReply({ embeds: [gCom] });
+                    break;
+                    
+                    case 'admin_commands':
+                        const aCom = new EmbedBuilder()
+                        .setTitle('Admin Commands:')
+                        .addFields
+                        (
+                            { name: 'Commands', value: 'Set Logging Channel \nSet Command Prefix \nSet Welcome \nGekko', inline: true },
+                            { name: 'Commands', value: '/set-logging-channel \n!set-prefix \n/set-welcome \nGekko', inline: true }
+                        )
+                        .setImage('https://cdn.discordapp.com/attachments/1226564051488870450/1226587759502954576/card.png?ex=66254fde&is=6612dade&hm=a750c8299cf43e15b773976647ae045fc1c9e1c5cab1ec2b9b927f1e869e738e&');
+    
+                        await interaction.editReply({ embeds: [aCom] });
+                        break;
+    
+                    case 'moderation_commands':
+                        break;
+    
+                    case 'anime_commands':
+                        break;
+    
+                    case 'minigame_commands':
+                        break;
+    
+                    case 'fun_commands':
+                        break;
+    
+                    default:
+                        break;
+                }
+            } catch (err) {
+                // do nothing
             }
         });
-
     }
 };
