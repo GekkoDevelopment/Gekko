@@ -31,6 +31,15 @@ module.exports = {
 
     apiKeys: {
         tenorApi: 'AIzaSyCC6haPOEqn-p5I8oJdyyIjJAXkYQGWJcQ'
+    },
+
+    emojis: {
+        d1: '<:gekko_d1:1226997324560203906>',
+        d2: '<:gekko_d2:1226997326237663293>',
+        d3: '<:gekko_d3:1226997327647080540>',
+        d4: '<:gekko_d4:1226997329173942467>',
+        d5: '<:gekko_d5:1226997330457399427>',
+        d6: '<:gekko_d6:1226997331803504711>'
     }
 
 }
