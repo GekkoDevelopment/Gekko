@@ -1,4 +1,5 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const colors = require('../../models/colors');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -9,8 +10,8 @@ module.exports = {
         const timeDiff = sent.createdTimestamp - interaction.createdTimestamp;
         const pingEmbed = new EmbedBuilder()
         .setTitle('🏓 Gekkō\'s Latency Data')
-        .setDescription(`> ***Latency:*** \n> \`${timeDiff}ms\` \n\n> ***API Latency:*** \n> \`${Math.round(interaction.client.ws.ping)}ms.\``)
-        .setColor('#7B598D')
+        .setDescription(`> ***Latency:*** \n> \`${timeDiff}ms\` \n\n> ***API Latency:*** \n> \`${Math.round(interaction.client.ws.ping)}ms\``)
+        .setColor(colors.bot)
         .setFooter({ text: 'Gekko', iconURL: interaction.client.user.avatarURL()  });
         interaction.editReply({ content: " ", embeds: [pingEmbed] });
     }
