@@ -6,7 +6,8 @@ const config = require('../../config.js')
 module.exports = {
     data: new SlashCommandBuilder()
     .setName('connnect-4')
-    .setDescription('Start a game of Connect 4 Game'),
+    .setDescription('Start a game of Connect 4 Game')
+    .addUserOption(option => option.setName('user').setDescription('The User you want to play with').setRequired(true)),
     async execute(interaction) {
         const Game = new Connect4({
             message: interaction,
@@ -15,7 +16,7 @@ module.exports = {
             embed: {
               title: 'Connect4 Game',
               statusTitle: 'Status',
-              color: '#5865F2'
+              color: '#7B598D'
             },
             emojis: {
               board: '⚪',
@@ -34,7 +35,7 @@ module.exports = {
           
           Game.startGame();
           Game.on('gameOver', result => {
-            console.log(result);  // =>  { result... }
+            return;
           });
     }
 }
