@@ -17,6 +17,7 @@ module.exports = {
         .setTitle(`🎉 ${prize} Giveaway! 🎉`)
         .setDescription(`React with 🎉 to enter!\n**Winners**: ${winnersCount}\n**Duration**: ${duration} ${duration === 1 ? 'minute.' :  'minutes.'}`);
 
+        await interaction.reply({ content: 'Giveaway Launched!', ephemeral: true })
         const giveawayMessage = await interaction.channel.send({ embeds: [giveawayEmbed] });
         await giveawayMessage.react('🎉');
 
@@ -41,12 +42,19 @@ module.exports = {
 async function endGiveaway(interaction, giveawayMessage) {
     const giveawayData = giveaways.get(giveawayMessage.id);
 
-    if (!giveawayData) return;
+    console.log("Giveaway Data:", giveawayData);
+    if (!giveawayData) {
+        console.log("No giveaway data found. Exiting...");
+        return;
+    }
 
     const participants = giveawayData.participants.filter(userId => userId !== interaction.client.user.id);
+    console.log("Filtered Participants:", participants);
     const winnersCount = giveawayData.winnersCount;
+    console.log("Winners Count:", winnersCount);
 
     if (participants.length === 0 || winnersCount <= 0) {
+        console.log("No participants or invalid winners count. Giveaway canceled.");
         interaction.channel.send('No participants or invalid winners count. Giveaway canceled.');
         giveaways.delete(giveawayMessage.id);
         return;
@@ -60,6 +68,7 @@ async function endGiveaway(interaction, giveawayMessage) {
     }
 
     const winnerNames = winners.map(winner => `<@${winner}>`).join(', ');
+    console.log("Winners:", winnerNames);
     await interaction.channel.send(`🎉 Congratulations to ${winnerNames}! You have won ${giveawayData.prize}! 🎉`);
 
     giveaways.delete(giveawayMessage.id);
