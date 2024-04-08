@@ -35,19 +35,15 @@ module.exports = {
                         const day = result[0].current.day;
                         const alert = result[0].location.alert || 'None';
 
-                        const tempF = (temp * 9/5) + 32;
-                        const feelTempF = (feel * 9/5) + 32;
-                        const windSpeed = wind * 0.621371;
-
                         const embed = new EmbedBuilder()
                         .setColor(colors.bot)
                         .setTitle(`Current weather of ${name}`)
-                        .addFields({ name: 'Temperature', value: `${tempF}°F (${temp} °C)`})
-                        .addFields({ name: 'Feels Like', value: `${feelTempF}°F (${feel} °C)`})
+                        .addFields({ name: 'Temperature', value: `${temp} ${degree === 'C' ? '°C' : '°F'}`})
+                        .addFields({ name: 'Feels Like', value: `${feel} ${degree === 'C' ? '°C' : '°F'}`})
                         .addFields({ name: 'Weather', value: `${type}`})
                         .addFields({ name: 'Current Alerts', value: `${alert}`})
                         .addFields({ name: 'Week Day', value: `${day}`})
-                        .addFields({ name: 'Wind Speed & Direction', value: `${windSpeed} (${wind})`})
+                        .addFields({ name: 'Wind Speed & Direction', value: `${wind}`})
                         .setThumbnail(icon)
 
                         interaction.editReply({ content: ``, embeds: [embed] });
