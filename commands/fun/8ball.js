@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const color = require('../../models/colors.js');
 
 let respones = [
     'It is certain.',
@@ -16,7 +17,7 @@ let respones = [
     'Better not tell you now.',
     'Cannot predict now.',
     'Concentrate and ask again.',
-    'Don’t count on it.',
+    "Don't count on it.",
     'My reply is no.',
     'My sources say no.',
     'Outlook not so good.',
@@ -29,13 +30,12 @@ module.exports = {
         .addStringOption(option => option.setName('question').setDescription('The question to ask the magic 8-Ball.').setRequired(true)),
     async execute(interaction) {
         const question = interaction.options.getString('question');
-        let randomResponse = respones[Math.floor(Math.random() * respones.length)];
+        const randomResponse = respones[Math.floor(Math.random() * respones.length)];
 
         const embed = new EmbedBuilder()
         .setTitle('Magic 8-Ball')
-        .setDescription(`You're question is ${question}`)
-        .setColor('DarkAqua')
-        .setFooter(`The 8 ball responded with ${randomResponse}!`);
+        .setDescription(`You're question is: ${question} \n The Magic 8-Ball responded with: **${randomResponse}**`)
+        .setColor(color.midnightBlue);
 
         await interaction.reply({ embeds: [embed] });
     }
