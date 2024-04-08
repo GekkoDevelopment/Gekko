@@ -3,8 +3,7 @@ const color = require('../../models/colors.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('kick')
-        .setDescription('Kick a user from this server')
+        .setName('kick').setDescription('Kick a user from this server')
         .addUserOption(option => option.setName('user').setDescription('The user you want to kick').setRequired(true))
         .addStringOption(option => option.setName('reason').setDescription('Reason for Kick')),
 

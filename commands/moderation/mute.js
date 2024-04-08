@@ -1,6 +1,7 @@
-const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const db = require('mysql');
 const config = require('../../config.js');
+const color = require('../../models/colors.js');
 
 const mysql = db.createConnection({
     host: config.database.host,
@@ -17,7 +18,6 @@ mysql.query(`
         muted_role_id VARCHAR(255) NOT NULL,
         muted_user_id VARCHAR(255) NOT NULL
     )
-)
 `);
 
 module.exports = {
@@ -29,7 +29,7 @@ module.exports = {
        const guildId = interaction.guild.id;
 
        mysql.query(
-            'SELECT muted_role_id FROM muted_users WHERE guild_id ?',
+            'SELECT muted_role_id FROM muted_users WHERE guild_id = ?',
             [guildId],
             (err, rows) => {
                 if (err) {
@@ -40,7 +40,7 @@ module.exports = {
                     .setDescription(`\`\`\`\n${err}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
                     .setColor(color.bot);
 
-                    return interaction.reply({ embeds: [errorEmbed] });
+                    return interaction.deferReply({ embeds: [errorEmbed] });
                 }
 
                 if (rows.length > 0 && rows[0].muted_role_id) {
@@ -55,15 +55,26 @@ module.exports = {
 
                     if (!guild) {
                         console.error(`Guild (${guild}) couldn't be found.`);
-                        return interaction.reply({ embeds: [errorEmbed] });
+                        return interaction.deferReply({ embeds: [errorEmbed] });
                     }
-
-                    interaction.reply("A muted role couldn't be found so I'm going to create one for you!");
 
                     guild.roles.create({
                         data: {
                             name: 'Muted',
-                            permissions: []
+                            permissions: [
+                                {
+                                    id: guildId,
+                                    type: 'ROLE',
+                                    permission: false,
+                                    deny: ['SEND_MESSAGES']
+                                },
+                                {
+                                    id: guildId,
+                                    type: 'SPEAK',
+                                    permission: false,
+                                    deny: ['SPEAK']
+                                }
+                            ]
                         }
                     })
                     .then((role) => {
@@ -73,33 +84,35 @@ module.exports = {
                             (err, result) => {
                                 if (err) {
                                     console.error('Error saving muted role ID:', err);
-                                    return interaction.reply('Failed to save muted role ID.');
+                                    return interaction.deferReply('Failed to save muted role ID.');
                                 }
 
                                 const memberToMute = guild.members.cache.get(mutedUser.id);
 
                                 if (!memberToMute) {
-                                    return interaction.reply('Member not found!');
+                                    return interaction.deferReply('Member not found!');
                                 }
 
                                 memberToMute.roles.add(role)
                                 .then(() => {
-                                    interaction.reply(`Successfully muted ${mutedUser}`);
+                                    interaction.deferReply(`Successfully muted ${mutedUser}`);
                                 })
                                 .catch(err =>{ 
                                     console.error('Error assigning muted role to member:', err);
-                                    return interaction.reply('Failed to mute user.');
+                                    return interaction.deferReply('Failed to mute user.');
                                 });
                                 
-                                interaction.reply('Failed to save muted role ID:', err);
+                                interaction.deferReply('Failed to save muted role ID:', err);
                             }
                         );
                     }).catch((err) => {
                         console.log(`Error created muted role for guild (${guildId}):`, err);
-                        return interaction.reply('Failed to create muted role.');
+                        return interaction.deferReply('Failed to create muted role.');
                     });
                 }
-            } 
-        )
+            }
+        );
+
+        interaction.reply("A muted role couldn't be found so I'm going to create one for you!");
     }
 };

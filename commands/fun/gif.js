@@ -2,8 +2,8 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('weather').setDescription('Ask the magic 8-Ball a question.')
-        .addStringOption(option => option.setName('term').setDescription('The search term you want your meme to have.').setRequired()),
+        .setName('gif').setDescription('Get a random GIF.')
+        .addStringOption(option => option.setName('term').setDescription('The search term you want your meme to have.').setRequired(true)),
     async execute(interaction) {
         
     }
