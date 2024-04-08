@@ -34,7 +34,8 @@ module.exports = {
             })
             .catch(console.error);
 
-        setTimeout(() => endGiveaway(interaction, giveawayMessage), duration * 60 * 1000);
+        Utility.Delay(duration * 60 * 1000);
+        endGiveaway(interaction, giveawayMessage);
     },
 };
 
