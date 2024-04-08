@@ -20,15 +20,25 @@ mysql.query(`
     )
 `);
 
+/* EVERYTHING I CHANGED:
+- interaction.reply() inside the mysql callback was not needed.
+- added a check to make sure the muted role existed in the db.
+- added embed error handling to tidy up the errors.
+- I'm not to certain around mysql queries, so I prolly made some mistakes around them, but you can double check. 
+
+It will say Gekko is thinking forever until logic for handling when muted role exists has been added. 
+Other than that, I think I resolved all the errors?? ^_-
+*/
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('mute').setDescription('Mute a user from your discord server.')
         .addUserOption(option => option.setName('user').setDescription('The user you want to mute.').setRequired(true)),
     async execute(interaction) {
-       const mutedUser = interaction.options.getUser('user');
-       const guildId = interaction.guild.id;
+        const mutedUser = interaction.options.getUser('user');
+        const guildId = interaction.guild.id;
 
-       mysql.query(
+        mysql.query(
             'SELECT muted_role_id FROM muted_users WHERE guild_id = ?',
             [guildId],
             (err, rows) => {
@@ -36,26 +46,25 @@ module.exports = {
                     console.error(`Error checked muted role for ${guildId}:`, err);
                     
                     const errorEmbed = new EmbedBuilder()
-                    .setTitle('Unexpected Error:')
-                    .setDescription(`\`\`\`\n${err}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
-                    .setColor(color.bot);
-
-                    return interaction.deferReply({ embeds: [errorEmbed] });
+                        .setTitle('Unexpected Error:')
+                        .setDescription(`\`\`\`\n${err}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
+                        .setColor(color.bot);
+    
+                    return interaction.reply({ embeds: [errorEmbed] });
                 }
 
                 if (rows.length > 0 && rows[0].muted_role_id) {
-
+                        // put what ever you logic is for this??? :D :D 
                 } else {
-                    let guild = interaction.client.guilds.cache.get(guildId);
-
-                    const errorEmbed = new EmbedBuilder()
-                    .setTitle('Unexpected Error:')
-                    .setDescription(`\`\`\`\n${err}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
-                    .setColor(color.bot);
+                    let guild = interaction.guild;
 
                     if (!guild) {
                         console.error(`Guild (${guild}) couldn't be found.`);
-                        return interaction.deferReply({ embeds: [errorEmbed] });
+                        const errorEmbed = new EmbedBuilder()
+                            .setTitle('Database Error:')
+                            .setDescription(`Guild couldn't be found`)
+                            .setColor(color.bot);
+                        return interaction.reply({ embeds: [errorEmbed] });
                     }
 
                     guild.roles.create({
@@ -84,35 +93,44 @@ module.exports = {
                             (err, result) => {
                                 if (err) {
                                     console.error('Error saving muted role ID:', err);
-                                    return interaction.deferReply('Failed to save muted role ID.');
+                                    const errorEmbed = new EmbedBuilder()
+                                        .setTitle('Database Error:')
+                                        .setDescription(`Failed to save muted role ID`)
+                                        .setColor(color.bot);
+                                    return interaction.reply({ embeds: [errorEmbed] });
                                 }
-
+                        
                                 const memberToMute = guild.members.cache.get(mutedUser.id);
-
+                        
                                 if (!memberToMute) {
-                                    return interaction.deferReply('Member not found!');
+                                    return interaction.reply('Member not found!');
                                 }
-
+                        
                                 memberToMute.roles.add(role)
                                 .then(() => {
-                                    interaction.deferReply(`Successfully muted ${mutedUser}`);
+                                    interaction.reply(`Successfully muted ${mutedUser}`);
                                 })
                                 .catch(err =>{ 
                                     console.error('Error assigning muted role to member:', err);
-                                    return interaction.deferReply('Failed to mute user.');
+                                    const errorEmbed = new EmbedBuilder()
+                                        .setTitle('Mute Error:')
+                                        .setDescription(`Failed to mute user`)
+                                        .setColor(color.bot);
+                                    return interaction.reply({ embeds: [errorEmbed] });
                                 });
-                                
-                                interaction.deferReply('Failed to save muted role ID:', err);
                             }
                         );
                     }).catch((err) => {
-                        console.log(`Error created muted role for guild (${guildId}):`, err);
-                        return interaction.deferReply('Failed to create muted role.');
+                        console.error(`Error created muted role for guild (${guildId}):`, err);
+                        const errorEmbed = new EmbedBuilder()
+                            .setTitle('Role Creation Error:')
+                            .setDescription(`Failed to create muted role`)
+                            .setColor(color.bot);
+                        return interaction.reply({ embeds: [errorEmbed] });
                     });
                 }
             }
         );
-
-        interaction.reply("A muted role couldn't be found so I'm going to create one for you!");
+        interaction.deferReply({ ephemeral: true });
     }
 };
