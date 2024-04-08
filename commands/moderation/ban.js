@@ -19,7 +19,7 @@ module.exports = {
                     inline: true
                 }
             )
-            .setColor(`${color.bot}`);
+            .setColor(color.bot);
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 
@@ -31,7 +31,7 @@ module.exports = {
             const botErrorEmbed = new EmbedBuilder()
             .setTitle('Action Error:')
             .setDescription('You cannot ban a bot from the server, please do this manually.')
-            .setColor(`${color.bot}`);
+            .setColor(color.bot);
             return await interaction.reply({ embeds: [botErrorEmbed], ephemeral: true })
         }
 
@@ -39,7 +39,7 @@ module.exports = {
             const roleErrorEmbed = new EmbedBuilder()
             .setTitle('Permissions Error:')
             .setDescription('You cannot ban a user with a role that is the same, or higher than yours.')
-            .setColor(`${color.bot}`);
+            .setColor(color.bot);
             return await interaction.reply({ embeds: [roleErrorEmbed], ephemeral: true });
         }
 

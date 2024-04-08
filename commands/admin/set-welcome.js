@@ -1,4 +1,4 @@
-const { Events, SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { Events, SlashCommandBuilder, EmbedBuilder, Embed } = require('discord.js');
 const db = require('mysql');
 const config = require('../../config');
 
@@ -50,7 +50,10 @@ module.exports = {
                     console.error('Error saving welcome settings:', err);
                     return interaction.reply('Failed to set welcome message, image, and channel.');
                 }
-                interaction.reply('Welcome message, image, and channel set successfully!');
+                const successEmbed = new EmbedBuilder()
+                .setDescription('Welcome message, image, and channel has been set successfully!')
+                .setColor('Green')
+                interaction.reply({ embeds: [successEmbed] });
             }
         );
     }

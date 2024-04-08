@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, StringSelectMenuBuilder, ActionRowBuilder, EmbedBuilder } = require('discord.js');
+const colors = require('../../models/colors');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -48,7 +49,7 @@ module.exports = {
         const helpEmbed = new EmbedBuilder()
             .setTitle('Gekkō Command Library')
             .setDescription('Please select a category from the dropdown menu below:')
-            .setColor('#7B598D')
+            .setColor(colors.bot)
             .setImage('https://cdn.discordapp.com/attachments/1226564051488870450/1226587759502954576/card.png?ex=66254fde&is=6612dade&hm=a750c8299cf43e15b773976647ae045fc1c9e1c5cab1ec2b9b927f1e869e738e&');
 
         await interaction.reply({ embeds: [helpEmbed], components: [actionRow] });
@@ -71,6 +72,7 @@ module.exports = {
                         { name: 'Usage:', value: '`!help`, `/help` \n`!ping`, `/ping` \n`!bugreport`, `/bug-report` \n`!gekko`, `/gekko`', inline: true },
                     )
                     .setImage('https://cdn.discordapp.com/attachments/1226564051488870450/1226587759502954576/card.png?ex=66254fde&is=6612dade&hm=a750c8299cf43e15b773976647ae045fc1c9e1c5cab1ec2b9b927f1e869e738e&')
+                    .setColor(colors.bot)
                     await interaction.editReply({ embed: [gCom], components: [actionRow] })
             }
         });
