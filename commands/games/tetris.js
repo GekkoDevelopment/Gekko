@@ -6,15 +6,15 @@ let numbOfCols = 10;
 let points = 0;
 let lines = 0;
 
-const emptySquare = ':black_large_square:'
-const blueSquare = ':blue_square:'
-const brownSquare = ':brown_square:'
-const orangeSquare = ':orange_square:'
-const yellowSquare = ':yellow_square:'
-const greenSquare = ':green_square:'
-const purpleSquare = ':purple_square:'
-const redSquare = ':red_square:'
-const embedColor = '#0x077ff7'
+const emptySquare = ':black_large_square:';
+const blueSquare = ':blue_square:';
+const brownSquare = ':brown_square:';
+const orangeSquare = ':orange_square:';
+const yellowSquare = ':yellow_square:';
+const greenSquare = ':green_square:';
+const purpleSquare = ':purple_square:';
+const redSquare = ':red_square:';
+const embedColor = '#0x077ff7';
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -25,7 +25,7 @@ module.exports = {
         .setColor('Red')
         .addFields
         ({
-            name: '',
+            name: 'Controls',
             value: 'Use the buttons below to move left, right, and down respectively. Use 🔄 to rotate the pieces. \nPress ▶️ to start the game.'
         });
 
