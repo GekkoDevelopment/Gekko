@@ -21,20 +21,10 @@ mysql.query(`
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('set_welcome')
-        .setDescription('Set welcome message, image, and channel for the guild.')
-        .addChannelOption(option =>
-            option.setName('channel')
-                .setDescription('Welcome channel')
-                .setRequired(true))
-        .addStringOption(option =>
-            option.setName('message')
-                .setDescription('Welcome message')
-                .setRequired(true))
-        .addStringOption(option =>
-            option.setName('image')
-                .setDescription('Image URL (optional)')
-                .setRequired(false)),
+        .setName('set-welcome').setDescription('Set welcome message, image, and channel for the guild.')
+        .addChannelOption(option => option.setName('channel').setDescription('Welcome channel').setRequired(true))
+        .addStringOption(option => option.setName('message').setDescription('Welcome message').setRequired(true))
+        .addStringOption(option => option.setName('image').setDescription('Image URL (optional)').setRequired(false)),
 
     async execute(interaction) {
         const guildId = interaction.guild.id;

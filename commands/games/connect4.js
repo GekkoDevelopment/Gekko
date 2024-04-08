@@ -1,13 +1,11 @@
 const { Connect4 } = require('discord-gamecord');
 const { SlashCommandBuilder } = require('discord.js')
-const { color } = require('../../config.js')
-const config = require('../../config.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
-    .setName('connnect-4')
+    .setName('connect-4')
     .setDescription('Start a game of Connect 4 Game')
-    .addUserOption(option => option.setName('user').setDescription('The User you want to play with').setRequired(true)),
+    .addUserOption(option => option.setName('user').setDescription('The user you want to play with.').setRequired(true)),
     async execute(interaction) {
         const Game = new Connect4({
             message: interaction,
