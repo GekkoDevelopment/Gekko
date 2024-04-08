@@ -1,7 +1,5 @@
 const { Snake } = require('discord-gamecord')
 const { SlashCommandBuilder } = require('discord.js')
-const { color } = require('../../config.js')
-const config = require('../../config.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -34,8 +32,6 @@ module.exports = {
         Game.startGame();
         Game.on('gameOver', result => {
             return;
-
         });
-
     }
 }
