@@ -6,52 +6,61 @@ module.exports = {
         .setName('giveaway').setDescription('Start a givaway with prizes.')
         .addStringOption(option => option.setName('prize').setDescription('The prize for the giveaway.').setRequired(true))
         .addIntegerOption(option => option.setName('winners').setDescription('The amount of winners for the giveaway').setRequired(true))
-        .addIntegerOption(option => option.setName('duraction').setDescription('The duration that giveaway lasts in minutes.').setRequired(true)),
+        .addIntegerOption(option => option.setName('duration').setDescription('The duration that giveaway lasts in minutes.').setRequired(true)),
     async execute(interaction) {
         const prize = interaction.options.getString('prize');
-        const winnerCount = interaction.options.getInteger('winners');
+        const winnersCount = interaction.options.getInteger('winners');
         const duration = interaction.options.getInteger('duration');
 
-        const endTime = Date.now() + duration * 60 * 1000;
+        const giveawayEmbed = new EmbedBuilder()
+        .setColor('Gold')
+        .setTitle(`🎉 ${prize} Giveaway! 🎉`)
+        .setDescription(`React with 🎉 to enter!\n**Winners**: ${winnersCount}\n**Duration**: ${duration} ${duration === 1 ? 'minute.' :  'minutes.'}`);
 
-        giveaways.set(interaction.id, {
-            prize,
-            winnersCount,
-            endTime,
-            participants: []
-        });
+        const giveawayMessage = await interaction.channel.send({ embeds: [giveawayEmbed] });
+        await giveawayMessage.react('🎉');
 
-        setTimeout(() => endGiveaway(interaction), duration * 60 * 1000);
-        await interaction.reply(`Giveaway for ${prize} has started! Winners will be selected in ${duration} minutes.`);
-    }
+        giveawayMessage.awaitReactions({ filter: (reaction, user) => reaction.emoji.name === '🎉' })
+            .then(collected => {
+                const participants = collected.get('🎉').users.cache.filter(user => !user.bot).map(user => user.id);
+                console.log("Participants:", participants);
+
+                giveaways.set(giveawayMessage.id, {
+                    prize,
+                    winnersCount,
+                    endTime: Date.now() + duration * 60 * 1000,
+                    participants
+                });
+            })
+            .catch(console.error);
+
+        setTimeout(() => endGiveaway(interaction, giveawayMessage), duration * 60 * 1000);
+    },
 };
 
-function endGiveaway(interaction) {
-    const giveawayData = giveaways.get(interaction.id);
-    
+async function endGiveaway(interaction, giveawayMessage) {
+    const giveawayData = giveaways.get(giveawayMessage.id);
+
     if (!giveawayData) return;
 
-    const participants = giveawayData.participants;
+    const participants = giveawayData.participants.filter(userId => userId !== interaction.client.user.id);
     const winnersCount = giveawayData.winnersCount;
 
     if (participants.length === 0 || winnersCount <= 0) {
         interaction.channel.send('No participants or invalid winners count. Giveaway canceled.');
-        giveaways.delete(interaction.id);
+        giveaways.delete(giveawayMessage.id);
         return;
     }
 
     const winners = [];
-    if (winners.length < winnersCount) {
+    while (winners.length < winnersCount && participants.length > 0) {
         const randomIndex = Math.floor(Math.random() * participants.length);
-        const winner = participants[randomIndex];
-
-        if (!winners.includes(winner)) {
-            winners.push(winner);
-        }
+        const winner = participants.splice(randomIndex, 1)[0];
+        winners.push(winner);
     }
 
     const winnerNames = winners.map(winner => `<@${winner}>`).join(', ');
-    interaction.channel.send(`Congratulations to ${winnerNames}! You have won ${giveawayData.prize}.`);
+    await interaction.channel.send(`🎉 Congratulations to ${winnerNames}! You have won ${giveawayData.prize}! 🎉`);
 
-    giveaways.delete(interaction.id);
+    giveaways.delete(giveawayMessage.id);
 }
