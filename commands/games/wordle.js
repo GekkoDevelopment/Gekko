@@ -15,7 +15,7 @@ module.exports = {
               color: colors.bot,
             },
             customWord: null,
-            timeoutTime: 60000,
+            timeoutTime: null,
             winMessage: 'You won! The word was **{word}**.',
             loseMessage: 'You lost! The word was **{word}**.',
             playerOnlyMessage: 'Only {player} can use these buttons.'
