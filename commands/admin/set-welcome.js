@@ -11,8 +11,7 @@ let mysql = db.createConnection({
 
 mysql.query(`
     CREATE TABLE IF NOT EXISTS welcome_settings (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        guild_id VARCHAR(255) NOT NULL,
+        guild_id VARCHAR(255) PRIMARY KEY,
         welcome_message TEXT NOT NULL,
         image_url VARCHAR(255),
         welcome_channel_id VARCHAR(255) NOT NULL
@@ -24,7 +23,7 @@ module.exports = {
         .setName('set-welcome').setDescription('Set welcome message, image, and channel for the guild.')
         .addChannelOption(option => option.setName('channel').setDescription('Welcome channel').setRequired(true))
         .addStringOption(option => option.setName('message').setDescription('Welcome message').setRequired(true))
-        .addStringOption(option => option.setName('image').setDescription('Image URL (optional)').setRequired(false)),
+        .addStringOption(option => option.setName('image-url').setDescription('Image URL (optional)').setRequired(false)),
 
     async execute(interaction) {
         const guildId = interaction.guild.id;
