@@ -1,6 +1,5 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder } = require('discord.js');
 const { GuessThePokemon } = require('discord-gamecord');
-const color = require('../../models/colors.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -11,11 +10,11 @@ module.exports = {
             isSlashGame: false,
             embed: {
                 title: "Who's that Pokémon?",
-                color: color.beige
+                color: 'Orange'
             },
             timeoutTime: null,
-            winMessage: 'You won! the Pokémon was **{pokemon}**.',
-            loseMessage: 'You lost! the Pokémon was **{pokemon}**.',
+            winMessage: 'You won! The Pokémon was **{pokemon}**.',
+            loseMessage: 'You lost! The Pokémon was **{pokemon}**.',
             playerOnlyMessage: 'Only {player} can use these buttons.'
         });
 
