@@ -48,7 +48,7 @@ module.exports = {
             .setTitle('User Banned')
             .setDescription(`> \`${user.tag}\` has been banned. \n> \n> **Moderator:** \n> <@${interaction.member.id}> \n> **Reason:** \n> \`${reason}\``)
             .setColor(color.bot);
-            await member.kick(reason);
+            await member.ban(reason);
             await interaction.reply({ embeds: [successEmbed], ephemeral: true });
         } catch (error) {
             const catchErrorEmbed = new EmbedBuilder()
