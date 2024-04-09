@@ -29,7 +29,7 @@ module.exports = {
                 const collected = await interaction.channel.awaitMessages({
                     filter,
                     max: 1,
-                    time: 15000, // 15 seconds in milliseconds
+                    time: 15000,
                     errors: ['time']
                 });
 
