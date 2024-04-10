@@ -4,6 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const config = require('./config.js');
 const color = require('./models/colors.js');
+const utils = require('./models/utility.js');
 
 const client = new Client({
     intents: [Object.keys(GatewayIntentBits)],
@@ -106,6 +107,13 @@ client.on('messageCreate', async message => {
         message.channel.send({ embeds: [statEmbed] });
         logChannel.send({ embeds: [logEmbed] });
     }
+
+    let userPrefix = '!';
+    if (!message.content.startsWith(userPrefix) || message.author.bot) return;
+
+    const userArgs = message.content.slice(userPrefix.length).split(/ +/);
+    const userCommand = args.shift().toLocaleLowerCase();
+
 });
 
 //////////////////////////////////
