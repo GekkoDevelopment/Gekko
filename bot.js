@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, Collection, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+const { Client, GatewayIntentBits, Collection, EmbedBuilder, PermissionFlagsBits, StringSelectMenuBuilder, ActionRowBuilder } = require('discord.js');
 const { NodeactylClient } = require('nodeactyl');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -114,6 +114,116 @@ client.on('messageCreate', async message => {
     const userArgs = message.content.slice(userPrefix.length).split(/ +/);
     const userCommand = args.shift().toLocaleLowerCase();
 
+    if (userCommand === 'help') {
+        const options = [
+            {
+                label: 'General Commands',
+                emoji: '1️⃣',
+                value: 'general_commands'
+            },
+            {
+                label: 'Admin Commands',
+                emoji: '2️⃣',
+                value: 'admin_commands'
+            },
+            {
+                label: 'Moderation Commands',
+                emoji: '3️⃣',
+                value: 'moderation_commands'
+            },
+            {
+                label: 'Anime Commands',
+                emoji: '4️⃣',
+                value: 'anime_commands'
+            },
+            {
+                label: 'Minigame Commands',
+                emoji: '5️⃣',
+                value: 'minigame_commands'
+            },
+            {
+                label: 'Fun Commands',
+                emoji: '6️⃣',
+                value: 'fun_commands'
+            }
+        ];
+        
+        let selectMenu = new StringSelectMenuBuilder()
+            .setCustomId('command_select_prefix')
+            .setPlaceholder('Select a category')
+            .addOptions(options);
+
+        const actionRow = new ActionRowBuilder().addComponents(selectMenu);
+
+        const helpEmbed = new EmbedBuilder()
+            .setTitle('Gekkō Command Library')
+            .setDescription('Please select a category from the dropdown menu below:')
+            .setColor('#7B598D')
+            .setImage('https://cdn.discordapp.com/attachments/1226564051488870450/1226587759502954576/card.png?ex=66254fde&is=6612dade&hm=a750c8299cf43e15b773976647ae045fc1c9e1c5cab1ec2b9b927f1e869e738e&');
+
+        await message.channel.send({ embeds: [helpEmbed], components: [actionRow] });
+        
+        const filter = i => i.customId === 'command_select_prefix' && i.user.id === message.author.id;
+        const collector = message.channel.createMessageCollector({
+            filter,
+            time: null,
+            max: 1
+        });
+
+        collector.on('end', async collected => {
+            const val = collected.first().values[0];
+
+            try {
+                switch (val) {
+                    case 'general_commands':
+                        const gCom = new EmbedBuilder()
+                        .setTitle('General Commands:')
+                        .addFields(
+                            { name: 'Commands', value: 'Help \nPing \nBug Report \nGekko', inline: true },
+                            { name: 'Usage:', value: '`!help`, `/help` \n`!ping`, `/ping` \n`!bugreport`, `/bug-report` \n`!gekko`, `/gekko`', inline: true },
+                        )
+                        .setImage('https://cdn.discordapp.com/attachments/1226564051488870450/1226587759502954576/card.png?ex=66254fde&is=6612dade&hm=a750c8299cf43e15b773976647ae045fc1c9e1c5cab1ec2b9b927f1e869e738e&');
+                        
+                        await interaction.editReply({ embeds: [gCom], components: [actionRow] });
+                    break;
+                    
+                    case 'admin_commands':
+                        const aCom = new EmbedBuilder()
+                        .setTitle('Admin Commands:')
+                        .addFields
+                        (
+                            { name: 'Commands', value: 'Set Logging Channel \nSet Command Prefix \nSet Welcome \nGekko', inline: true },
+                            { name: 'Commands', value: '/set-logging-channel \n!set-prefix \n/set-welcome \nGekko', inline: true }
+                        )
+                        .setImage('https://cdn.discordapp.com/attachments/1226564051488870450/1226587759502954576/card.png?ex=66254fde&is=6612dade&hm=a750c8299cf43e15b773976647ae045fc1c9e1c5cab1ec2b9b927f1e869e738e&');
+                        
+                        await interaction.editReply({ embeds: [aCom], components: [actionRow] });
+                        break;
+    
+                    case 'moderation_commands':
+                        break;
+    
+                    case 'anime_commands':
+                        break;
+    
+                    case 'minigame_commands':
+                        break;
+    
+                    case 'fun_commands':
+                        break;
+    
+                    default:
+                        break;
+                }
+            } catch (err) {
+                // do nothing
+            }
+        });
+    }
+
+    if (userCommand === 'bugreport' || userCommand === 'bug') {
+        
+    }
 });
 
 //////////////////////////////////
