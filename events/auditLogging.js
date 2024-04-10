@@ -7,11 +7,6 @@ module.exports = {
         
         const guild = entry.client.guilds.cache.get('1226501941249576980')
 
-        if (!entry.guild) {
-            console.error('Guild not available.');
-            return;
-        }
-
         const { executor, target, action, createdAt} = entry;
 
         const embed = new EmbedBuilder()
