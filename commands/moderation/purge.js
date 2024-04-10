@@ -22,19 +22,19 @@ module.exports = {
                 return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
             }
 
-            /*if (!interaction.me.permissions.has(PermissionFlagsBits.ManageMessages)) {
+            if (!interaction.guild.members.me.permissions.has(PermissionFlagsBits.ManageMessages)) {
                 const permissionErrorEmbed = new EmbedBuilder()
                 .setTitle('Permissions Error: 50013')
                 .addFields(
                     {
                         name: 'Error Message:',
-                        value: '```\nI lack permissions to perform that action```',
+                        value: '```\nI lack permissions to perform that action \nPlease check my permissions, or reinvite me to use my default permissions.```',
                         inline: true
                     }
                 )
                 .setColor(`${colors.bot}`);
                 return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
-            }*/
+            }
 
             const amount = interaction.options.getInteger('amount');
 

@@ -23,6 +23,20 @@ module.exports = {
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 
+        if (!interaction.guild.members.me.permissions.has(PermissionFlagsBits.BanMembers)) {
+            const permissionErrorEmbed = new EmbedBuilder()
+            .setTitle('Permissions Error: 50013')
+            .addFields(
+                {
+                    name: 'Error Message:',
+                    value: '```\nI lack permissions to perform that action \nPlease check my permissions, or reinvite me to use my default permissions.```',
+                    inline: true
+                }
+            )
+            .setColor(`${colors.bot}`);
+            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
+        }
+
         const user = interaction.options.getUser('user');
         const reason = interaction.options.getString('reason') || 'No reason provided';
         const member = await interaction.guild.members.fetch(user.id);

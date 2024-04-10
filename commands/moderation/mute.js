@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const db = require('mysql');
 const config = require('../../config.js');
 const color = require('../../models/colors.js');
@@ -35,6 +35,35 @@ module.exports = {
         .setName('mute').setDescription('Mute a user from your discord server.')
         .addUserOption(option => option.setName('user').setDescription('The user you want to mute.').setRequired(true)),
     async execute(interaction) {
+
+        if (!interaction.member.permissions.has(PermissionFlagsBits.MuteMembers)) {
+            const permissionErrorEmbed = new EmbedBuilder()
+            .setTitle('Permissions Error: 50013')
+            .addFields(
+                {
+                    name: 'Error Message:',
+                    value: '```\nYou lack permissions to perform that action```',
+                    inline: true
+                }
+            )
+            .setColor(`${colors.bot}`);
+            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
+        }
+
+        if (!interaction.guild.members.me.permissions.has(PermissionFlagsBits.MuteMembers)) {
+            const permissionErrorEmbed = new EmbedBuilder()
+            .setTitle('Permissions Error: 50013')
+            .addFields(
+                {
+                    name: 'Error Message:',
+                    value: '```\nI lack permissions to perform that action \nPlease check my permissions, or reinvite me to use my default permissions.```',
+                    inline: true
+                }
+            )
+            .setColor(`${colors.bot}`);
+            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
+        }
+
         const mutedUser = interaction.options.getUser('user');
         const guildId = interaction.guild.id;
 
