@@ -1,5 +1,4 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { search } = require('superagent');
 const weather = require('weather-js');
 const colors = require('../../models/colors');
 

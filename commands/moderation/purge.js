@@ -5,7 +5,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('purge')
         .setDescription('Bulk delete messages')
-        .addIntegerOption(option => option.setName('amount').setDescription('Amount to delete').setMinValue(1).setMaxValue(100)),
+        .addIntegerOption(option => option.setName('amount').setDescription('Amount to delete').setMinValue(1).setMaxValue(100).setRequired(true)),
     async execute(interaction) {
         try {
             if (!interaction.member.permissions.has(PermissionFlagsBits.ManageMessages)) {
@@ -74,7 +74,7 @@ module.exports = {
                 .setColor("Green");
                 await interaction.reply({ embeds: [successEmbed] });
                 
-                Utility.Delay(2000);
+                Utility.Delay(5000);
                 await interaction.deleteReply();
 
             }).catch(() => null);
