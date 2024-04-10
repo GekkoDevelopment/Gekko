@@ -19,7 +19,7 @@ module.exports = {
                     inline: true
                 }
             )
-            .setColor(color.bot);
+            .setColor('Red');
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 
@@ -33,7 +33,7 @@ module.exports = {
                     inline: true
                 }
             )
-            .setColor(`${colors.bot}`);
+            .setColor('Red');
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 
@@ -45,7 +45,7 @@ module.exports = {
             const botErrorEmbed = new EmbedBuilder()
             .setTitle('Action Error:')
             .setDescription('You cannot ban a bot from the server, please do this manually.')
-            .setColor(color.bot);
+            .setColor('Red');
             return await interaction.reply({ embeds: [botErrorEmbed], ephemeral: true })
         }
 
@@ -53,7 +53,7 @@ module.exports = {
             const roleErrorEmbed = new EmbedBuilder()
             .setTitle('Permissions Error:')
             .setDescription('You cannot ban a user with a role that is the same, or higher than yours.')
-            .setColor(color.bot);
+            .setColor('Red');
             return await interaction.reply({ embeds: [roleErrorEmbed], ephemeral: true });
         }
 
@@ -68,7 +68,7 @@ module.exports = {
             const catchErrorEmbed = new EmbedBuilder()
             .setTitle('Unexpected Error:')
             .setDescription(`\`\`\`\n${error}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
-            .setColor(color.bot)
+            .setColor('Red')
 
             await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true  });
         }

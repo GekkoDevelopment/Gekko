@@ -25,14 +25,17 @@ module.exports = {
                     .setTitle(`${title}`)
                     .setImage(`${image}`)
                     .setURL(`${image}`)
-                    .setColor(colors.bot)
+                    .setColor('Red')
                     .setURL(`https://www.reddit.com${memeData.permalink}`)
                     .setFooter({ text: `Posted by ${author}` });
 
                 await interaction.reply({ embeds: [embed] });
             } catch (error) {
-                console.error('Error fetching meme:', error);
-                await interaction.reply('Failed to fetch a meme.');
+                const catchErrorEmbed = new EmbedBuilder()
+                .setTitle('Unexpected Error:')
+                .setDescription(`\`\`\`\n${error}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
+                .setColor('Red')
+                await interaction.reply({ embeds: [catchErrorEmbed] });
             }
         }
 

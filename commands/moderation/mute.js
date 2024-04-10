@@ -46,7 +46,7 @@ module.exports = {
                     inline: true
                 }
             )
-            .setColor(`${colors.bot}`);
+            .setColor('Red');
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 
@@ -60,7 +60,7 @@ module.exports = {
                     inline: true
                 }
             )
-            .setColor(`${colors.bot}`);
+            .setColor('Red');
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 
@@ -77,7 +77,7 @@ module.exports = {
                     const errorEmbed = new EmbedBuilder()
                         .setTitle('Unexpected Error:')
                         .setDescription(`\`\`\`\n${err}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
-                        .setColor(color.bot);
+                        .setColor('Red');
     
                     return interaction.reply({ embeds: [errorEmbed] });
                 }
@@ -92,7 +92,7 @@ module.exports = {
                         const errorEmbed = new EmbedBuilder()
                             .setTitle('Database Error:')
                             .setDescription(`Guild couldn't be found`)
-                            .setColor(color.bot);
+                            .setColor('Red');
                         return interaction.reply({ embeds: [errorEmbed] });
                     }
 
@@ -125,7 +125,7 @@ module.exports = {
                                     const errorEmbed = new EmbedBuilder()
                                         .setTitle('Database Error:')
                                         .setDescription(`Failed to save muted role ID`)
-                                        .setColor(color.bot);
+                                        .setColor('Red');
                                     return interaction.reply({ embeds: [errorEmbed] });
                                 }
                         
@@ -144,7 +144,7 @@ module.exports = {
                                     const errorEmbed = new EmbedBuilder()
                                         .setTitle('Mute Error:')
                                         .setDescription(`Failed to mute user`)
-                                        .setColor(color.bot);
+                                        .setColor('Red');
                                     return interaction.reply({ embeds: [errorEmbed] });
                                 });
                             }
@@ -154,7 +154,7 @@ module.exports = {
                         const errorEmbed = new EmbedBuilder()
                             .setTitle('Role Creation Error:')
                             .setDescription(`Failed to create muted role`)
-                            .setColor(color.bot);
+                            .setColor('Red');
                         return interaction.reply({ embeds: [errorEmbed] });
                     });
                 }

@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const superagent = require('superagent');
+const colors = require('../../models/colors');
 const config = require('../../config');
 
 module.exports = {
@@ -27,8 +28,11 @@ module.exports = {
                 throw new Error("No results found");
             }
         } catch (error) {
-            console.error(error);
-            await interaction.editReply({ content: `Error: I couldn't find a matching gif to \`${query}\`!` });
+            const catchErrorEmbed = new EmbedBuilder()
+                .setTitle('Unexpected Error:')
+                .setDescription(`\`\`\`\n${error}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
+                .setColor('Red')
+            await interaction.editReply({ embeds: [catchErrorEmbed] });
         }
     }
 };

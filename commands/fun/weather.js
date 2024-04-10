@@ -19,11 +19,18 @@ module.exports = {
 
             setTimeout(() => {
                 if (err) {
-                    console.log(err);
-                    interaction.editReply({ content: `${err} | This may be due to a timeout, please try this command again.` });
+                    const catchErrorEmbed = new EmbedBuilder()
+                    .setTitle('Unexpected Error:')
+                    .setDescription(`\`\`\`\n${err}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
+                    .setColor('Red')
+                    interaction.editReply({ embeds: [catchErrorEmbed] });
                 } else {
                     if (result.length == 0) {
-                        return interaction.editReply({ content: `I couldn't find the weather of ${location}` })
+                        const catchErrorEmbed = new EmbedBuilder()
+                        .setTitle('Unexpected Error:')
+                        .setDescription(`\`\`\`\nI couldn't find the weather of ${location}\`\`\`\n\n`)
+                        .setColor('Red')
+                        return interaction.editReply({ embeds: [catchErrorEmbed] });
                     } else {
                         const temp = result[0].current.temperature;
                         const type = result[0].current.skytext;

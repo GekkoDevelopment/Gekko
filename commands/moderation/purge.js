@@ -18,7 +18,7 @@ module.exports = {
                         inline: true
                     }
                 )
-                .setColor(`${colors.bot}`);
+                .setColor('Red');
                 return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
             }
 
@@ -32,7 +32,7 @@ module.exports = {
                         inline: true
                     }
                 )
-                .setColor(`${colors.bot}`);
+                .setColor('Red');
                 return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
             }
 
@@ -48,7 +48,7 @@ module.exports = {
                         inline: true
                     }
                 )
-                .setColor(`${colors.bot}`);
+                .setColor('Red');
                 return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
             }
 
@@ -62,7 +62,7 @@ module.exports = {
                         inline: true
                     }
                 )
-                .setColor(`${colors.bot}`);
+                .setColor('Red');
                 return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
             }
 
@@ -84,7 +84,7 @@ module.exports = {
             const catchErrorEmbed = new EmbedBuilder()
             .setTitle('Unexpected Error:')
             .setDescription(`\`\`\`\n${error}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
-            .setColor('#7B598D')
+            .setColor('Red')
 
             await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
         };
