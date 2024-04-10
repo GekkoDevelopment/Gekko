@@ -56,12 +56,7 @@ module.exports = {
 					name: 'Video',
 					value: `${int.fields.getTextInputValue('bug_vid_input')}` || 'None Provided.',
 					inline:true
-				},
-				{
-					name: 'Status',
-					value: 'Pending'
 				});
-
 
                 channel.send({ embeds: [bugReportEmbed] });
             })

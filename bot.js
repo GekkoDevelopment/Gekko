@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const config = require('./config.js');
 const color = require('./models/colors.js');
-const utils = require('./models/utility.js');
+const colors = require('./models/colors.js');
 
 const client = new Client({
     intents: [Object.keys(GatewayIntentBits)],
@@ -30,27 +30,33 @@ client.on('messageCreate', async message => {
         let logChannel = client.guilds.cache.get(config.developer.devGuild).channels.cache.get(config.developer.devTestChannel);
 
         let logEmbed = new EmbedBuilder()
-            .setTitle('Gekkō Restart')
-            .setColor(`${color.bot}`)
-            .addFields(
-                { name: 'Restarter', value: `${message.author}`, inline: true },
-                { name: 'Restarter ID', value: `${message.author.id}`, inline: true }
-            );
+        .setTitle('Gekkō Restart')
+        .setColor(`${color.bot}`)
+        .addFields
+        ({ 
+            name: 'Restarter', 
+            value: `${message.author}`, inline: true 
+        },
+        { 
+            name: 'Restarter ID', 
+            value: `${message.author.id}`, inline: true 
+        });
 
         let permissionErrorEmbed = new EmbedBuilder()
-            .setTitle('**Permissions Error: 50013**')
-            .addFields(
-                { name: 'Error Message:', value: '```You lack permissions to perform that action```' }
-            );
+        .setTitle('**Permissions Error: 50013**')
+        .addFields
+        ({ 
+            name: 'Error Message:', 
+            value: '```You lack permissions to perform that action```' 
+        });
 
         if (message.author.id !== config.developer.dev1Id && message.author.id !== config.developer.dev2Id) {
             message.channel.send({ embeds: [permissionErrorEmbed] });
             return; // Exit if permission denied
         }
 
-        setTimeout(function() {
-            pterodactyl.restartServer(config.panel.gekkoServerId);
-        }, 3000);
+        Utility.Delay(3000);
+        pterodactyl.restartServer(config.panel.gekkoServerId);
         
         logChannel.send({ embeds: [logEmbed] });
     }
@@ -73,20 +79,29 @@ client.on('messageCreate', async message => {
         let latency = `${client.ws.ping}ms`;
 
         let logEmbed = new EmbedBuilder()
-            .setTitle('Gekkō Stats Log')
-            .setColor(`${color.bot}`)
-            .setThumbnail(message.author.displayAvatarURL())
-            .addFields(
-                { name: 'Requester', value: `${message.author}`, inline: true },
-                { name: 'Requester ID', value: `${message.author.id}`, inline: true }
-            );
+        .setTitle('Gekkō Stats Log')
+        .setColor(color.bot)
+        .setThumbnail(message.author.displayAvatarURL())
+        .addFields
+        ({ 
+            name: 'Requester', 
+            value: `${message.author}`, 
+            inline: true 
+        },
+        { 
+            name: 'Requester ID', 
+            value: `${message.author.id}`, 
+            inline: true
+        });
 
         let permissionErrorEmbed = new EmbedBuilder()
-            .setTitle('**Permissions Error: 50013**')
-            .setColor('Red')
-            .addFields(
-                { name: 'Error Message:', value: '```You lack permission to perform this action.```' }
-            );
+        .setTitle('**Permissions Error: 50013**')
+        .setColor('Red')
+        .addFields
+        ({ 
+            name: 'Error Message:', 
+            value: '```You lack permission to perform this action.```' 
+        });
 
         if (message.author.id !== config.developer.dev1Id && message.author.id !== config.developer.dev2Id) {
             message.channel.send({ embeds: [permissionErrorEmbed] });
@@ -94,15 +109,30 @@ client.on('messageCreate', async message => {
         }
 
         let statEmbed = new EmbedBuilder()
-            .setTitle('Gekkō Bot Stats')
-            .setThumbnail(client.user.displayAvatarURL())
-            .setColor(color.bot)
-            .addFields(
-                { name: 'Server Amount', value: `${client.guilds.cache.size}`, inline: true },
-                { name: 'Latency', value: `${latency}`, inline: true },
-                { name: 'Client ID', value: `${client.user.id}`, inline: true },
-                { name: 'Uptime', value: `\`\`\`${uptime}\`\`\``, inline: false }
-            );
+        .setTitle('Gekkō Bot Stats')
+        .setThumbnail(client.user.displayAvatarURL())
+        .setColor(color.bot)
+        .addFields
+        ({ 
+            name: 'Server Amount', 
+            value: `${client.guilds.cache.size}`, 
+            inline: true 
+        },
+        {
+            name: 'Latency', 
+            value: `${latency}`, 
+            inline: true 
+        },
+        {
+            name: 'Client ID', 
+            value: `${client.user.id}`, 
+            inline: true 
+        },
+        { 
+            name: 'Uptime', 
+            value: `\`\`\`${uptime}\`\`\``, 
+            inline: false 
+        });
 
         message.channel.send({ embeds: [statEmbed] });
         logChannel.send({ embeds: [logEmbed] });
@@ -158,8 +188,8 @@ client.on('messageCreate', async message => {
         const helpEmbed = new EmbedBuilder()
             .setTitle('Gekkō Command Library')
             .setDescription('Please select a category from the dropdown menu below:')
-            .setColor('#7B598D')
-            .setImage('https://cdn.discordapp.com/attachments/1226564051488870450/1226587759502954576/card.png?ex=66254fde&is=6612dade&hm=a750c8299cf43e15b773976647ae045fc1c9e1c5cab1ec2b9b927f1e869e738e&');
+            .setColor(colors.bot)
+            .setImage(config.assets.gekkoBanner);
 
         await message.channel.send({ embeds: [helpEmbed], components: [actionRow] });
         
@@ -182,7 +212,7 @@ client.on('messageCreate', async message => {
                             { name: 'Commands', value: 'Help \nPing \nBug Report \nGekko', inline: true },
                             { name: 'Usage:', value: '`!help`, `/help` \n`!ping`, `/ping` \n`!bugreport`, `/bug-report` \n`!gekko`, `/gekko`', inline: true },
                         )
-                        .setImage('https://cdn.discordapp.com/attachments/1226564051488870450/1226587759502954576/card.png?ex=66254fde&is=6612dade&hm=a750c8299cf43e15b773976647ae045fc1c9e1c5cab1ec2b9b927f1e869e738e&');
+                        .setImage(config.assets.gekkoBanner);
                         
                         await interaction.editReply({ embeds: [gCom], components: [actionRow] });
                     break;
@@ -195,7 +225,7 @@ client.on('messageCreate', async message => {
                             { name: 'Commands', value: 'Set Logging Channel \nSet Command Prefix \nSet Welcome \nGekko', inline: true },
                             { name: 'Commands', value: '/set-logging-channel \n!set-prefix \n/set-welcome \nGekko', inline: true }
                         )
-                        .setImage('https://cdn.discordapp.com/attachments/1226564051488870450/1226587759502954576/card.png?ex=66254fde&is=6612dade&hm=a750c8299cf43e15b773976647ae045fc1c9e1c5cab1ec2b9b927f1e869e738e&');
+                        .setImage(config.assets.gekkoBanner);
                         
                         await interaction.editReply({ embeds: [aCom], components: [actionRow] });
                         break;
@@ -222,7 +252,7 @@ client.on('messageCreate', async message => {
     }
 
     if (userCommand === 'bugreport' || userCommand === 'bug') {
-        
+
     }
 });
 

@@ -1,4 +1,6 @@
 const { SlashCommandBuilder, StringSelectMenuBuilder, ActionRowBuilder, EmbedBuilder } = require('discord.js');
+const config = require('../../config.js');
+const colors = require('../../models/colors.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -47,8 +49,8 @@ module.exports = {
         const helpEmbed = new EmbedBuilder()
             .setTitle('Gekkō Command Library')
             .setDescription('Please select a category from the dropdown menu below:')
-            .setColor('#7B598D')
-            .setImage('https://cdn.discordapp.com/attachments/1226564051488870450/1226587759502954576/card.png?ex=66254fde&is=6612dade&hm=a750c8299cf43e15b773976647ae045fc1c9e1c5cab1ec2b9b927f1e869e738e&');
+            .setColor(colors.bot)
+            .setImage(config.assets.gekkoBanner);
 
         await interaction.reply({ embeds: [helpEmbed], components: [actionRow] });
 
@@ -70,7 +72,7 @@ module.exports = {
                             { name: 'Commands', value: 'Help \nPing \nBug Report \nGekko', inline: true },
                             { name: 'Usage:', value: '`!help`, `/help` \n`!ping`, `/ping` \n`!bugreport`, `/bug-report` \n`!gekko`, `/gekko`', inline: true },
                         )
-                        .setImage('https://cdn.discordapp.com/attachments/1226564051488870450/1226587759502954576/card.png?ex=66254fde&is=6612dade&hm=a750c8299cf43e15b773976647ae045fc1c9e1c5cab1ec2b9b927f1e869e738e&');
+                        .setImage(config.assets.gekkoBanner);
                         
                         await interaction.editReply({ embeds: [gCom], components: [actionRow] });
                     break;
@@ -83,7 +85,7 @@ module.exports = {
                             { name: 'Commands', value: 'Set Logging Channel \nSet Command Prefix \nSet Welcome \nGekko', inline: true },
                             { name: 'Commands', value: '/set-logging-channel \n!set-prefix \n/set-welcome \nGekko', inline: true }
                         )
-                        .setImage('https://cdn.discordapp.com/attachments/1226564051488870450/1226587759502954576/card.png?ex=66254fde&is=6612dade&hm=a750c8299cf43e15b773976647ae045fc1c9e1c5cab1ec2b9b927f1e869e738e&');
+                        .setImage(config.assets.gekkoBanner);
                         
                         await interaction.editReply({ embeds: [aCom], components: [actionRow] });
                         break;
