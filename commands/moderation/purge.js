@@ -74,9 +74,9 @@ module.exports = {
                 .setColor("Green");
                 await interaction.reply({ embeds: [successEmbed] });
                 
-                setTimeout(async () => {
-                    await interaction.deleteReply();
-                }, 2000);
+                Utility.Delay(2000);
+                await interaction.deleteReply();
+
             }).catch(() => null);
 
         } catch (error) {
