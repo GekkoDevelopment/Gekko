@@ -33,7 +33,21 @@ module.exports = {
         .addFields(
             {
                 name: 'Getting Started:',
-                value: '• You can get started by running the `/help` command, to view all of our available commands. Alternatively, you can visit our documentation below!'
+                value: '• You can get started by running the `/help` command, to view all of our available commands. Alternatively, you can visit our documentation below!',
+                inline: false
+            },
+            /* NOTICE:
+            To update the version, please see "Semantic Versioning docs.md".
+            */
+            {
+                name: 'Version',
+                value: '`v1.0.0.a1`',
+                inline: true
+            },
+            {
+                name: 'Change Log',
+                value: '[Gekkō Dev Log](https://gekko-2.gitbook.io/gekk-dev-log/)',
+                inline: true
             }
         );
 
