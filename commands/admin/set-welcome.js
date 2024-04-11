@@ -9,15 +9,6 @@ let mysql = db.createConnection({
     database: config.database.name
 });
 
-mysql.query(`
-    CREATE TABLE IF NOT EXISTS welcome_settings (
-        guild_id VARCHAR(255) PRIMARY KEY,
-        welcome_message TEXT NOT NULL,
-        image_url VARCHAR(255),
-        welcome_channel_id VARCHAR(255) NOT NULL
-    )
-`);
-
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('set-welcome').setDescription('Set welcome message, image, and channel for the guild.')
@@ -32,7 +23,7 @@ module.exports = {
         const welcomeChannelId = interaction.options.getChannel('channel').id;
 
         mysql.query(
-            'INSERT INTO welcome_settings (guild_id, welcome_message, image_url, welcome_channel_id) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE welcome_message = VALUES(welcome_message), image_url = VALUES(image_url), welcome_channel_id = VALUES(welcome_channel_id)',
+            'INSERT INTO guilds (guild_id, welcome_message, image_url, welcome_channel_id) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE welcome_message = VALUES(welcome_message), image_url = VALUES(image_url), welcome_channel_id = VALUES(welcome_channel_id)',
             [guildId, welcomeMessage, imageUrl, welcomeChannelId],
             (err, result) => {
                 if (err) {

@@ -55,7 +55,7 @@ module.exports = {
                 console.error(error);
                 const errorEmbed = new EmbedBuilder()
                     .setTitle('Ooops, times up!')
-                    .setDescription(`You didn\'t guess the logo in time. \nUse the \`/guess-the-logo\` command to try again!`)
+                    .setDescription(`You didn\'t guess the logo in time, the logo was **${randomCompanyName}** \nUse the \`/guess-the-logo\` command to try again!`)
                     .setAuthor({ name: 'Gekko', iconURL: interaction.client.user.avatarURL() })
                     .setColor("Red");
                 await interaction.followUp({ embeds: [errorEmbed] });

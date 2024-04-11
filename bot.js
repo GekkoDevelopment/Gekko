@@ -2,6 +2,7 @@ const { Client, GatewayIntentBits, Collection, EmbedBuilder, PermissionFlagsBits
 const { NodeactylClient } = require('nodeactyl');
 const fs = require('node:fs');
 const path = require('node:path');
+const db = require('mysql');
 const config = require('./config.js');
 const color = require('./models/colors.js');
 const colors = require('./models/colors.js');
@@ -13,6 +14,17 @@ const client = new Client({
 
 const pterodactyl = new NodeactylClient(config.panel.host, config.panel.apiKey);
 
+const mysql = db.createConnection({
+    host: config.database.host,
+    user: config.database.username,
+    password: config.database.password,
+    database: config.database.name,
+    port: config.database.port
+});
+/*
+mysql.query(`CREATE TABLE IF NOT EXIST guilds
+    (guild_id VARCHAR(255) AUTO_INCREMENT PRIMARY KEY, )`)
+*/
 //////// Prefix Commands ////////
 // --- Developer Commands --- //
 client.on('messageCreate', async message => {
