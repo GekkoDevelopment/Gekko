@@ -26,7 +26,7 @@ module.exports = {
             if (data.data && data.data.length > 0) {
                 const animeInfo = data.data[0];
                 let synopsis = animeInfo.attributes.synopsis || 'No synopsis available.';
-                synopsis = synopsis.length > 200 ? synopsis.substring(0, 200) + '...' : synopsis;
+                synopsis = synopsis.length > 300 ? synopsis.substring(0, 300) + '...' : synopsis;
 
                 let ratingEmoji;
                 if (animeInfo.attributes.averageRating >= 70) {
@@ -74,8 +74,8 @@ module.exports = {
                             inline: true 
                         },
                         {
-                            name: 'Episodes',
-                            value: `📺 ${String(animeInfo.attributes.episodeCount)}` || 'Not available',
+                            name: 'Episode Length',
+                            value: `📺 ${String(animeInfo.attributes.episodeLength)} minutes` || 'Not available',
                             inline: true 
                         },
                         {
@@ -94,9 +94,12 @@ module.exports = {
                             inline: true
                         }
                     )
-                    .setImage(animeInfo.attributes.coverImage.original)
                     .setURL(`https://kitsu.io/anime/${animeInfo.id}`)
                     .setColor(colors.bot);
+                
+                if (animeInfo.attributes.coverImage && animeInfo.attributes.coverImage.original) {
+                    embed.setImage(animeInfo.attributes.coverImage.original);
+                }
 
                 await interaction.reply({ embeds: [embed] });
             } else {
