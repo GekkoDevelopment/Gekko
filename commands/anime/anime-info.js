@@ -103,11 +103,18 @@ module.exports = {
 
                 await interaction.reply({ embeds: [embed] });
             } else {
-                await interaction.reply({ content: 'No anime found with that name.' });
+                const errorEmbed = new EmbedBuilder()
+                    .setTitle('Search Error:')
+                    .setColor('Red')
+                    .setDescription('No anime found with that name.')
+                await interaction.reply({ embeds: [errorEmbed] });
             }
         } catch(error) {
-            console.error(error);
-            await interaction.reply({ content: 'There was an error while fetching anime info.' });
+            const catchErrorEmbed = new EmbedBuilder()
+                .setTitle('Unexpected Error:')
+                .setDescription(`\`\`\`\n${error}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
+                .setColor('Red')
+            await interaction.reply({ embeds: [catchErrorEmbed] });
         }
     },
 };

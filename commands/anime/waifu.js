@@ -20,7 +20,11 @@ module.exports = {
 
             await interaction.reply({ embeds: [embed] });
         } catch(error) {
-            console.error('Error fetching image:', error);
+            const catchErrorEmbed = new EmbedBuilder()
+                .setTitle('Unexpected Error:')
+                .setDescription(`\`\`\`\n${error}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
+                .setColor('Red')
+            await interaction.reply({ embeds: [catchErrorEmbed] });
         }
     }
 };

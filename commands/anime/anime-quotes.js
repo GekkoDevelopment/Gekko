@@ -35,7 +35,11 @@ module.exports = {
             await interaction.reply({ embeds: [embed] });
 
         } catch(error) {
-            console.log('Error fetching quote:', error);
+            const catchErrorEmbed = new EmbedBuilder()
+                .setTitle('Unexpected Error:')
+                .setDescription(`\`\`\`\n${error}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
+                .setColor('Red')
+            await interaction.reply({ embeds: [catchErrorEmbed] });
         }
     }
 };
