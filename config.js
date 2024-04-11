@@ -46,7 +46,11 @@ module.exports = {
         d3: '<:gekko_d3:1226997327647080540>', // Three Dice Dot
         d4: '<:gekko_d4:1226997329173942467>', // Four Dice Dot
         d5: '<:gekko_d5:1226997330457399427>', // Five Dice Dot
-        d6: '<:gekko_d6:1226997331803504711>' // Six Dice Dot
+        d6: '<:gekko_d6:1226997331803504711>', // Six Dice Dot
+        ratingGreen: '<:ratingGreen:1228098304844501003>',
+        ratingAmber: '<:ratingAmber:1228098312012562532>',
+        ratingRed: '<:ratingRed:1228098317905297500>',
+        ratingNa: '<:ratingNA:1228100149415251988>',
     }
 
 }
