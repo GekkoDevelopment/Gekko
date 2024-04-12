@@ -10,6 +10,16 @@ let mysql = db.createConnection({
 });
 
 class MySQL {
+    static async connectToDatabase() {
+        mysql.connect(function(err) {
+            if (err) {
+                console.error('Error connecting to database:', err);
+                return;
+            }
+            console.log('✅ Connected to MySQL database');
+        });
+    }
+
     static async insertIntoGuildTable(columns, values) {
         if (!Array.isArray(values)) {
             throw new Error('Columns and values must be arrays');
@@ -105,8 +115,9 @@ class MySQL {
     }
 
     static async hasYesNoValue(table, column) {
-        const query = `SELECT COUNT(*) AS count FROM ${table}, WHERE ${column} IN ('Yes', 'No')`
+        const query = `SELECT COUNT(*) AS count FROM ${table} WHERE ${column} = 'Yes'`;
 
+        // Execute the query
         return new Promise((resolve, reject) => {
             mysql.query(query, (error, results) => {
                 if (error) {

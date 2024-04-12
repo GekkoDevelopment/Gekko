@@ -10,14 +10,6 @@ let mysql = db.createConnection({
     database: config.database.name
 });
 
-mysql.connect(function(err) {
-    if (err) {
-        console.error('Error connecting to database:', err);
-        return;
-    }
-    console.log('Connected to MySQL database');
-});
-
 module.exports = {
     name: Events.GuildMemberAdd,
     async execute(member) {

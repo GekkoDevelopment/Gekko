@@ -7,6 +7,7 @@ const config = require('./config.js');
 const color = require('./models/colors.js');
 const colors = require('./models/colors.js');
 const Utility = require('./models/utility.js');
+const MySQL = require('./models/mysql.js');
 
 const client = new Client({
     intents: [Object.keys(GatewayIntentBits)],
@@ -15,13 +16,8 @@ const client = new Client({
 
 const pterodactyl = new NodeactylClient(config.panel.host, config.panel.apiKey);
 
-const mysql = db.createConnection({
-    host: config.database.host,
-    user: config.database.username,
-    password: config.database.password,
-    database: config.database.name,
-    port: config.database.port
-});
+MySQL.connectToDatabase();
+
 /*
 mysql.query(`CREATE TABLE IF NOT EXIST guilds
     (guild_id VARCHAR(255) AUTO_INCREMENT PRIMARY KEY, )`)
