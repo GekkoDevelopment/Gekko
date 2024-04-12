@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const fetch = require('node-fetch');
 const colors = require('../../models/colors.js');
-const emojis = require('../../config.js');
+const { emojis } = require('../../config.js');
 const Utility = require('../../models/utility.js');
 
 module.exports = {
