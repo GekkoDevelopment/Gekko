@@ -13,9 +13,17 @@ module.exports = {
                 throw new Error('Failed to fetch quote');
             }
             const quote = await response.json();
+            const colorsArray = Object.entries(colors);
+            const randomColorIndex = Math.floor(Math.random() * colorsArray.length);
+            const randomColor = colorsArray[randomColorIndex][1];
             const embed = new EmbedBuilder()
-                .setColor(colors.bot)
+                .setColor(randomColor)
                 .addFields(
+                    {
+                        name: '<:keqingheart:1228074361311858810> Anime Quote:',
+                        value: `\`\`\`\n${quote.quote}\`\`\``,
+                        inline: false
+                    },
                     {
                         name: 'Anime:',
                         value: `${quote.anime}`,
@@ -23,13 +31,10 @@ module.exports = {
                     },
                     {
                         name: 'Character:',
-                        value: `${quote.character}`
-                    },
-                    {
-                        name: 'Quote:',
-                        value: `${quote.quote}`,
+                        value: `${quote.character}`,
                         inline: true
-                    }
+                    },
+
                 )
 
             await interaction.reply({ embeds: [embed] });

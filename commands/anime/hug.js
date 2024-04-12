@@ -18,6 +18,7 @@ module.exports = {
             const content = `<@${user.id}>`
             const embed = new EmbedBuilder()
                 .setTitle('Here\'s a hug!')
+                .setDescription(`<@${interaction.user.id}> hugged <@${user.id}>`)
                 .setColor(colors.bot)
                 .setImage(`${data.url}`)
 
