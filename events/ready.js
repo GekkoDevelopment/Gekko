@@ -19,7 +19,8 @@ module.exports = {
             "image_url VARCHAR(255) DEFAULT NULL",
             "muted_role_id VARCHAR(255) DEFAULT '0'",
             "muted_user_id VARCHAR(255) DEFAULT '0'",
-            "nsfw_enabled VARCHAR(255) DEFAULT 'false'"
+            "nsfw_enabled VARCHAR(255) DEFAULT 'false'",
+            "guild_prefix VARCHAR(255) DEFAULT '!'"
         ];
 
         MySQL.createTable('guilds', columns);
