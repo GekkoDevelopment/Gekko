@@ -2,16 +2,12 @@ const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, Butt
 const db = require('mysql');
 const config = require('../../config.js');
 const colors = require('../../models/colors');
-
-const mysql = db.createConnection({
-    
-})
+const MySQL = require('../../models/mysql.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('allow-nsfw-anime').setDescription('This feature is off by default. If you want NSFW anime stuff on turn it on using this command.'),
     async execute(interaction) {
-        
         const confirmButton1 = new ButtonBuilder().setLabel('Yes').setCustomId('confirm_nsfw_1').setStyle(ButtonStyle.Success);
         const denyButton1 = new ButtonBuilder().setLabel('No').setCustomId('deny_nsfw_1').setStyle(ButtonStyle.Danger);
 
@@ -62,6 +58,35 @@ module.exports = {
             .setColor('Red');
             
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
+        }
+
+        if (message.channel.nsfw && interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+            const response = await interaction.reply({ embeds: [embedConfirmEmbed1], components: [actionRow1] });
+
+            const filter = i => i.user.id === interaction.user.id;
+            const filter2 = i => i.user.id === interaction.user.id;
+
+            try { 
+                const confirmation1 = await response.awaitMessageComponent({ filter, time: 60000 });
+
+                if (confirmation1.customId === 'confirm_nsfw_1') {
+                    await confirmation1.update({ embeds: [embedConfirmEmbed2], components: [actionRow2] });
+
+                    try {
+                        const confirmation2 = await confirmation1.awaitMessageComponent({ filter2, time: 60000 });
+                        
+                        if (confirmation2.customId === 'confirm_nsfw_2') {
+                            await confirmation2.update({ content: 'Okay! NSFW is now enabled.'});
+                        }
+                        
+                    } catch (err) {
+                        await interaction.editReply({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
+                    }
+                }
+                
+            } catch (err) {
+                await interaction.editReply({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
+            }
         }
     }
 }

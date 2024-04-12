@@ -1,14 +1,14 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const fetch = require('node-fetch');
 const colors = require('../../models/colors');
+const MySQL = require('../../models/mysql');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('waifu')
-        .setDescription('Random waifu generator!'),
+        .setName('nsfw-waifu').setDescription('Random NSFW waifu generator!'),
     async execute(interaction) { 
         try {
-            const response = await fetch("https://api.waifu.pics/sfw/waifu");
+            const response = await fetch("https://api.waifu.pics/nsfw/waifu");
             if (!response.ok) {
                 throw new Error('Failed to fetch image');
             }
