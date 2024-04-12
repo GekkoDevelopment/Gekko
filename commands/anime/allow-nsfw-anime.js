@@ -72,22 +72,22 @@ module.exports = {
                     const response2 = await confirm1.update({ embeds: [embedConfirmEmbed2], components: [actionRow2] });
                     const collectFilter2 = i => i.user.id === interaction.user.id;
 
-                    const confirm2 = response2.awaitMessageComponent({ filter: collectFilter2 });
-                    
+                    const confirm2 = await response2.awaitMessageComponent({ filter: collectFilter2 });
+
                     try {
                         if (confirm2.customId === 'confirm_nsfw_2') {
                             const success = new EmbedBuilder()
-                            .setDescription('Okay! NSFW Commands are enabled but they can only be used in this channel.')
-                            .setColor(colors.deepPink);
-
+                                .setDescription('Okay! NSFW Commands are enabled but they can only be used in this channel.')
+                                .setColor(colors.deepPink);
+                    
                             MySQL.updateColumnInfo(guildId, 'nsfw_enabled', 'true');
                             await confirm2.update({ embeds: [success], components: [] });
-
+                    
                         } else if (confirm2.customId === 'deny_nsfw_2') {
-                            confirm2.update({ content: 'Alright we cancelled it.', components: [] });
+                            await confirm2.update({ content: 'Alright we cancelled it.', components: [] });
                             MySQL.updateColumnInfo(guildId, 'nsfw_enabled', 'false');
                         }
-
+                    
                     } catch(err) {
                         console.log(err);
                     }
