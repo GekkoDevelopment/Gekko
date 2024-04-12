@@ -1,5 +1,4 @@
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelFlags, ChannelType, MediaChannel, TextChannel, PermissionFlagsBits, PermissionsBitField } = require('discord.js');
-const db = require('mysql');
 const config = require('../../config.js');
 const colors = require('../../models/colors');
 const MySQL = require('../../models/mysql.js');
@@ -10,6 +9,8 @@ module.exports = {
     async execute(interaction) {
         const confirmButton1 = new ButtonBuilder().setLabel('Yes').setCustomId('confirm_nsfw_1').setStyle(ButtonStyle.Success);
         const denyButton1 = new ButtonBuilder().setLabel('No').setCustomId('deny_nsfw_1').setStyle(ButtonStyle.Danger);
+
+        const guildId = interaction.guild.id;
 
         const confirmButton2 = new ButtonBuilder().setLabel('Yes').setCustomId('confirm_nsfw_2').setStyle(ButtonStyle.Success);
         const denyButton2 = new ButtonBuilder().setLabel('No').setCustomId('deny_nsfw_2').setStyle(ButtonStyle.Danger);
@@ -28,9 +29,9 @@ module.exports = {
         const actionRow1 = new ActionRowBuilder().addComponents(confirmButton1, denyButton1);
         const actionRow2 = new ActionRowBuilder().addComponents(confirmButton2, denyButton2);
 
-        let message = interaction.fetchReply();
+        const channel = interaction.channel;
 
-        if (!message.channel.nsfw && !interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+        if (!channel.nsfw  && !interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
             const permissionErrorEmbed = new EmbedBuilder()
             .setTitle('Permissions Error: 50013')
             .addFields(
@@ -45,7 +46,7 @@ module.exports = {
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 
-        if (message.channel.nsfw && !interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+        if (channel.nsfw && !interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
             const permissionErrorEmbed = new EmbedBuilder()
             .setTitle('Permissions Error: 50013')
             .addFields(
@@ -60,32 +61,44 @@ module.exports = {
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 
-        if (message.channel.nsfw && interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+        if (channel.nsfw && interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
             const response = await interaction.reply({ embeds: [embedConfirmEmbed1], components: [actionRow1] });
+            const collectFilter = i => i.user.id === interaction.user.id;
+            
+            try {
+                const confirm1 = await response.awaitMessageComponent({ filter: collectFilter });
 
-            const filter = i => i.user.id === interaction.user.id;
-            const filter2 = i => i.user.id === interaction.user.id;
+                if (confirm1.customId === 'confirm_nsfw_1') {
+                    const response2 = await confirm1.update({ embeds: [embedConfirmEmbed2], components: [actionRow2] });
+                    const collectFilter2 = i => i.user.id === interaction.user.id;
 
-            try { 
-                const confirmation1 = await response.awaitMessageComponent({ filter, time: 60000 });
-
-                if (confirmation1.customId === 'confirm_nsfw_1') {
-                    await confirmation1.update({ embeds: [embedConfirmEmbed2], components: [actionRow2] });
-
+                    const confirm2 = response2.awaitMessageComponent({ filter: collectFilter2 });
+                    
                     try {
-                        const confirmation2 = await confirmation1.awaitMessageComponent({ filter2, time: 60000 });
-                        
-                        if (confirmation2.customId === 'confirm_nsfw_2') {
-                            await confirmation2.update({ content: 'Okay! NSFW is now enabled.'});
+                        if (confirm2.customId === 'confirm_nsfw_2') {
+                            const success = new EmbedBuilder()
+                            .setDescription('Okay! NSFW Commands are enabled but they can only be used in this channel.')
+                            .setColor(colors.deepPink);
+
+                            MySQL.updateColumnInfo(guildId, 'nsfw_enabled', 'true');
+                            await confirm2.update({ embeds: [success], components: [] });
+
+                        } else if (confirm2.customId === 'deny_nsfw_2') {
+                            confirm2.update({ content: 'Alright we cancelled it.', components: [] });
+                            MySQL.updateColumnInfo(guildId, 'nsfw_enabled', 'false');
                         }
-                        
-                    } catch (err) {
-                        await interaction.editReply({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
+
+                    } catch(err) {
+                        console.log(err);
                     }
+
+                } else if (confirm1.customId === 'deny_nsfw_1') {
+                    MySQL.updateColumnInfo(guildId, 'nsfw_enabled', 'false');
+                    confirm1.update({ content: 'Alright we cancelled it.', components: [] });
                 }
                 
             } catch (err) {
-                await interaction.editReply({ content: 'Confirmation not received within 1 minute, cancelling', components: [] });
+                console.log(err);
             }
         }
     }
