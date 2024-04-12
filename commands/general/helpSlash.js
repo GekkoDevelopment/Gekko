@@ -74,7 +74,7 @@ module.exports = {
                         )
                         .setImage(config.assets.gekkoBanner);
                         
-                        await interaction.editReply({ embeds: [gCom], components: [actionRow] });
+                        await interaction.editReply({ embeds: [gCom], components: [actionRow], ephemeral: true });
                     break;
                     
                     case 'admin_commands':
