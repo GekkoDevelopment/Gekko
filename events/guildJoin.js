@@ -6,9 +6,9 @@ module.exports = {
     async execute(member) {
         const guildId = member.guild.id;
 
-        const welcomeMessage = MySQL.getColumnValuesWithGuildId(guildId, 'welcome_message')
-        const imageUrl = MySQL.getColumnValuesWithGuildId(guildId, 'image_url');
-        const welcomeChannelId = MySQL.getColumnValuesWithGuildId(guildId, 'welcome_channel_id');
+        const welcomeMessage = await MySQL.getColumnValuesWithGuildId(guildId, 'welcome_message')
+        const imageUrl = await MySQL.getColumnValuesWithGuildId(guildId, 'image_url');
+        const welcomeChannelId = await MySQL.getColumnValuesWithGuildId(guildId, 'welcome_channel_id');
 
         const welcomeChannel = member.guild.channels.cache.get(welcomeChannelId);
 
@@ -16,8 +16,8 @@ module.exports = {
 
         const joinMessage = new EmbedBuilder()
         .setTitle('Welcome!')
-        .setDescription(welcomeMessage)
-        .setImage(imageUrl)
+        .setDescription(welcomeMessage.toString())
+        .setImage(imageUrl);
 
         const content = `Welcome to the server, <@${member.user.id}>!`; 
 
