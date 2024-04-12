@@ -1,6 +1,4 @@
-const { Events, SlashCommandBuilder, EmbedBuilder, Embed } = require('discord.js');
-const db = require('mysql');
-const config = require('../../config');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const MySQL = require('../../models/mysql')
 const Utility = require('../../models/utility');
 

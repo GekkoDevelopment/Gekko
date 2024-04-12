@@ -102,17 +102,17 @@ class MySQL {
 
     static async getValueFromGuilds(guildId, column) {
         return new Promise((resolve, reject) => {
-            const query = `SELECT ${column} FROM guilds WHERE guild_id = ?`;
+            const query = `SELECT guild_id, ${column} FROM guilds WHERE guild_id = ?`;
 
             mysql.query(query, [guildId], (error, results) => {
                 if (error) {
                     reject(error);
                 } else {
-                    if (results.length > 0) {
-                        resolve(results[0][column]);
-                    } else {
-                        resolve(null);
-                    }
+                    const values = results.map(row => ({
+                        guildId: row.guild_id,
+                        value: row[column]
+                    }));
+                    resolve(values);
                 }
             });
         });
