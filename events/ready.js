@@ -13,12 +13,12 @@ module.exports = {
         });
 
         const columns = [
-            "guild_id INT(20) NOT NULL PRIMARY KEY",
-            "welcome_channel_id INT(20) DEFAULT NULL",
+            "guild_id VARCHAR(255) NOT NULL PRIMARY KEY",
+            "welcome_channel_id VARCHAR(255) DEFAULT NULL",
             "welcome_message VARCHAR(255) DEFAULT NULL",
             "image_url VARCHAR(255) DEFAULT NULL",
-            "muted_role_id INT(20) DEFAULT '0'",
-            "muted_user_id INT(20) DEFAULT '0'",
+            "muted_role_id VARCHAR(255) DEFAULT '0'",
+            "muted_user_id VARCHAR(255) DEFAULT '0'",
             "nsfw_enabled VARCHAR(255) DEFAULT 'false'"
         ];
 

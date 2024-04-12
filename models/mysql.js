@@ -54,11 +54,11 @@ class MySQL {
         });
     }
 
-    static async valueExistsInGuildsColumn(column, value) {
+    static async valueExistsInGuildsColumn(guildId, column, value) {
         return new Promise((resolve, reject) => {
             const query = `SELECT COUNT(*) AS count FROM guilds WHERE ${column} = ? AND guild_id = ?`;
 
-            mysql.query(query, [value, conditionValue], (error, results) => {
+            mysql.query(query, [value, guildId], (error, results) => {
                 if (error) {
                     reject(error);
                 } else {
@@ -97,6 +97,38 @@ class MySQL {
             if (error) {
                 throw error;
             }
+        });
+    }
+
+    static async getValueFromGuilds(guildId, column) {
+        return new Promise((resolve, reject) => {
+            const query = `SELECT ${column} FROM guilds WHERE guild_id = ?`;
+
+            mysql.query(query, [guildId], (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    if (results.length > 0) {
+                        resolve(results[0][column]);
+                    } else {
+                        resolve(null);
+                    }
+                }
+            });
+        });
+    }
+
+    static async updateColumnInfo(guildId, column, newValue) {
+        return new Promise((resolve, reject) => {
+            const query = `UPDATE guilds SET ${column} = ? WHERE guild_id = ?`;
+
+            mysql.query(query, [newValue, guildId], (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results.affectedRows);
+                }
+            });
         });
     }
 
@@ -143,7 +175,6 @@ class MySQL {
     static async hasYesNoValue(table, column) {
         const query = `SELECT COUNT(*) AS count FROM ${table} WHERE ${column} = 'Yes'`;
 
-        // Execute the query
         return new Promise((resolve, reject) => {
             mysql.query(query, (error, results) => {
                 if (error) {
