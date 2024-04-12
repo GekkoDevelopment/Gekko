@@ -4,24 +4,38 @@ const MySQL = require('../models/mysql.js');
 module.exports = {
     name: Events.GuildMemberAdd,
     async execute(member) {
-        const guildId = member.guild.id;
+        try {
+            const guildId = member.guild.id;
 
-        const welcomeMessage = await MySQL.getColumnValuesWithGuildId(guildId, 'welcome_message')
-        const imageUrl = await MySQL.getColumnValuesWithGuildId(guildId, 'image_url');
-        const welcomeChannelId = await MySQL.getColumnValuesWithGuildId(guildId, 'welcome_channel_id');
+            const welcomeMessage = await MySQL.getColumnValuesWithGuildId(guildId, 'welcome_message');
+            const imageUrl = await MySQL.getColumnValuesWithGuildId(guildId, 'image_url');
+            const welcomeChannelId = await MySQL.getColumnValuesWithGuildId(guildId, 'welcome_channel_id');
 
-        const welcomeChannel = member.guild.channels.cache.get(welcomeChannelId);
+            console.log("Welcome Message:", welcomeMessage);
+            console.log("Image URL:", imageUrl);
+            console.log("Welcome Channel ID:", welcomeChannelId);
 
-        if (!welcomeChannel) return;
+            const welcomeChannel = member.guild.channels.cache.get(welcomeChannelId);
+            console.log('Welcome Channel:', welcomeChannel)
 
-        const joinMessage = new EmbedBuilder()
-        .setTitle('Welcome!')
-        .setDescription(welcomeMessage.toString())
-        .setImage(imageUrl);
+            if (!welcomeChannel) {
+                console.log("Welcome channel not found.", welcomeChannelId);
+                return;
+            }
 
-        const content = `Welcome to the server, <@${member.user.id}>!`; 
+            const joinMessage = new EmbedBuilder()
+                .setTitle('Welcome!')
+                .setDescription(welcomeMessage.toString())
 
-        welcomeChannel.send({ content: content, embeds: [joinMessage] })
-        .catch(err => console.error('Error sending welcome message:', err));
+            if (imageUrl && imageUrl !== 'null') {
+                joinMessage.setImage(imageUrl);
+            }
+
+            const content = `Welcome to the server, <@${member.user.id}>!`;
+            welcomeChannel.send({ content: content, embeds: [joinMessage] });
+            console.log("Welcome message sent.");
+        } catch (error) {
+            console.error('Error sending welcome message:', error);
+        }
     }
 };
