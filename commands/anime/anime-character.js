@@ -23,38 +23,26 @@ module.exports = {
             
             const response = await fetch(option.url, option);
             const data = await response.json();
-            console.log(data)
 
             if (data.data && data.data.length > 0) {
                 const characterInfo = data.data[0]; 
-                const description = characterInfo.attributes.description || 'No description available.';
-                const about = characterInfo.attributes.about || 'No information available.';
-            
-                const truncatedDescription = description.length > 300 ? description.slice(0, 300) + '...' : description;
             
                 const embed = new EmbedBuilder()
                     .setTitle(`${characterInfo.attributes.canonicalName}`)
-                    .setDescription(`${truncatedDescription}[[View More]](https://kitsu.io/characters/${characterInfo.id})`)
-                    .addFields(
-                        {
-                            name: 'Anime',
-                            value: about
-                        }
-                    )
                     .setColor(colors.bot)
-                    .setImage(characterInfo.attributes.image.original);
+                    .setImage(characterInfo.attributes.image.original)
+                    .setFooter({text: characterInfo.attributes.slug || 'No slug data', iconURL: interaction.client.user.avatarURL() });
                 
                 await interaction.reply({ embeds: [embed] });
             } else {
                 const errorEmbed = new EmbedBuilder()
                     .setTitle('Search Error:')
-                    .setColor('RED')
+                    .setColor('Red')
                     .setDescription('No character found with that name.')
                 await interaction.reply({ embeds: [errorEmbed] });
             }
         } catch(error) {
             const catchErrorEmbed = new EmbedBuilder()
-                console.log(error)
                 .setTitle('Unexpected Error:')
                 .setDescription(`\`\`\`\n${error}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
                 .setColor('Red')

@@ -64,7 +64,7 @@ module.exports = {
 
                 const embed = new EmbedBuilder()
                     .setTitle(`${animeInfo.attributes.canonicalTitle}`)
-                    .setFooter({text: animeInfo.attributes.titles.en, iconURL: interaction.client.user.avatarURL() })
+                    .setFooter({text: animeInfo.attributes.titles.en || 'Could not translate name.', iconURL: interaction.client.user.avatarURL() })
                     .setDescription(`> ${synopsis}[[View More]](https://kitsu.io/anime/${animeInfo.id})`)
                     .addFields(
                         {
@@ -120,6 +120,7 @@ module.exports = {
                 await interaction.reply({ embeds: [errorEmbed] });
             }
         } catch(error) {
+            console.log(error)
             const catchErrorEmbed = new EmbedBuilder()
                 .setTitle('Unexpected Error:')
                 .setDescription(`\`\`\`\n${error}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
