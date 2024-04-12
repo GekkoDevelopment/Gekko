@@ -1,5 +1,4 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const db = require('mysql');
 const config = require('../../config');
 const MySQL = require('../../models/mysql');
 
@@ -14,9 +13,9 @@ module.exports = {
         MySQL.editColumnInGuilds(guildId, 'guild_prefix', newPrefix);
 
         const prefixEmbed = new EmbedBuilder()
-        .setDescription(`You're new bot prefix has been changed to **${newPrefix}**`)
+        .setDescription(`You're new bot prefix has been changed to *${newPrefix}*`)
         .setColor('Green')
-        .setTimestamp();
+        .setImage(config.assets.gekkoBanner);
 
         await interaction.reply({ embeds: [prefixEmbed] });
     }

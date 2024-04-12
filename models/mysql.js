@@ -37,8 +37,6 @@ class MySQL {
             if (error) {
                 throw error;
             }
-    
-            console.log(`Inserted ${results.affectedRows} row(s)`);
         });
     }
 
@@ -49,8 +47,6 @@ class MySQL {
             if (error) {
                 throw error;
             }
-
-            console.log(`Inserted ${results.affectedRows} row(s) into ${table}`);
         });
     }
 
@@ -80,8 +76,6 @@ class MySQL {
             if (error) {
                 throw error;
             }
-
-            console.log(`Table ${tableName} created successfully`);
         });
     }
 
@@ -199,8 +193,6 @@ class MySQL {
             if (error) {
                 throw error;
             }
-
-            console.log(results);
         });
     }
 
@@ -211,9 +203,6 @@ class MySQL {
             if (error) {
                 throw error;
             }
-
-            console.log(`Retrieved ${results.length} row(s) from guilds where ${column} = ${value}`);
-            console.log(results);
         });
     }
 

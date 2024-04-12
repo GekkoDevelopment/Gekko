@@ -2,7 +2,6 @@ const { Client, GatewayIntentBits, Collection, EmbedBuilder, PermissionFlagsBits
 const { NodeactylClient } = require('nodeactyl');
 const fs = require('node:fs');
 const path = require('node:path');
-const db = require('mysql');
 const config = require('./config.js');
 const color = require('./models/colors.js');
 const colors = require('./models/colors.js');
@@ -21,7 +20,7 @@ const pterodactyl = new NodeactylClient(config.panel.host, config.panel.apiKey);
 client.on('messageCreate', async message => {
     let prefix = "-d"
     let guildId = message.guild.id;
-    let userPrefix = MySQL.getColumnValuesWithGuildId(guildId, 'guild_prefix');
+    let userPrefix = await MySQL.getColumnValuesWithGuildId(guildId, 'guild_prefix');
     
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
@@ -146,8 +145,10 @@ client.on('messageCreate', async message => {
 
     if (!message.content.startsWith(userPrefix) || message.author.bot) return;
 
-    const userArgs = message.content.slice(userPrefix.length).split(/ +/);
-    const userCommand = args.shift().toLocaleLowerCase();
+    let userPfx = userPrefix.toString();
+    
+    const userArgs = message.content.slice(userPfx.length).split(/ +/);
+    const userCommand = userArgs.shift().toLocaleLowerCase();
 
     if (userCommand === 'help') {
         const options = [
@@ -297,7 +298,7 @@ client.on('messageCreate', async message => {
     }
 
     if (userCommand === 'bugreport' || userCommand === 'bug') {
-
+        message.channel.send('hey...');
     }
 });
 
