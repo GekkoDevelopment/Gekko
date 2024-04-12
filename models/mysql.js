@@ -24,20 +24,20 @@ class MySQL {
         if (!Array.isArray(values)) {
             throw new Error('Columns and values must be arrays');
         }
-
-        if (columns.lenth !== values.length) {
+    
+        if (columns.length !== values.length) {
             throw new Error('Number of columns must match number of values');
         }
-
-        const columnName = columns.join(',');
+    
         const placeholders = values.map(() => '(?)').join(',');
-        const query = `INSERT INTO guilds (${columnName}) VALUES (${placeholders})`;
-
-        mysql.query(query, values, (error, results) => {
+    
+        const query = `INSERT INTO guilds (${columns.join(',')}) VALUES (${placeholders})`;
+    
+        mysql.query(query, values.flat(), (error, results) => {
             if (error) {
                 throw error;
             }
-
+    
             console.log(`Inserted ${results.affectedRows} row(s)`);
         });
     }
@@ -51,6 +51,20 @@ class MySQL {
             }
 
             console.log(`Inserted ${results.affectedRows} row(s) into ${table}`);
+        });
+    }
+
+    static async valueExistsInGuildsColumn(column, value) {
+        return new Promise((resolve, reject) => {
+            const query = `SELECT COUNT(*) AS count FROM guilds WHERE ${column} = ? AND guild_id = ?`;
+
+            mysql.query(query, [value, conditionValue], (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results[0].count > 0);
+                }
+            });
         });
     }
 
@@ -101,17 +115,15 @@ class MySQL {
         });
     }
 
-    static async editColumnInGuilds(column, newValue, conditionColumn, conditionValue) {
-        return new Promise((resolve, reject) => {
-            const query = `UPDATE guilds SET ${column} = ? WHERE ${conditionColumn} = ?`;
+    static async editColumnInGuilds(guildId, column, newValue) {
+        const query = `UPDATE guilds SET ${column} = ? WHERE guild_id = ${guildId}`;
 
-            mysql.query(query, [newValue, conditionValue], (error, results) => {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(results.affectedRows);
-                }
-            });
+        mysql.query(query, [newValue], function (error, results) {
+            if (error) {
+                throw error;
+            }
+
+            console.log(results);
         });
     }
 
