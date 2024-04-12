@@ -4,13 +4,6 @@ const config = require('../../config');
 const MySQL = require('../../models/mysql')
 const Utility = require('../../models/utility');
 
-let mysql = db.createConnection({
-    host: config.database.host,
-    user: config.database.username,
-    password: config.database.password,
-    database: config.database.name
-});
-
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('set-welcome').setDescription('Set welcome message, image, and channel for the guild.')
@@ -33,23 +26,21 @@ module.exports = {
             `${imageUrl}` // image_url
         ];
 
-        MySQL.insertIntoGuildTable(columns, values);
+        MySQL.valueExistsInGuildsColumn(guildId, 'welcome_channel_id', welcomeChannelId).then(exists => {
+            if (exists) {
+                MySQL.updateColumnInfo(guildId, 'welcome_channel_id', welcomeChannelId);
+                MySQL.updateColumnInfo(guildId, 'welcome_message', welcomeMessage);
+                MySQL.updateColumnInfo(guildId, 'image_url', imageUrl);
+            } else {
+                MySQL.insertIntoGuildTable(columns, values);
+            }
+        });
+
         Utility.Delay(1000);
 
         const successEmbed = new EmbedBuilder()
         .setDescription('Welcome message, image, and channel has been set successfully!')
         .setColor('Green')
         interaction.reply({ embeds: [successEmbed] });
-        
-        /*mysql.query(
-            'INSERT INTO guilds (guild_id, welcome_message, image_url, welcome_channel_id) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE welcome_message = VALUES(welcome_message), image_url = VALUES(image_url), welcome_channel_id = VALUES(welcome_channel_id)',
-            [guildId, welcomeMessage, imageUrl, welcomeChannelId],
-            (err, result) => {
-                if (err) {
-                    console.error('Error saving welcome settings:', err);
-                    return interaction.reply('Failed to set welcome message, image, and channel.');
-                }
-            }
-        );*/
     }
 };
