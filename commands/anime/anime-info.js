@@ -1,7 +1,8 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const fetch = require('node-fetch');
-const colors = require('../../models/colors');
-const { emojis } = require('../../config');
+const colors = require('../../models/colors.js');
+const emojis = require('../../config.js');
+const Utility = require('../../models/utility.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -57,10 +58,13 @@ module.exports = {
                     default:
                         statusEmoji = '';
                 }
-                
+
+                let nsfwCheck = animeInfo.attributes.nsfw;
+                let isNsfw = nsfwCheck === false ? '✔️ Safe For Work' : '⚠️ Not Safe For Work';
+
                 const embed = new EmbedBuilder()
                     .setTitle(`${animeInfo.attributes.canonicalTitle}`)
-                    .setFooter({text: animeInfo.attributes.titles.en_jp, iconURL: interaction.client.user.avatarURL() })
+                    .setFooter({text: animeInfo.attributes.titles.en, iconURL: interaction.client.user.avatarURL() })
                     .setDescription(`> ${synopsis}[[View More]](https://kitsu.io/anime/${animeInfo.id})`)
                     .addFields(
                         {
@@ -77,6 +81,11 @@ module.exports = {
                             name: 'Episode Length',
                             value: `📺 ${String(animeInfo.attributes.episodeLength)} minutes` || 'Not available',
                             inline: true 
+                        },
+                        {
+                            name: 'Is NSFW',
+                            value: `\`${isNsfw}\``,
+                            inline: true
                         },
                         {
                             name: 'Age Rating',
@@ -106,14 +115,16 @@ module.exports = {
                 const errorEmbed = new EmbedBuilder()
                     .setTitle('Search Error:')
                     .setColor('Red')
-                    .setDescription('No anime found with that name.')
+                    .setDescription('No anime found with that name.');
+
                 await interaction.reply({ embeds: [errorEmbed] });
             }
         } catch(error) {
             const catchErrorEmbed = new EmbedBuilder()
                 .setTitle('Unexpected Error:')
                 .setDescription(`\`\`\`\n${error}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
-                .setColor('Red')
+                .setColor('Red');
+            
             await interaction.reply({ embeds: [catchErrorEmbed] });
         }
     },

@@ -6,6 +6,7 @@ const db = require('mysql');
 const config = require('./config.js');
 const color = require('./models/colors.js');
 const colors = require('./models/colors.js');
+const Utility = require('./models/utility.js');
 
 const client = new Client({
     intents: [Object.keys(GatewayIntentBits)],
