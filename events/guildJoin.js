@@ -11,7 +11,6 @@ module.exports = {
         const welcomeChannel = member.guild.channels.cache.get(welcomeChannelId);
 
         if (!welcomeChannel) return;
-        if (!welcomeMessage === null || welcomeChannelId === null) return;
 
         const joinMessage = new EmbedBuilder()
         .setTitle('Welcome!')
