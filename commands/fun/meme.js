@@ -33,15 +33,12 @@ module.exports = {
             } catch (error) {
                 const stackLines = error.stack.split('\n');
                 const relevantLine = stackLines[1];
-
-                const [, filePathAndLine] = relevantLine.match(/\(([^)]+)\)/);
-                const [fileName, lineNumber] = filePathAndLine.split(':').slice(-2);
-
-                const errorMessage= error.message;
+                const errorMessage = relevantLine.replace(/^\s+at\s+/g, '')
+                const errorDescription = error.message;
 
                 const catchErrorEmbed = new EmbedBuilder()
                 .setTitle('Unexpected Error:')
-                .setDescription(`\`\`\`\njs\nLine: ${fileName}, Line: ${lineNumber}\nError: ${errorMessage}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
+                .setDescription(`\`\`\`\n${errorMessage} \n${errorDescription}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
                 .setColor('Red')
                 await interaction.reply({ embeds: [catchErrorEmbed] });
             }
