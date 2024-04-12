@@ -17,6 +17,24 @@ module.exports = {
         .addStringOption(option => option.setName('image-url').setDescription('Image URL (optional)').setRequired(false)),
 
     async execute(interaction) {
+        const guildId = interaction.guild.id;
+        const welcomeMessage = interaction.options.getString('message');
+        const imageUrl = interaction.options.getString('image');
+        const welcomeChannelId = interaction.options.getChannel('channel').id;
 
+        mysql.query(
+            'INSERT INTO guilds (guild_id, welcome_message, image_url, welcome_channel_id) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE welcome_message = VALUES(welcome_message), image_url = VALUES(image_url), welcome_channel_id = VALUES(welcome_channel_id)',
+            [guildId, welcomeMessage, imageUrl, welcomeChannelId],
+            (err, result) => {
+                if (err) {
+                    console.error('Error saving welcome settings:', err);
+                    return interaction.reply('Failed to set welcome message, image, and channel.');
+                }
+                const successEmbed = new EmbedBuilder()
+                .setDescription('Welcome message, image, and channel has been set successfully!')
+                .setColor('Green')
+                interaction.reply({ embeds: [successEmbed] });
+            }
+        );
     }
 };
