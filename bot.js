@@ -244,15 +244,55 @@ client.on('messageCreate', async message => {
                         break;
     
                     case 'moderation_commands':
+                        const mCom = new EmbedBuilder()
+                        .setTitle('Moderation Commands:')
+                        .addFields
+                        (
+                            { name: 'Commands', value: 'Set Logging Channel \nSet Command Prefix \nSet Welcome \nGekko', inline: true },
+                            { name: 'Commands', value: '/set-logging-channel \n!set-prefix \n/set-welcome \nGekko', inline: true }
+                        )
+                        .setImage(config.assets.gekkoBanner);
+                        
+                        await interaction.editReply({ embeds: [aCom], components: [actionRow] });
                         break;
     
                     case 'anime_commands':
+                        const animCom = new EmbedBuilder()
+                        .setTitle('Anime Commands:')
+                        .addFields
+                        (
+                            { name: 'Commands', value: 'Anime Character \nAnime Info \nAnime Quotes \nHug \nWaifu', inline: true },
+                            { name: 'Commands', value: '/anime-character \n!anime-info \n/anime-quotes \n/hug \n/waifu', inline: true },
+                         )
+                        .setImage(config.assets.gekkoBanner);
+                        
+                        await interaction.editReply({ embeds: [aCom], components: [actionRow] });
                         break;
     
                     case 'minigame_commands':
+                        const miniCom = new EmbedBuilder()
+                        .setTitle('Minigame Commands:')
+                        .addFields
+                        (
+                            { name: 'Commands', value: 'Set Logging Channel \nSet Command Prefix \nSet Welcome \nGekko', inline: true },
+                            { name: 'Commands', value: '/set-logging-channel \n!set-prefix \n/set-welcome \nGekko', inline: true }
+                        )
+                        .setImage(config.assets.gekkoBanner);
+                        
+                        await interaction.editReply({ embeds: [aCom], components: [actionRow] });
                         break;
     
                     case 'fun_commands':
+                        const fCom = new EmbedBuilder()
+                        .setTitle('Fun Commands:')
+                        .addFields
+                        (
+                            { name: 'Commands', value: 'Set Logging Channel \nSet Command Prefix \nSet Welcome \nGekko', inline: true },
+                            { name: 'Commands', value: '/set-logging-channel \n!set-prefix \n/set-welcome \nGekko', inline: true }
+                        )
+                        .setImage(config.assets.gekkoBanner);
+                        
+                        await interaction.editReply({ embeds: [aCom], components: [actionRow] });
                         break;
     
                     default:

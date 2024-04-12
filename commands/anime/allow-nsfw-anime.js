@@ -63,7 +63,5 @@ module.exports = {
             
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
-
-        
     }
 }
