@@ -16,8 +16,6 @@ const client = new Client({
 
 const pterodactyl = new NodeactylClient(config.panel.host, config.panel.apiKey);
 
-MySQL.connectToDatabase();
-
 /*
 mysql.query(`CREATE TABLE IF NOT EXIST guilds
     (guild_id VARCHAR(255) AUTO_INCREMENT PRIMARY KEY, )`)

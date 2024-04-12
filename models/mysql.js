@@ -5,7 +5,7 @@ let mysql = db.createConnection({
     host: config.database.host,
     user: config.database.username,
     password: config.database.password,
-    database: config.database.databaseName,
+    database: config.database.name,
     port: config.database.port
 });
 
