@@ -4,9 +4,11 @@ const MySQL = require('../models/mysql.js');
 module.exports = {
     name: Events.GuildMemberAdd,
     async execute(member) {
-        const welcomeMessage = MySQL.getValueFromGuilds(member.guild.id, 'welcome_message')
-        const imageUrl = MySQL.getValueFromGuilds(member.guild.id, 'image_url');
-        const welcomeChannelId = MySQL.getValueFromGuilds(member.guild.id, 'welcome_channel_id');
+        const guildId = member.guild.id;
+
+        const welcomeMessage = MySQL.getColumnValuesWithGuildId(guildId, 'welcome_message')
+        const imageUrl = MySQL.getColumnValuesWithGuildId(guildId, 'image_url');
+        const welcomeChannelId = MySQL.getColumnValuesWithGuildId(guildId, 'welcome_channel_id');
 
         const welcomeChannel = member.guild.channels.cache.get(welcomeChannelId);
 

@@ -100,7 +100,7 @@ class MySQL {
         });
     }
 
-    static async getValueFromGuilds(guildId, column) {
+    static async getColumnValuesWithGuildId(guildId, column) {
         return new Promise((resolve, reject) => {
             const query = `SELECT guild_id, ${column} FROM guilds WHERE guild_id = ?`;
 
