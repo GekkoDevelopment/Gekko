@@ -4,8 +4,7 @@ const colors = require('../../models/colors');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('waifu')
-        .setDescription('Random waifu generator!'),
+        .setName('waifu').setDescription('Random waifu generator!'),
     async execute(interaction) { 
         try {
             const response = await fetch("https://api.waifu.pics/sfw/waifu");
