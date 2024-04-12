@@ -6,7 +6,6 @@ module.exports = {
     once: true,
     execute(client) {
         MySQL.connectToDatabase();
-        console.log(`✅ Latency is ${client.ws.ping}ms`);
         console.log(`✅ ${client.user.username} (${client.user.id}) is ready to use!`);
 
         client.user.setActivity({
