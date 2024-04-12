@@ -46,7 +46,8 @@ module.exports = {
 
         const embed = new EmbedBuilder()
             .setTitle('Random Quote')
-            .setDescription(`${quote} \n\n- ${author}`)
+            .setDescription(`“${quote}”`)
+            .setFooter({ text: `${author}` })
             .setColor(colors.bot)
         await interaction.reply({ embeds: [embed] })
     }
