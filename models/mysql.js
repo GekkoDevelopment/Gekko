@@ -101,6 +101,20 @@ class MySQL {
         });
     }
 
+    static async editColumnInGuilds(column, newValue, conditionColumn, conditionValue) {
+        return new Promise((resolve, reject) => {
+            const query = `UPDATE guilds SET ${column} = ? WHERE ${conditionColumn} = ?`;
+
+            mysql.query(query, [newValue, conditionValue], (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results.affectedRows);
+                }
+            });
+        });
+    }
+
     static async getGuildFromId(guildId, column, value) {
         const query = `SELECT ${guildId} FROM guilds WHERE ${column} = ?`;
 

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, Embed } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const logos = require("../../models/logos");
 const colors = require("../../models/colors");
 
