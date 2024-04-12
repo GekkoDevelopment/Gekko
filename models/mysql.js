@@ -108,8 +108,12 @@ class MySQL {
                 if (error) {
                     reject(error);
                 } else {
-                    const values = results.map(row => row[column]);
-                    resolve(values);
+                    if (results.length > 0) {
+                        const value = results[0][column];
+                        resolve(value);
+                    } else {
+                        resolve(null);
+                    }
                 }
             });
         });
