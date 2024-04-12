@@ -119,6 +119,50 @@ class MySQL {
         });
     }
 
+    static async createGuildsColumn(columnName, columnDefinition) {
+        return new Promise((resolve, reject) => {
+            const query = `ALTER TABLE guilds ADD COLUMN ${columnName} ${columnDefinition}`;
+
+            mysql.query(query, (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+    }
+
+    static async createColumn(table, columnName, columnDefinition) {
+        return new Promise((resolve, reject) => {
+            const query = `ALTER ${table} guilds ADD COLUMN ${columnName} ${columnDefinition}`;
+
+            mysql.query(query, (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+    }
+
+    static async columnExists(tableName, columnName) {
+        return new Promise((resolve, reject) => {
+            const query = `SELECT COUNT(*) AS count FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = ? AND COLUMN_NAME = ?`;
+
+            mysql.query(query, [tableName, columnName], (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    // Check if any rows were returned
+                    const count = results[0].count;
+                    resolve(count > 0);
+                }
+            });
+        });
+    }
+
     static async updateColumnInfo(guildId, column, newValue) {
         return new Promise((resolve, reject) => {
             const query = `UPDATE guilds SET ${column} = ? WHERE guild_id = ?`;

@@ -16,14 +16,12 @@ const client = new Client({
 
 const pterodactyl = new NodeactylClient(config.panel.host, config.panel.apiKey);
 
-/*
-mysql.query(`CREATE TABLE IF NOT EXIST guilds
-    (guild_id VARCHAR(255) AUTO_INCREMENT PRIMARY KEY, )`)
-*/
 //////// Prefix Commands ////////
 // --- Developer Commands --- //
 client.on('messageCreate', async message => {
     let prefix = "-d"
+    let guildId = message.guild.id;
+    let userPrefix = MySQL.getColumnValuesWithGuildId(guildId, 'guild_prefix');
     
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
@@ -31,7 +29,7 @@ client.on('messageCreate', async message => {
     const command = args.shift().toLocaleLowerCase();
 
     if (command === 'bot-restart') {
-        if (message.guild.id !== config.developer.devGuild) return;
+        if (guildId !== config.developer.devGuild) return;
 
         message.channel.send('Gekkō is now restarting; this will take a few seconds...');
         let logChannel = client.guilds.cache.get(config.developer.devGuild).channels.cache.get(config.developer.devTestChannel);
@@ -145,7 +143,7 @@ client.on('messageCreate', async message => {
         logChannel.send({ embeds: [logEmbed] });
     }
 
-    let userPrefix = '!';
+
     if (!message.content.startsWith(userPrefix) || message.author.bot) return;
 
     const userArgs = message.content.slice(userPrefix.length).split(/ +/);
