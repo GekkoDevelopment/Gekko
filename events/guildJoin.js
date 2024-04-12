@@ -10,7 +10,7 @@ module.exports = {
             const welcomeMessage = await MySQL.getColumnValuesWithGuildId(guildId, 'welcome_message');
             const imageUrl = await MySQL.getColumnValuesWithGuildId(guildId, 'image_url');
             const welcomeChannelId = await MySQL.getColumnValuesWithGuildId(guildId, 'welcome_channel_id');
-
+            const embedColor = await MySQL.getColumnValuesWithGuildId(guildId, 'embed_clr');
             const welcomeChannel = member.guild.channels.cache.get(welcomeChannelId);
 
             if (!welcomeChannel) {
@@ -21,6 +21,7 @@ module.exports = {
             const joinMessage = new EmbedBuilder()
                 .setTitle('Welcome!')
                 .setDescription(welcomeMessage.toString())
+                .setColor(embedColor)
 
             if (imageUrl && imageUrl !== 'null') {
                 joinMessage.setImage(imageUrl);
