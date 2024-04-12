@@ -1,6 +1,7 @@
 const { Events, SlashCommandBuilder, EmbedBuilder, Embed } = require('discord.js');
 const db = require('mysql');
 const config = require('../../config');
+const MySQL = require('../../models/mysql')
 
 let mysql = db.createConnection({
     host: config.database.host,
@@ -22,7 +23,15 @@ module.exports = {
         const imageUrl = interaction.options.getString('image');
         const welcomeChannelId = interaction.options.getChannel('channel').id;
 
-        mysql.query(
+
+        MySQL.editColumnInGuilds('welcome_message', welcomeMessage, 'guild_id', guildId)
+        
+        const successEmbed = new EmbedBuilder()
+        .setDescription('Welcome message, image, and channel has been set successfully!')
+        .setColor('Green')
+        interaction.reply({ embeds: [successEmbed] });
+        
+        /*mysql.query(
             'INSERT INTO guilds (guild_id, welcome_message, image_url, welcome_channel_id) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE welcome_message = VALUES(welcome_message), image_url = VALUES(image_url), welcome_channel_id = VALUES(welcome_channel_id)',
             [guildId, welcomeMessage, imageUrl, welcomeChannelId],
             (err, result) => {
@@ -30,11 +39,7 @@ module.exports = {
                     console.error('Error saving welcome settings:', err);
                     return interaction.reply('Failed to set welcome message, image, and channel.');
                 }
-                const successEmbed = new EmbedBuilder()
-                .setDescription('Welcome message, image, and channel has been set successfully!')
-                .setColor('Green')
-                interaction.reply({ embeds: [successEmbed] });
             }
-        );
+        );*/
     }
 };
