@@ -117,16 +117,19 @@ module.exports = {
                     .setColor('Red')
                     .setDescription('No anime found with that name.');
 
-                await interaction.reply({ embeds: [errorEmbed] });
+                await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
             }
         } catch(error) {
-            console.log(error)
+            const stackLines = error.stack.split('\n');
+            const relevantLine = stackLines[1];
+            const errorMessage = relevantLine.replace(/^\s+at\s+/g, '')
+            const errorDescription = error.message;
+
             const catchErrorEmbed = new EmbedBuilder()
-                .setTitle('Unexpected Error:')
-                .setDescription(`\`\`\`\n${error}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
-                .setColor('Red');
-            
-            await interaction.reply({ embeds: [catchErrorEmbed] });
+            .setTitle('Unexpected Error:')
+            .setDescription(`\`\`\`\n${errorMessage} \n\n${errorDescription}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
+            .setColor('Red')
+            await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
         }
     },
 };

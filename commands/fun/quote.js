@@ -24,29 +24,35 @@ module.exports = {
         switch (category) {
             case 'motivational':
                 ({ quote, author } = getRandomQuote(motivationalQuotes.quotes));
+                title = 'ꨄ︎ Motivational Quotes! ꨄ︎';
                 break;
             case 'mindfulness':
                 ({ quote, author } = getRandomQuote(mindfulnessQuotes.quotes));
+                title = '𓆩☻𓆪 Mindfulness Quotes! 𓆩☻𓆪';
                 break;
             case 'psychology':
                 ({ quote, author } = getRandomQuote(psychologyQuotes.quotes));
+                title = '❃ Psychology Quotes! ❃';
                 break;
             case 'romance':
                 ({ quote, author } = getRandomQuote(romanceQuotes.quotes));
+                title = '❤ Romance Quotes! ❤';
                 break;
             case 'nature':
                 ({ quote, author } = getRandomQuote(natureQuotes.quotes));
+                title = '⍋ Nature Quotes! ⍋';
                 break;
             case 'humor':
                 ({ quote, author } = getRandomQuote(humorQuotes.quotes));
+                title = '★ Funny Quotes! ★';
                 break;
             default:
                 return
         }
 
         const embed = new EmbedBuilder()
-            .setTitle('Random Quote')
-            .setDescription(`“${quote}”`)
+            .setTitle(`${title}`)
+            .setDescription(`\`\`\`\n“${quote}”\`\`\``)
             .setFooter({ text: `${author}` })
             .setColor(colors.bot)
         await interaction.reply({ embeds: [embed] })

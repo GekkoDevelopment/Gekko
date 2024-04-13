@@ -40,7 +40,7 @@ module.exports = {
                 .setTitle('Unexpected Error:')
                 .setDescription(`\`\`\`\n${errorMessage} \n\n${errorDescription}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
                 .setColor('Red')
-                await interaction.reply({ embeds: [catchErrorEmbed] });
+                await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
             }
         }
 

@@ -36,9 +36,6 @@ module.exports = {
                 value: '• You can get started by running the `/help` command, to view all of our available commands. Alternatively, you can visit our documentation below!',
                 inline: false
             },
-            /* NOTICE:
-            To update the version, please see "Semantic Versioning docs.md".
-            */
             {
                 name: 'Version',
                 value: '`v1.0.0.a1`',

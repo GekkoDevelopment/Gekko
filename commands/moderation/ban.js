@@ -65,12 +65,16 @@ module.exports = {
             await member.ban(reason);
             await interaction.reply({ embeds: [successEmbed], ephemeral: true });
         } catch (error) {
+            const stackLines = error.stack.split('\n');
+            const relevantLine = stackLines[1];
+            const errorMessage = relevantLine.replace(/^\s+at\s+/g, '')
+            const errorDescription = error.message;
+
             const catchErrorEmbed = new EmbedBuilder()
             .setTitle('Unexpected Error:')
-            .setDescription(`\`\`\`\n${error}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
+            .setDescription(`\`\`\`\n${errorMessage} \n\n${errorDescription}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
             .setColor('Red')
-
-            await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true  });
+            await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
         }
     },
 };

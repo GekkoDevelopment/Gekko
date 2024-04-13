@@ -74,12 +74,16 @@ module.exports = {
                 if (err) {
                     console.error(`Error checked muted role for ${guildId}:`, err);
                     
-                    const errorEmbed = new EmbedBuilder()
-                        .setTitle('Unexpected Error:')
-                        .setDescription(`\`\`\`\n${err}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
-                        .setColor('Red');
+                    const stackLines = err.stack.split('\n');
+                    const relevantLine = stackLines[1];
+                    const errorMessage = relevantLine.replace(/^\s+at\s+/g, '')
+                    const errorDescription = err.message;
     
-                    return interaction.reply({ embeds: [errorEmbed] });
+                    const catchErrorEmbed = new EmbedBuilder()
+                    .setTitle('Unexpected Error:')
+                    .setDescription(`\`\`\`\n${errorMessage} \n\n${errorDescription}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
+                    .setColor('Red')
+                   return interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
                 }
 
                 if (rows.length > 0 && rows[0].muted_role_id) {

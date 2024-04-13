@@ -19,11 +19,16 @@ module.exports = {
 
             setTimeout(() => {
                 if (err) {
+                    const stackLines = err.stack.split('\n');
+                    const relevantLine = stackLines[1];
+                    const errorMessage = relevantLine.replace(/^\s+at\s+/g, '')
+                    const errorDescription = err.message;
+    
                     const catchErrorEmbed = new EmbedBuilder()
                     .setTitle('Unexpected Error:')
-                    .setDescription(`\`\`\`\n${err}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
+                    .setDescription(`\`\`\`\n${errorMessage} \n\n${errorDescription}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
                     .setColor('Red')
-                    interaction.editReply({ embeds: [catchErrorEmbed] });
+                    return interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
                 } else {
                     if (result.length == 0) {
                         const catchErrorEmbed = new EmbedBuilder()
