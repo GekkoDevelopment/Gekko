@@ -13,7 +13,7 @@ module.exports = {
         MySQL.editColumnInGuilds(guildId, 'guild_prefix', newPrefix);
 
         const prefixEmbed = new EmbedBuilder()
-        .setDescription(`You're new bot prefix has been changed to *${newPrefix}*`)
+        .setDescription(`You're new bot prefix has been changed to: \`\`\`\n${newPrefix}\`\`\``)
         .setColor('Green')
         .setImage(config.assets.gekkoBanner);
 

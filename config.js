@@ -11,7 +11,7 @@ module.exports = {
 
         devTestChannel: '1226522704195227771', // The channel in the main support discord where commands are tested.
         devGuild: '1226501941249576980', // The guild ID for Gekkō Support / Testing.
-        devLogChennel: '1226502649978032138', // The channel that Gekkō Support user and command logs to.
+        devLogChannel: '1226502649978032138', // The channel that Gekkō Support user and command logs to.
         devTestLogChannel: '1226548220801450074', //  The channel in the main support discord where commands that contains logs and .
 
         devBugReportsChannel: '1227662388409663609' // The channel that the bug reports go to.

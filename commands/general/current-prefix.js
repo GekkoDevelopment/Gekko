@@ -11,7 +11,7 @@ module.exports = {
         const currentPrefix = await MySQL.getColumnValuesWithGuildId(guildId, 'guild_prefix');
         
         const embed = new EmbedBuilder()
-        .setDescription(`The current prefix for the bot is *${currentPrefix.toString()}*`)
+        .setDescription(`The current prefix for the bot is: \`\`\`\n${currentPrefix.toString()}\`\`\``)
         .setColor(color.bot)
         .setImage(config.assets.gekkoBanner);
 

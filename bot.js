@@ -19,8 +19,6 @@ const pterodactyl = new NodeactylClient(config.panel.host, config.panel.apiKey);
 // --- Developer Commands --- //
 client.on('messageCreate', async message => {
     let prefix = "-d"
-    let guildId = message.guild.id;
-    let userPrefix = await MySQL.getColumnValuesWithGuildId(guildId, 'guild_prefix');
     
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
@@ -66,7 +64,7 @@ client.on('messageCreate', async message => {
     }
 
     if (command === 'bot-stats' && (message.author.id === config.developer.dev1Id || message.author.id === config.developer.dev2Id)) {
-        if (message.guild.id !== '1226501941249576980' || message.channel.id === config.developer) return;
+        if (message.guild.id !== '1226501941249576980' || message.channel.id === config.developer.devTestLogChannel) return;
 
         let logChannel = client.guilds.cache.get('1226501941249576980').channels.cache.get('1226548220801450074');
         let totalSeconds = (client.uptime / 1000);
@@ -141,16 +139,19 @@ client.on('messageCreate', async message => {
         message.channel.send({ embeds: [statEmbed] });
         logChannel.send({ embeds: [logEmbed] });
     }
+});
 
-
-    if (!message.content.startsWith(userPrefix) || message.author.bot) return;
-
-    let userPfx = userPrefix.toString();
+client.on('messageCreate', async message => {
+    let guildId = message.guild.id;
+    let guildPrefix = await MySQL.getColumnValuesWithGuildId(guildId, 'guild_prefix');
+    let prefix = guildPrefix.toString();
     
-    const userArgs = message.content.slice(userPfx.length).split(/ +/);
-    const userCommand = userArgs.shift().toLocaleLowerCase();
+    if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-    if (userCommand === 'help') {
+    const args = message.content.slice(prefix.length).split(/ +/);
+    const command = args.shift().toLocaleLowerCase();
+
+    if (command === 'help') {
         const options = [
             {
                 label: 'General Commands',
@@ -246,7 +247,7 @@ client.on('messageCreate', async message => {
                         )
                         .setImage(config.assets.gekkoBanner);
                         
-                        await interaction.editReply({ embeds: [aCom], components: [actionRow] });
+                        await interaction.editReply({ embeds: [mCom], components: [actionRow] });
                         break;
     
                     case 'anime_commands':
@@ -259,7 +260,7 @@ client.on('messageCreate', async message => {
                          )
                         .setImage(config.assets.gekkoBanner);
                         
-                        await interaction.editReply({ embeds: [aCom], components: [actionRow] });
+                        await interaction.editReply({ embeds: [animCom], components: [actionRow] });
                         break;
     
                     case 'minigame_commands':
@@ -272,7 +273,7 @@ client.on('messageCreate', async message => {
                         )
                         .setImage(config.assets.gekkoBanner);
                         
-                        await interaction.editReply({ embeds: [aCom], components: [actionRow] });
+                        await interaction.editReply({ embeds: [miniCom], components: [actionRow] });
                         break;
     
                     case 'fun_commands':
@@ -285,7 +286,7 @@ client.on('messageCreate', async message => {
                         )
                         .setImage(config.assets.gekkoBanner);
                         
-                        await interaction.editReply({ embeds: [aCom], components: [actionRow] });
+                        await interaction.editReply({ embeds: [fCom], components: [actionRow] });
                         break;
     
                     default:
@@ -297,7 +298,7 @@ client.on('messageCreate', async message => {
         });
     }
 
-    if (userCommand === 'bugreport' || userCommand === 'bug') {
+    if (command === 'bugreport' || command === 'bug') {
         message.channel.send('hey...');
     }
 });

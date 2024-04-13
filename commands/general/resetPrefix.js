@@ -13,7 +13,7 @@ module.exports = {
         MySQL.editColumnInGuilds(guildId, 'guild_prefix', originalPrefix);
         
         const embed = new EmbedBuilder()
-        .setDescription('The bot prefix has been set back to "!"')
+        .setDescription('The bot prefix has been set back to ```!```')
         .setColor(color.bot)
         .setImage(config.assets.gekkoBanner);
 
