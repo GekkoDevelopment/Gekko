@@ -51,6 +51,7 @@ module.exports = {
         ratingAmber: '<:ratingAmber:1228098312012562532>',
         ratingRed: '<:ratingRed:1228098317905297500>',
         ratingNa: '<:ratingNA:1228100149415251988>',
+        inspect: '<:wannainspect:1228453507749777481>',
+        noted: '<:BeepNoted:1228454277899489336>'
     }
-
 }

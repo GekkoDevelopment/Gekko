@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelFlags, ChannelType, MediaChannel, TextChannel, PermissionFlagsBits, PermissionsBitField } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require('discord.js');
 const config = require('../../config.js');
 const colors = require('../../models/colors');
 const MySQL = require('../../models/mysql.js');
@@ -31,7 +31,7 @@ module.exports = {
 
         const channel = interaction.channel;
 
-        if (!channel.nsfw  && !interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+        if (!channel.nsfw && !interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
             const permissionErrorEmbed = new EmbedBuilder()
             .setTitle('Permissions Error: 50013')
             .addFields(
@@ -41,6 +41,14 @@ module.exports = {
                     inline: true
                 }
             )
+            .setColor('Red');
+
+            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
+        }
+
+        if (!channel.nsfw && interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+            const permissionErrorEmbed = new EmbedBuilder()
+            .setDescription('You are not in a NSFW channel to do this!')
             .setColor('Red');
 
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
