@@ -18,12 +18,35 @@ module.exports = {
             "welcome_message VARCHAR(255) DEFAULT NULL",
             "image_url VARCHAR(255) DEFAULT NULL",
             "embed_clr VARCHAR(255) DEFAULT '#7B598D'",
-            "muted_role_id VARCHAR(255) DEFAULT '0'",
-            "muted_user_id VARCHAR(255) DEFAULT '0'",
             "nsfw_enabled VARCHAR(255) DEFAULT 'false'",
             "guild_prefix VARCHAR(255) DEFAULT '!'"
         ];
 
+        const economyColumns = [
+            "guild_id VARCHAR(255) NOT NULL PRIMARY KEY",
+            "user_id VARCHAR(255) DEFAULT '0'",
+            "cash_amount VARCHAR(255) DEFAULT '0'",
+            "bank_amount VARCHAR(255) DEAFULT '0'"
+        ];
+
+        const mutedUsersColumns = [
+            "guild_id VARCHAR(255) NOT NULL PRIMARY KEY",
+            "role_id VARCHAR(255) DEFAULT '0'",
+            "reason VARCHAR(255) DEFAULT NULL",
+        ];
+
+        const ticketsColumns = [
+            "guild_id VARCHAR(255) NOT NULL PRIMARY KEY",
+            "user_id VARCHAR(255) DEFAULT '0'",
+            "ticket_id VARCHAR(255) DEFAULT '0'",
+            "support_role_id VARCHAR(255) DEFAULT '0'",
+            "ticket_channel_id VARCHAR(255) DEFAULT NOT '0'",
+            "ticket_category VARCHAR(255) DEFAULT NOT '0'",
+        ];
+
         MySQL.createTable('guilds', columns);
+        MySQL.createTable('economy', economyColumns);
+        MySQL.createTable('muted_users', mutedUsersColumns);
+        MySQL.createTable('tickets', ticketsColumns);
     }
 };
