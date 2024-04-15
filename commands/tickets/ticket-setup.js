@@ -13,9 +13,14 @@ module.exports = {
         .addRoleOption(option => option.setName('support-role').setDescription('Chose a support Role').setRequired(true)),
     async execute(interaction) {
 
+        const guildId = interaction.guild.id
         const ticketChannel = interaction.options.getChannel('channel') // Store to Database with GuildId
         const ticketCategory = interaction.options.getChannel('ticket-category') // Store to Database with guildId
         const supportRole = interaction.options.getRole('support-role') // Store to Database with GuildId
+
+        MySQL.insertInto('tickets', 'guild_id', guildId);
+        MySQL.insertInto('tickets', 'ticket_channel_id', ticketChannel.id);
+        MySQL.insertInto('tickets', 'ticket_category', ticketCategory.id);
 
         const embed = new EmbedBuilder()
             .setTitle('Contact Support')
