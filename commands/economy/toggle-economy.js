@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const MySQL = require('../../models/mysql');
 
 module.exports = {
@@ -10,8 +10,31 @@ module.exports = {
 
         let economyEnabled = MySQL.hasTrueFalseValue('economy', 'economy_enabled');
 
+        if (!interaction.user.permissions.has(PermissionFlagsBits.ModerateMembers)) {
+            const errorEmbed = new EmbedBuilder()
+            .setDescription("You don't have permission to use this command!")
+            .setColor('Red');
+
+            await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
+        }
+
         if (toggleEconomy === true) {
             MySQL.updateColumnValue('economy', interaction.guild.id, 'economy_enabled', 'true');
+
+            const embed = new EmbedBuilder()
+            .setDescription('Economy enabled!')
+            .setColor('Green');
+
+            await interaction.reply({ embeds: [embed], ephemeral: true });
+        }
+        else {
+            MySQL.updateColumnValue('economy', interaction.guild.id, 'economy_enabled', 'false');
+            
+            const embed = new EmbedBuilder()
+            .setDescription('Economy disabled!')
+            .setColor('Green');
+            
+            await interaction.reply({ embeds: [embed], ephemeral: true });
         }
 
         if (economyEnabled.toString() === 'true' && toggleEconomy === true) {
@@ -19,7 +42,7 @@ module.exports = {
             .setDescription('You already have economy enabled!')
             .setColor('Red');
 
-            await interaction.reply({ embeds: [errorEmbed] });
+            await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
         }
     }
 }
