@@ -2,6 +2,8 @@ const { ButtonBuilder } = require('discord-gamecord/utils/utils');
 const { Events, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, ChannelType, PermissionsBitField, EmbedBuilder, ButtonStyle, Embed } = require('discord.js');
 const { all } = require('superagent/lib/request-base');
 const colors = require('../models/colors');
+const MySQL = require('../models/mysql');
+const Utility = require('../models/utility');
 var tickets= []
 
 module.exports = {
@@ -113,7 +115,15 @@ module.exports = {
                 .setStyle(ButtonStyle.Primary)
                 .setCustomId('closeTicket');
             
-            const row = new ActionRowBuilder().addComponents(closeBtn)
+            const guild = interaction.guild.id;
+            await MySQL.insertOrUpdateValue('ticket_data', 'guild_id', guild);
+
+            Utility.Delay(1000);
+
+            const user = interaction.user.id;
+            const row = new ActionRowBuilder().addComponents(closeBtn);
+            await MySQL.updateColumnValue('ticket_data', guild, 'ticket_id', channel.id);
+            await MySQL.updateColumnValue('ticket_data', guild, 'user_id', user);
 
             await channel.send({ content: '@<&1226502589412016201> @<&1226502588124496006>', embeds: [embed], components: [row] });
 

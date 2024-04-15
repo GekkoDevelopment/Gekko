@@ -22,6 +22,12 @@ module.exports = {
             "guild_prefix VARCHAR(255) DEFAULT '!'"
         ];
 
+        const ticketDataColumns = [
+            "guild_id VARCHAR(255) NOT NULL",
+            "ticket_id VARCHAR(255) PRIMARY KEY DEFAULT '0'",
+            "user_id VARCHAR(255) DEFAULT NULL",
+        ];
+
         const economyColumns = [
             "guild_id VARCHAR(255) NOT NULL DEFAULT '0'",
             "user_id VARCHAR(255) DEFAULT NULL",
@@ -38,8 +44,6 @@ module.exports = {
 
         const ticketsColumns = [
             "guild_id VARCHAR(255) NOT NULL DEFAULT '0'",
-            "user_id VARCHAR(255) DEFAULT NULL",
-            "ticket_id VARCHAR(255) DEFAULT NULL",
             "ticket_channel_id VARCHAR(255) DEFAULT NULL",
             "ticket_category VARCHAR(255) DEFAULT NULL",
             "support_role_id VARCHAR(255) DEFAULT NULL"
@@ -49,5 +53,6 @@ module.exports = {
         MySQL.createTable('economy', economyColumns);
         MySQL.createTable('muted_users', mutedUsersColumns);
         MySQL.createTable('tickets', ticketsColumns);
+        MySQL.createTable('ticket_data', ticketDataColumns);
     }
 };
