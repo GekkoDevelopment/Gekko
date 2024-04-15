@@ -24,12 +24,10 @@ module.exports = {
 
         Utility.Delay(1000);
 
-
         await MySQL.updateColumnValue('tickets', guildId, 'support_role_id', supportRole.id);
         await MySQL.updateColumnValue('tickets',guildId, 'ticket_channel_id', ticketChannel.id);
         await MySQL.updateColumnValue('tickets',guildId, 'ticket_category', ticketCategory.id);
         await MySQL.updateColumnValue('tickets',guildId, 'support_role_id', supportRole.id);
-
 
         const embed = new EmbedBuilder()
             .setTitle('Contact Support')

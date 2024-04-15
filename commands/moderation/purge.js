@@ -6,7 +6,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('purge')
         .setDescription('Bulk delete messages')
-        .addIntegerOption(option => option.setName('amount').setDescription('Amount to delete').setMinValue(1).setMaxValue(100).setRequired(true)),
+        .addIntegerOption(option => option.setName('amount').setDescription('Amount to delete').setMinValue(1).setMaxValue(1000).setRequired(true)),
     async execute(interaction) {
         try {
             if (!interaction.member.permissions.has(PermissionFlagsBits.ManageMessages)) {
@@ -45,7 +45,7 @@ module.exports = {
                 .addFields(
                     {
                         name: 'Error Message',
-                        value: '```\nYou cannot delete more than 100 messages```',
+                        value: '```\nYou cannot delete more than 1000 messages```',
                         inline: true
                     }
                 )
@@ -75,7 +75,7 @@ module.exports = {
                 .setColor("Green");
                 await interaction.reply({ embeds: [successEmbed] });
                 
-                Utility.Delay(5000);
+                Utility.Delay(10000);
                 await interaction.deleteReply();
 
             }).catch(() => null);
