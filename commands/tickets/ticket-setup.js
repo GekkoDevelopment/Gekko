@@ -7,10 +7,14 @@ module.exports = {
         .setDescription('Configure Ticketing system in your guild')
         .setDMPermission(false)
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
-        .addChannelOption(option => option.setName('channel').setDescription('Select a ticketing Channel').setRequired(true)),
+        .addChannelOption(option => option.setName('channel').setDescription('Select a ticketing Channel').setRequired(true))
+        .addChannelOption(option => option.setName('ticket-category').setDescription('Where will tickets open?').setRequired(true))
+        .addRoleOption(option => option.setName('support-role').setDescription('Chose a support Role').setRequired(true)),
     async execute(interaction) {
 
-        const ticketChannel = interaction.options.getChannel('channel')
+        const ticketChannel = interaction.options.getChannel('channel') // Store to Database with GuildId
+        const ticketCategory = interaction.options.getChannel('ticket-category') // Store to Database with guildId
+        const supportRole = interaction.options.getRole('support-role') // Store to Database with GuildId
 
         const embed = new EmbedBuilder()
             .setTitle('Contact Support')
