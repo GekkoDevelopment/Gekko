@@ -108,7 +108,7 @@ class MySQL {
     /**
      * Select a certain column in a table.
      * @param {string} table - The table you want to select from.
-     * @param {array} columns - 
+     * @param {array} columns - The columns you want to select from.
      */
     static async selectFrom(table, columns) {
         if (!Array.isArray(columns)) {
@@ -152,9 +152,9 @@ class MySQL {
 
     /**
      * Get a column value from a specific table.
-     * @param {string} table 
-     * @param {string} guildId 
-     * @param {string} column 
+     * @param {string} table - The table you want get data from.
+     * @param {string} guildId - The specific guild ID to get data from.
+     * @param {string} column - The column you want to get data from.
      * @returns 
      */
     static async getTableColumnData(table, guildId, column) {
@@ -178,13 +178,13 @@ class MySQL {
 
     /**
      * Creates a column in the "guilds" table.
-     * @param {string} columnName 
-     * @param {string} columnValue 
+     * @param {string} name - The name of the column you want to create.
+     * @param {string} value - The value that you want the column to contain.
      * @returns 
      */
-    static async createGuildsColumn(columnName, columnValue) {
+    static async createGuildsColumn(name, value) {
         return new Promise((resolve, reject) => {
-            const query = `ALTER TABLE guilds ADD COLUMN ${columnName} ${columnValue}`;
+            const query = `ALTER TABLE guilds ADD COLUMN ${name} ${value}`;
 
             mysql.query(query, (error, results) => {
                 if (error) {
@@ -196,6 +196,13 @@ class MySQL {
         });
     }
 
+    /**
+     * Creates a new column in a specific table.
+     * @param {string} table - The table you want to insert the column into.
+     * @param {string} columnName - The name of the column you want to create.
+     * @param {string} columnValue - The value you want the column to have.
+     * @returns 
+     */
     static async createColumn(table, columnName, columnValue) {
         return new Promise((resolve, reject) => {
             const query = `ALTER ${table} guilds ADD COLUMN ${columnName} ${columnValue}`;
@@ -210,6 +217,12 @@ class MySQL {
         });
     }
 
+    /**
+     * Returns a value if a column exists in a specific table.
+     * @param {string} tableName 
+     * @param {string} columnName 
+     * @returns 
+     */
     static async columnExists(tableName, columnName) {
         return new Promise((resolve, reject) => {
             const query = `SELECT COUNT(*) AS count FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = ? AND COLUMN_NAME = ?`;
@@ -226,6 +239,13 @@ class MySQL {
         });
     }
 
+    /**
+     * Modifies a specific guild row with new column data within the "guilds" table.
+     * @param {string} guildId - The specific guild ID you want the row to be modified.
+     * @param {string} column - The column you want to modify the value of.
+     * @param {string} newValue - The new value you want to modify.
+     * @returns 
+     */
     static async updateColumnInfo(guildId, column, newValue) {
         return new Promise((resolve, reject) => {
             const query = `UPDATE guilds SET ${column} = ? WHERE guild_id = ?`;
@@ -240,6 +260,14 @@ class MySQL {
         });
     }
 
+    /**
+     * Modifies a specific tables columns.
+     * @param {string} table - The table to modify.
+     * @param {string} guildId - The specific guild ID you want the row to be modified.
+     * @param {string} column - The column you want to modify the value of. 
+     * @param {string} newValue - The new value you want to modify.
+     * @returns 
+     */
     static async updateTableColumnInfo(table, guildId, column, newValue) {
         return new Promise((resolve, reject) => {
             const query = `UPDATE ${table} SET ${column} = ? WHERE guild_id = ?`;
@@ -254,21 +282,12 @@ class MySQL {
         });
     }
     
-    static async selectFromGuilds(columns) {
-        if (!Array.isArray(columns)) {
-            throw new Error('Values must be an array');
-        }
-
-        const columnDefinitions = columns.join(', ');
-        const query = `SELECT ${columnDefinitions} FROM guilds`;
-
-        mysql.query(query, (error, results) => {
-            if (error) {
-                throw error;
-            }
-        });
-    }
-
+    /**
+     * Edit a specific column in the "guilds" table.
+     * @param {string} guildId - The guild ID to be modified.
+     * @param {string} column - The column you want to modify.
+     * @param {string} newValue - The new value to want to replace in a specific column.
+     */
     static async editColumnInGuilds(guildId, column, newValue) {
         const query = `UPDATE guilds SET ${column} = ? WHERE guild_id = ${guildId}`;
 
@@ -279,16 +298,12 @@ class MySQL {
         });
     }
 
-    static async getGuildFromId(guildId, column, value) {
-        const query = `SELECT ${guildId} FROM guilds WHERE ${column} = ?`;
-
-        mysql.query(query, [value], (error, results) => {
-            if (error) {
-                throw error;
-            }
-        });
-    }
-
+    /**
+     * Determines if a specific table column has a "Yes" or "No" value.
+     * @param {string} table 
+     * @param {string} column 
+     * @returns 
+     */
     static async hasYesNoValue(table, column) {
         const query = `SELECT COUNT(*) AS count FROM ${table} WHERE ${column} = 'Yes'`;
 
