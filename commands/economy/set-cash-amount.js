@@ -16,7 +16,7 @@ module.exports = {
         MySQL.insertInto('economy', 'cash_amount', startingAmount);
 
         const embed = new EmbedBuilder()
-        .setDescription(`Success! You're starting amount is now set to ${startingAmount}`)
+        .setDescription(`Success! Your starting amount is now set to ${startingAmount}`)
         .setColor('Green');
         
         interaction.reply({ embeds: [embed], ephemeral: true });
