@@ -268,7 +268,7 @@ class MySQL {
      * @param {string} newValue - The new value you want to modify.
      * @returns 
      */
-    static async updateTableColumnInfo(table, guildId, column, newValue) {
+    static async updateColumnValue(table, guildId, column, newValue) {
         return new Promise((resolve, reject) => {
             const query = `UPDATE ${table} SET ${column} = ? WHERE guild_id = ?`;
 
@@ -299,13 +299,13 @@ class MySQL {
     }
 
     /**
-     * Determines if a specific table column has a "Yes" or "No" value.
+     * Determines if a specific table column has a "true" or "false" value.
      * @param {string} table 
      * @param {string} column 
      * @returns 
      */
-    static async hasYesNoValue(table, column) {
-        const query = `SELECT COUNT(*) AS count FROM ${table} WHERE ${column} = 'Yes'`;
+    static async hasTrueFalseValue(table, column) {
+        const query = `SELECT COUNT(*) AS count FROM ${table} WHERE ${column} = 'true'`;
 
         return new Promise((resolve, reject) => {
             mysql.query(query, (error, results) => {
