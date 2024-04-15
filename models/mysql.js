@@ -126,7 +126,7 @@ class MySQL {
     }
 
     /**
-     * Get a column value from the 'guilds" table.
+     * Get a column value from the "guilds" table.
      * @param {string} guildId - The guild id you want the column to be added to.
      * @param {string} column - The column name you want to insert.
      * @returns 
