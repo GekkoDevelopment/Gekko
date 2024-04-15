@@ -73,9 +73,9 @@ class MySQL {
      */
     static async valueExistsInGuildsColumn(guildId, column, value) {
         return new Promise((resolve, reject) => {
-            const query = `SELECT COUNT(*) AS count FROM guilds WHERE ${column} = ? AND guild_id = ?`;
+            const query = `SELECT COUNT(*) AS count FROM guilds WHERE ${column} = ? AND guild_id = ${guildId}`;
 
-            mysql.query(query, [value, guildId], (error, results) => {
+            mysql.query(query, [value], (error, results) => {
                 if (error) {
                     reject(error);
                 } else {
@@ -85,6 +85,27 @@ class MySQL {
         });
     }
 
+    /**
+     * Checks if a value exists in a specific column of the guilds table.
+     * @param {string} table - The table you want to check if a value exits.
+     * @param {string} column - Column name to check.
+     * @param {any} value - Value to check.
+     * @returns {Promise<boolean>} - True if value exists, otherwise false.
+     */
+    static async valueExistsInColumn(table, column, value) {
+        return new Promise((resolve, reject) => {
+            const query = `SELECT COUNT(*) AS count FROM ${table} WHERE ${column} = ?`;
+
+            mysql.query(query, [value], (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results[0].count > 0);
+                }
+            });
+        });
+    }
+    
     /**
      * Creates a table in the database.
      * @param {string} tableName - The name of the table to insert into the database
@@ -282,6 +303,44 @@ class MySQL {
         });
     }
     
+    /**
+     * Inserts a single value into the specified column of a table if it doesn't already exist,
+     * or updates the existing value if it does.
+     * @param {string} table - Table name.
+     * @param {string} column - Column name to check.
+     * @param {any} value - Value to insert or update.
+     * @returns {Promise<boolean>} - True if value was inserted or updated, otherwise false.
+    */
+    static async insertOrUpdateValue(table, column, value) {
+        const valueExists = await this.valueExistsInColumn(table, column, value);
+
+        if (!valueExists) {
+            await this.insertInto(table, column, value);
+            return true;
+        } else {
+            await this.updateColumnInfo(table, column, value);
+            return true;
+        }
+    }
+
+    /**
+     * Inserts a single value into the specified column of a table if it doesn't already exist.
+     * @param {string} table - Table name.
+     * @param {string} column - Column name to check.
+     * @param {any} value - Value to insert.
+     * @returns {Promise<boolean>} - True if value was inserted, otherwise false.
+     */
+    static async insertValueIfNotExists(table, column, value) {
+        const valueExists = await this.valueExistsInColumn(table, column, value);
+
+        if (!valueExists) {
+            await this.insertInto(table, column, value);
+            return true;
+        } 
+
+        return false;
+    }
+
     /**
      * Edit a specific column in the "guilds" table.
      * @param {string} guildId - The guild ID to be modified.

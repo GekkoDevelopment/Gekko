@@ -1,6 +1,8 @@
 const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ActionRowBuilder, PermissionsBitField, PermissionFlagsBits, ButtonStyle } = require('discord.js')
 const colors = require('../../models/colors');
 const MySQL = require('../../models/mysql');
+const Utility = require('../../models/utility');
+
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -13,14 +15,21 @@ module.exports = {
         .addRoleOption(option => option.setName('support-role').setDescription('Chose a support Role').setRequired(true)),
     async execute(interaction) {
 
-        const guildId = interaction.guild.id
-        const ticketChannel = interaction.options.getChannel('channel') // Store to Database with GuildId
-        const ticketCategory = interaction.options.getChannel('ticket-category') // Store to Database with guildId
-        const supportRole = interaction.options.getRole('support-role') // Store to Database with GuildId
+        const guildId = interaction.guild.id;
+        const ticketChannel = interaction.options.getChannel('channel');
+        const ticketCategory = interaction.options.getChannel('ticket-category');
+        const supportRole = interaction.options.getRole('support-role');
 
-        MySQL.insertInto('tickets', 'guild_id', guildId);
-        MySQL.insertInto('tickets', 'ticket_channel_id', ticketChannel.id);
-        MySQL.insertInto('tickets', 'ticket_category', ticketCategory.id);
+        await MySQL.insertOrUpdateValue('tickets', 'guild_id', guildId);
+
+        Utility.Delay(1000);
+
+
+        await MySQL.updateColumnValue('tickets', guildId, 'support_role_id', supportRole.id);
+        await MySQL.updateColumnValue('tickets',guildId, 'ticket_channel_id', ticketChannel.id);
+        await MySQL.updateColumnValue('tickets',guildId, 'ticket_category', ticketCategory.id);
+        await MySQL.updateColumnValue('tickets',guildId, 'support_role_id', supportRole.id);
+
 
         const embed = new EmbedBuilder()
             .setTitle('Contact Support')

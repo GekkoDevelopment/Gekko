@@ -23,25 +23,26 @@ module.exports = {
         ];
 
         const economyColumns = [
-            "guild_id VARCHAR(255) NOT NULL PRIMARY KEY",
-            "user_id VARCHAR(255) DEFAULT '0'",
-            "cash_amount VARCHAR(255) DEFAULT '0'",
-            "bank_amount VARCHAR(255) DEFAULT '0'",
-            "economy_enabled VARCHAR(255) DEFAULT 'false'",
+            "guild_id VARCHAR(255) NOT NULL DEFAULT '0'",
+            "user_id VARCHAR(255) DEFAULT NULL",
+            "cash_amount VARCHAR(255) DEFAULT NULL",
+            "bank_amount VARCHAR(255) DEFAULT NULL",
+            "economy_enabled VARCHAR(255) DEFAULT 'false'"
         ];
 
         const mutedUsersColumns = [
-            "guild_id VARCHAR(255) NOT NULL PRIMARY KEY",
-            "role_id VARCHAR(255) DEFAULT '0'",
+            "guild_id VARCHAR(255) NOT NULL DEFAULT '0'",
+            "role_id VARCHAR(255) DEFAULT NULL",
             "reason VARCHAR(255) DEFAULT NULL"
         ];
 
         const ticketsColumns = [
-            "guild_id VARCHAR(255) NOT NULL PRIMARY KEY",
-            "user_id VARCHAR(255) DEFAULT '0'",
-            "ticket_id VARCHAR(255) DEFAULT '0'",
-            "ticket_channel_id VARCHAR(255) DEFAULT '0'",
-            "ticket_category VARCHAR(255) DEFAULT '0'"
+            "guild_id VARCHAR(255) NOT NULL DEFAULT '0'",
+            "user_id VARCHAR(255) DEFAULT NULL",
+            "ticket_id VARCHAR(255) DEFAULT NULL",
+            "ticket_channel_id VARCHAR(255) DEFAULT NULL",
+            "ticket_category VARCHAR(255) DEFAULT NULL",
+            "support_role_id VARCHAR(255) DEFAULT NULL"
         ];
 
         MySQL.createTable('guilds', columns);
