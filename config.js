@@ -27,17 +27,18 @@ module.exports = {
 
     panel: {
         host: 'http://198.244.148.129/', // The host for pterodactyl that is used to run the bot.
-        apiKey: 'ptlc_URrfpJa5WDu9uN2dr1MCLCHODqRFyFTFPC0i07reuSN',
-        gekkoServerId: 'f9f4a360-269b-4bd6-8572-c4f9d47fe2b4' // The server id that runs Gekkō
+        apiKey: 'ptlc_URrfpJa5WDu9uN2dr1MCLCHODqRFyFTFPC0i07reuSN', // The client API key the links to pterodactyl.
+        gekkoServerId: 'f9f4a360-269b-4bd6-8572-c4f9d47fe2b4' // The server id that runs Gekkō.
     },
 
     apiKeys: {
-        tenorApi: 'AIzaSyCC6haPOEqn-p5I8oJdyyIjJAXkYQGWJcQ' // The API key used for our random gif command.
+        tenorApi: 'AIzaSyCC6haPOEqn-p5I8oJdyyIjJAXkYQGWJcQ', // The API key used for our random gif command.
+        chessAPI: 'lip_GkylkVpGz0hmSiXVJxHS' // The API key that interacts with our chess command.
     },
 
     assets: {
-        gekkoBanner: 'https://cdn.discordapp.com/attachments/1226564051488870450/1226587759502954576/card.png?ex=66254fde&is=6612dade&hm=a750c8299cf43e15b773976647ae045fc1c9e1c5cab1ec2b9b927f1e869e738e&',
-        gekkoLogo: 'https://media.discordapp.net/attachments/1226564051488870450/1226564091913441391/image.png?ex=662539d3&is=6612c4d3&hm=1f5f942aadea918225099ca799aa1f54e40e44beef9d45b8de491e642c1b9db5&=&format=webp&quality=lossless&width=500&height=500'
+        gekkoBanner: 'https://cdn.discordapp.com/attachments/1226564051488870450/1226587759502954576/card.png?ex=66254fde&is=6612dade&hm=a750c8299cf43e15b773976647ae045fc1c9e1c5cab1ec2b9b927f1e869e738e&', // Gekkō's main profile banner.
+        gekkoLogo: 'https://media.discordapp.net/attachments/1226564051488870450/1226564091913441391/image.png?ex=662539d3&is=6612c4d3&hm=1f5f942aadea918225099ca799aa1f54e40e44beef9d45b8de491e642c1b9db5&=&format=webp&quality=lossless&width=500&height=500' // Gekkō's main profile logo.
     },
 
     emojis: {
@@ -47,11 +48,11 @@ module.exports = {
         d4: '<:gekko_d4:1226997329173942467>', // Four Dice Dot
         d5: '<:gekko_d5:1226997330457399427>', // Five Dice Dot
         d6: '<:gekko_d6:1226997331803504711>', // Six Dice Dot
-        ratingGreen: '<:ratingGreen:1228098304844501003>',
-        ratingAmber: '<:ratingAmber:1228098312012562532>',
-        ratingRed: '<:ratingRed:1228098317905297500>',
-        ratingNa: '<:ratingNA:1228100149415251988>',
-        inspect: '<:wannainspect:1228453507749777481>',
-        noted: '<:BeepNoted:1228454277899489336>'
+        ratingGreen: '<:ratingGreen:1228098304844501003>', // Good Rating
+        ratingAmber: '<:ratingAmber:1228098312012562532>', // Mid Rating
+        ratingRed: '<:ratingRed:1228098317905297500>', // Bad Rating
+        ratingNa: '<:ratingNA:1228100149415251988>', // N/A Rating
+        inspect: '<:wannainspect:1228453507749777481>', // Wanna Inspect emoji
+        noted: '<:BeepNoted:1228454277899489336>' // Noted Emoji
     }
 }
