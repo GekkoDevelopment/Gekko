@@ -10,7 +10,7 @@ module.exports = {
             const playerA = interaction.user;
             const playerB = interaction.options.getUser('user');
 
-            const Lichess = await fetch('https://lichess.org/api/challenge'
+            const Lichess = await fetch('https://lichess.org/api/challenge');
         }
 };
 
