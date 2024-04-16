@@ -1,11 +1,11 @@
-const { Client, GatewayIntentBits, Collection, EmbedBuilder, PermissionFlagsBits, StringSelectMenuBuilder, ActionRowBuilder } = require('discord.js');
+const { Client, GatewayIntentBits, Collection, EmbedBuilder, PermissionFlagsBits, StringSelectMenuBuilder, ActionRowBuilder, ChannelType } = require('discord.js');
 const { NodeactylClient } = require('nodeactyl');
 const fs = require('node:fs');
 const path = require('node:path');
+const delay = require('node:timers/promises').setTimeout;
 const config = require('./config.js');
 const color = require('./models/colors.js');
 const colors = require('./models/colors.js');
-const Utility = require('./models/utility.js');
 const MySQL = require('./models/mysql.js');
 
 const client = new Client({
@@ -57,7 +57,7 @@ client.on('messageCreate', async message => {
             return; // Exit if permission denied
         }
 
-        Utility.Delay(3000);
+        delay(3000);
         pterodactyl.restartServer(config.panel.gekkoServerId);
         
         logChannel.send({ embeds: [logEmbed] });

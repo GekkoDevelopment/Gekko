@@ -23,6 +23,18 @@ class MySQL {
         });
     }
 
+    static executeQuery(query) {
+        return new Promise((resolve, reject) => {
+            mysql.query(query, (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results);
+                }
+            });
+        })
+    }
+
     /**
     * Inserts values into the guilds table.
     * @param {Array} columns - Array of column names.
@@ -105,7 +117,7 @@ class MySQL {
             });
         });
     }
-    
+
     /**
      * Creates a table in the database.
      * @param {string} tableName - The name of the table to insert into the database
@@ -376,6 +388,15 @@ class MySQL {
                 }
             });
         });
+    }
+
+    static async insertRow(table, data) {
+        const columns = Object.keys(data).join(',');
+        const values = Object.values(data).map(value => `'${value}'`).join(',');
+
+        const query = `INSERT INTO ${table} (${columns}) VALUES (${values})`;
+
+        await this.executeQuery(query);
     }
 }
 

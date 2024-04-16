@@ -2,7 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const fetch = require('node-fetch');
 const colors = require('../../models/colors.js');
 const { emojis } = require('../../config.js');
-const Utility = require('../../models/utility.js');
+const delay = require('node:timers/promises').setTimeout;
 
 module.exports = {
     data: new SlashCommandBuilder()

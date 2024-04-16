@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const giveaways = new Map();
+const delay = require('node:timers/promises').setTimeout;
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -35,7 +36,7 @@ module.exports = {
             })
             .catch(console.error);
 
-        Utility.Delay(duration * 60 * 1000);
+        delay(duration * 60 * 1000);
         endGiveaway(interaction, giveawayMessage);
     },
 };

@@ -26,8 +26,7 @@ module.exports = {
             .setColor('Green');
 
             await interaction.reply({ embeds: [embed], ephemeral: true });
-        }
-        else {
+        } else {
             MySQL.updateColumnValue('economy', interaction.guild.id, 'economy_enabled', 'false');
             
             const embed = new EmbedBuilder()

@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const MySQL = require('../../models/mysql')
-const Utility = require('../../models/utility');
+const delay = require('node:timers/promises').setTimeout;
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -38,7 +38,7 @@ module.exports = {
             }
         });
 
-        Utility.Delay(1000);
+        delay(1000);
 
         const successEmbed = new EmbedBuilder()
         .setDescription('Welcome message, image, embed color, and channel has been set successfully!')

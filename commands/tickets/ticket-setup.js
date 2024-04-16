@@ -1,8 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ActionRowBuilder, PermissionsBitField, PermissionFlagsBits, ButtonStyle } = require('discord.js')
 const colors = require('../../models/colors');
 const MySQL = require('../../models/mysql');
-const Utility = require('../../models/utility');
-
+const delay = require('node:timers/promises').setTimeout;
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -22,7 +21,7 @@ module.exports = {
 
         await MySQL.insertOrUpdateValue('tickets', 'guild_id', guildId);
 
-        Utility.Delay(1000);
+        delay(1000);
 
         await MySQL.updateColumnValue('tickets', guildId, 'support_role_id', supportRole.id);
         await MySQL.updateColumnValue('tickets',guildId, 'ticket_channel_id', ticketChannel.id);
