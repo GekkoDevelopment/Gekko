@@ -38,3 +38,8 @@ Role management (can also do this through dashboard?)
 Prefix commands as well?
 
 givaway commands
+
+
+
+
+===== CHESS =====

@@ -1,6 +1,7 @@
 const { ButtonBuilder } = require('discord-gamecord/utils/utils');
 const { Events, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, ChannelType, PermissionsBitField, EmbedBuilder, ButtonStyle, Embed } = require('discord.js');
 const MySQL = require('../models/mysql');
+const colors = require('../models/colors');
 const delay = require('node:timers/promises').setTimeout;
 
 var tickets = [];
@@ -138,10 +139,54 @@ module.exports = {
         };
 
         if (interaction.isButton() && interaction.customId == 'closeTicket') {
+            
+            const modPanel = new EmbedBuilder()
+                .setTitle('Ticket Panel')
+                .setDescription('Use the buttons below to manage this ticket.')
+                .setTimestamp()
+                .setColor(colors.bot);
+            
+            const userId = blahblahblah; // Get ticket_user ID from mysql table.
+            const channel = interaction.channel;
+
+            const reopenBtn = new ButtonBuilder()
+                .setCustomId('reopen')
+                .setLabel('Reopen Ticket')
+                .setStyle(ButtonStyle.Primary);
+            
+            const deleteBtn = new ButtonBuilder()
+                .setCustomId('delete')
+                .setLabel('Delete Ticket')
+                .setStyle(ButtonStyle.Danger);
+            
+            const row = new ActionRowBuilder().addComponents(reopenBtn, deleteBtn);
+            
+            await channel.permissionOverwrites.edit(userId, {ViewChannel: false});
+            await channel.send({ embeds: [modPanel], components: [row] })
+            
+        };
+
+        if (interaction.isButton() && interaction.customId == 'reopen') {
+
+            const userId = blahblahblah; // Get ticket_user ID from mysql table.
+            const openEmbed = new EmbedBuilder()
+                .setTitle('Ticket Reopened')
+                .setDescription(`> <@${interaction.user.id}> has reopened this ticket.`)
+                .setColor(colors.bot)
+                .setTimestamp();
+            
+            const channel = interaction.channel;
+            await channel.permissionOverwrites.edit(userId, {ViewChannel: true});
+            await interaction.message.delete();
+            await channel.send({ content: `<@${userId}>`, embeds: [openEmbed] });
+        };
+
+        if (interaction.isButton() && interaction.customId == 'delete') {
+            
             delete tickets[interaction.user.id];
 
             interaction.channel.delete();
             MySQL.deleteRow('ticket_data', 'ticket_id', `${interaction.channel.id}`);
-        } 
+        };
     },
 };
