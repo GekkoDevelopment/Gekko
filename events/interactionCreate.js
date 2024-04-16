@@ -1,10 +1,9 @@
 const { ButtonBuilder } = require('discord-gamecord/utils/utils');
 const { Events, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, ChannelType, PermissionsBitField, EmbedBuilder, ButtonStyle, Embed } = require('discord.js');
-const colors = require('../models/colors');
 const MySQL = require('../models/mysql');
 const delay = require('node:timers/promises').setTimeout;
 
-var tickets= []
+var tickets = [];
 
 module.exports = {
     name: Events.InteractionCreate,
@@ -139,9 +138,10 @@ module.exports = {
         };
 
         if (interaction.isButton() && interaction.customId == 'closeTicket') {
-
             delete tickets[interaction.user.id];
+
             interaction.channel.delete();
+            MySQL.deleteRow('ticket_data', 'ticket_id', `${interaction.channel.id}`);
         } 
     },
 };

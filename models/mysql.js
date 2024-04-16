@@ -23,16 +23,16 @@ class MySQL {
         });
     }
 
-    static executeQuery(query) {
+    static async executeQuery(query, params = []) {
         return new Promise((resolve, reject) => {
-            mysql.query(query, (error, results) => {
+            mysql.query(query, params, (error, results) => {
                 if (error) {
                     reject(error);
                 } else {
                     resolve(results);
                 }
             });
-        })
+        });
     }
 
     /**
@@ -397,6 +397,12 @@ class MySQL {
         const query = `INSERT INTO ${table} (${columns}) VALUES (${values})`;
 
         await this.executeQuery(query);
+    }
+
+    static async deleteRow(table, column, value) {
+        const query = `DELETE FROM ${table} WHERE ${column} = ?`;
+
+        await this.executeQuery(query, [value]);
     }
 }
 
