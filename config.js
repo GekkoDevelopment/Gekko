@@ -59,6 +59,8 @@ module.exports = {
         red: '<:red:1229766554548305940>',
         warning: '<:warning:1230154510375063603>',
         passed: '<:passed:1230154594126925885>',
-        failed: '<:failed:1230154570588749844>'
+        failed: '<:failed:1230154570588749844>',
+        questionMark: '<:gekko_questionMark:1226506605596512287>',
+        exclamationMark: '<:gekko_exclamationMark:1226506603755475015>'
     }
 }

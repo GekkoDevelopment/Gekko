@@ -10,11 +10,14 @@ module.exports = {
     async execute(interaction) {
         const configEmbed = new EmbedBuilder()
             .setTitle('Gekkō Configuration')
-            .setDescription('> Use the drop-down menu below to start configuring our bot. \n\n> For more help on setting up the bot, feel free to read our Documentation, or join our support server for help.')
             .addFields(
                 {
-                    name: 'Getting Started:',
+                    name: `${config.emojis.exclamationMark} Getting Started:`,
                     value: 'Use the drop-down menu below to start configuring our bot.'
+                },
+                {
+                    name: `${config.emojis.questionMark} Further Support`,
+                    value: 'For more help on setting up the bot, feel free to read our Documentation, or join our support server for help.'
                 }
             )
             .setColor(colors.bot)
