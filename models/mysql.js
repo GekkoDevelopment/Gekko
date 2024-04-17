@@ -183,6 +183,25 @@ class MySQL {
         });
     }
 
+    static async getValueFromTable(table, guildId, column) {
+        return new Promise((resolve, reject) => {
+            const query = `SELECT ${column} FROM ${table} WHERE guild_id = ?`;
+
+            mysql.query(query, [guildId], (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    if (results.length > 0) {
+                        const value = results[0][column];
+                        resolve(value);
+                    } else {
+                        resolve(null);
+                    }
+                }
+            });
+        });
+    }
+
     /**
      * Get a column value from a specific table.
      * @param {string} table - The table you want get data from.
