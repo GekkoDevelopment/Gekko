@@ -61,6 +61,9 @@ module.exports = {
         passed: '<:passed:1230154594126925885>',
         failed: '<:failed:1230154570588749844>',
         questionMark: '<:gekko_questionMark:1226506605596512287>',
-        exclamationMark: '<:gekko_exclamationMark:1226506603755475015>'
+        exclamationMark: '<:gekko_exclamationMark:1226506603755475015>',
+        configuration: '<:hammer:1230255584117264487>',
+        discord: '<:discordemote:1230262224057274439>',
+        gekko: '<:gekkoemote:1230261004395483367>'
     }
 }
