@@ -53,6 +53,12 @@ module.exports = {
         ratingRed: '<:ratingRed:1228098317905297500>', // Bad Rating
         ratingNa: '<:ratingNA:1228100149415251988>', // N/A Rating
         inspect: '<:wannainspect:1228453507749777481>', // Wanna Inspect emoji
-        noted: '<:BeepNoted:1228454277899489336>' // Noted Emoji
+        noted: '<:BeepNoted:1228454277899489336>', // Noted Emoji
+        green: '<:green:1229766565633720381>',
+        amber: '<:amber:1230154433019514982>',
+        red: '<:red:1229766554548305940>',
+        warning: '<:warning:1230154510375063603>',
+        passed: '<:passed:1230154594126925885>',
+        failed: '<:failed:1230154570588749844>'
     }
 }
