@@ -13,7 +13,7 @@ const client = new Client({
     allowedMentions: { parse: ['users', 'roles', 'everyone'], repliedUser: true}
 });
 
-const pterodactyl = new NodeactylClient(config.panel.host, config.panel.apiKey);
+//const pterodactyl = new NodeactylClient(config.panel.host, config.panel.apiKey);
 
 //////// Prefix Commands ////////
 // --- Developer Commands --- //

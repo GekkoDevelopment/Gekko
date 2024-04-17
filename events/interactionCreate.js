@@ -146,7 +146,8 @@ module.exports = {
                 .setTimestamp()
                 .setColor(colors.bot);
             
-            const userId = blahblahblah; // Get ticket_user ID from mysql table.
+            const userId = await MySQL.getTableColumnData('ticket_data', interaction.guild.id, 'user_id')
+            const user = interaction.guild.members.cache.get(userId)
             const channel = interaction.channel;
 
             const reopenBtn = new ButtonBuilder()
@@ -161,8 +162,9 @@ module.exports = {
             
             const row = new ActionRowBuilder().addComponents(reopenBtn, deleteBtn);
             
-            await channel.permissionOverwrites.edit(userId, {ViewChannel: false});
+            await channel.permissionOverwrites.edit(user, {ViewChannel: false});
             await channel.send({ embeds: [modPanel], components: [row] })
+            await interaction.deferUpdate()
             
         };
 
