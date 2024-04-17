@@ -33,7 +33,7 @@ module.exports = {
 
     apiKeys: {
         tenorApi: 'AIzaSyCC6haPOEqn-p5I8oJdyyIjJAXkYQGWJcQ', // The API key used for our random gif command.
-        chessAPI: 'lip_GkylkVpGz0hmSiXVJxHS' // The API key that interacts with our chess command.
+        chessAPI: 'lip_fWKAMXrBVDeuZfsG8W6P' // The API key that interacts with our chess command. (You can make the key from here: https://lichess.org/account/oauth/token)
     },
 
     assets: {
