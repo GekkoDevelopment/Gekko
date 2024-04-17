@@ -23,6 +23,12 @@ class MySQL {
         });
     }
 
+    /**
+     * Executes a SQL query with optional parameters.
+     * @param {string} query - The SQL query string.
+     * @param {Array} params - An array of values to be substituted in the query.
+     * @returns {Promise<void>} - A Promise that resolves when the query is executed successfully.
+     */
     static async executeQuery(query, params = []) {
         return new Promise((resolve, reject) => {
             mysql.query(query, params, (error, results) => {
@@ -41,18 +47,23 @@ class MySQL {
     * @param {Array} values - Array of values to insert.
     */
     static async insertIntoGuildTable(columns, values) {
+        // Check if the values is an array
         if (!Array.isArray(values)) {
             throw new Error('Columns and values must be arrays');
         }
     
+        // Check if the number of columns matches number of values
         if (columns.length !== values.length) {
             throw new Error('Number of columns must match number of values');
         }
     
+        // Generate placeholders for values
         const placeholders = values.map(() => '(?)').join(',');
     
+        // Construct the SQL query
         const query = `INSERT INTO guilds (${columns.join(',')}) VALUES (${placeholders})`;
     
+        // Execute the query.
         mysql.query(query, values.flat(), (error, results) => {
             if (error) {
                 throw error;
@@ -67,8 +78,10 @@ class MySQL {
      * @param {any} value - Value to insert.
      */
     static async insertInto(table, column, value) {
+        // Construct the SQL query
         const query = (`INSERT INTO ${table} (${column}) VALUES (?)`);
 
+        // Execute the query.
         mysql.query(query, [value], (error, results) => {
             if (error) {
                 throw error;
@@ -85,12 +98,16 @@ class MySQL {
      */
     static async valueExistsInGuildsColumn(guildId, column, value) {
         return new Promise((resolve, reject) => {
+            // Construct the SQL query
             const query = `SELECT COUNT(*) AS count FROM guilds WHERE ${column} = ? AND guild_id = ${guildId}`;
 
+            // Execute the SQL query
             mysql.query(query, [value], (error, results) => {
                 if (error) {
+                    // Reject the Promise if an error occurs
                     reject(error);
                 } else {
+                    // Resolve the Promise with the result
                     resolve(results[0].count > 0);
                 }
             });
@@ -124,13 +141,18 @@ class MySQL {
      * @param {array} columns - The names of the columns to insert into the database
      */
     static async createTable(tableName, columns) {
+        // Ensure that columns is an array
         if (!Array.isArray(columns)) {
             throw new Error('Columns must be an array');
         }
 
+        // Construct the column definitions
         const columnDefinitions = columns.join(', ');
+
+        // Construct the SQL query to create the table
         const query = `CREATE TABLE IF NOT EXISTS ${tableName} (${columnDefinitions})`;
 
+        // Execute the SQL query
         mysql.query(query, (error, results) => {
             if (error) {
                 throw error;
@@ -144,13 +166,17 @@ class MySQL {
      * @param {array} columns - The columns you want to select from.
      */
     static async selectFrom(table, columns) {
+        // Ensure that columns is an array
         if (!Array.isArray(columns)) {
             throw new Error('Values must be an array');
         }
 
+        // Construct the SQL query to select columns from the table
         const columnDefinitions = columns.join(', ');
+        // Construct the SQL query to select columns from the table
         const query = `SELECT ${columnDefinitions} FROM ${table}"}`;
 
+        // Execute the SQL query
         mysql.query(query, (error, results) => {
             if (error) {
                 throw error;
@@ -166,35 +192,21 @@ class MySQL {
      */
     static async getColumnValuesWithGuildId(guildId, column) {
         return new Promise((resolve, reject) => {
+            // Construct the SQL query to select the specified column from the "guilds" table
             const query = `SELECT ${column} FROM guilds WHERE guild_id = ?`;
 
+            // Execute the SQL query
             mysql.query(query, [guildId], (error, results) => {
                 if (error) {
+                    // Reject the Promise if an error occurs
                     reject(error);
                 } else {
                     if (results.length > 0) {
+                        // If results are found, extract the value of the specified column
                         const value = results[0][column];
                         resolve(value);
                     } else {
-                        resolve(null);
-                    }
-                }
-            });
-        });
-    }
-
-    static async getValueFromTable(table, guildId, column) {
-        return new Promise((resolve, reject) => {
-            const query = `SELECT ${column} FROM ${table} WHERE guild_id = ?`;
-
-            mysql.query(query, [guildId], (error, results) => {
-                if (error) {
-                    reject(error);
-                } else {
-                    if (results.length > 0) {
-                        const value = results[0][column];
-                        resolve(value);
-                    } else {
+                        // If no results are found, resolve with null
                         resolve(null);
                     }
                 }
@@ -209,20 +221,39 @@ class MySQL {
      * @param {string} column - The column you want to get data from.
      * @returns 
      */
-    static async getTableColumnData(table, guildId, column) {
+    static async getValueFromTable(table, guildId, column) {
         return new Promise((resolve, reject) => {
+            // Construct the SQL query to select the specified column from the specified table
             const query = `SELECT ${column} FROM ${table} WHERE guild_id = ?`;
 
+            // Execute the SQL query
             mysql.query(query, [guildId], (error, results) => {
                 if (error) {
+                    // Reject the Promise if an error occurs
                     reject(error);
                 } else {
                     if (results.length > 0) {
+                        // If results are found, extract the value of the specified column
                         const value = results[0][column];
                         resolve(value);
                     } else {
+                        // If no results are found, resolve with null
                         resolve(null);
                     }
+                }
+            });
+        });
+    }
+
+    static async getColumnData(table, column) {
+        return new Promise((resolve, reject) => {
+            const query = `SELECT ${column} FROM ${table}`;
+            mysql.query(query, (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    const data = results.map(row => row[column]);
+                    resolve(data);
                 }
             });
         });
@@ -290,41 +321,18 @@ class MySQL {
             });
         });
     }
-
+    
     /**
-     * Modifies a specific guild row with new column data within the "guilds" table.
-     * @param {string} guildId - The specific guild ID you want the row to be modified.
-     * @param {string} column - The column you want to modify the value of.
-     * @param {string} newValue - The new value you want to modify.
-     * @returns 
+     * Updates a specific column with a new value in a table for all rows.
+     * @param {string} table - The name of the table.
+     * @param {string} column - The name of the column to update.
+     * @param {any} newValue - The new value to set for the column.
+     * @returns {Promise<number>} - A Promise that resolves with the number of affected rows.
      */
-    static async updateColumnInfo(guildId, column, newValue) {
+    static async updateColumnValue(table, column, newValue) {
         return new Promise((resolve, reject) => {
-            const query = `UPDATE guilds SET ${column} = ? WHERE guild_id = ?`;
-
-            mysql.query(query, [newValue, guildId], (error, results) => {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(results.affectedRows);
-                }
-            });
-        });
-    }
-
-    /**
-     * Modifies a specific tables columns.
-     * @param {string} table - The table to modify.
-     * @param {string} guildId - The specific guild ID you want the row to be modified.
-     * @param {string} column - The column you want to modify the value of. 
-     * @param {string} newValue - The new value you want to modify.
-     * @returns 
-     */
-    static async updateColumnValue(table, guildId, column, newValue) {
-        return new Promise((resolve, reject) => {
-            const query = `UPDATE ${table} SET ${column} = ? WHERE guild_id = ?`;
-
-            mysql.query(query, [newValue, guildId], (error, results) => {
+            const query = `UPDATE ${table} SET ${column} = ?`;
+            mysql.query(query, [newValue], (error, results) => {
                 if (error) {
                     reject(error);
                 } else {
@@ -349,7 +357,7 @@ class MySQL {
             await this.insertInto(table, column, value);
             return true;
         } else {
-            await this.updateColumnInfo(table, column, value);
+            await this.updateColumnValue(table, column, value);
             return true;
         }
     }
@@ -409,6 +417,11 @@ class MySQL {
         });
     }
 
+    /**
+     * Inserts a row with user-defined data.
+     * @param {string} table - The table to you want to insert the column from
+     * @param {Array} data - The data you want to insert into the row (can be one value or more.)
+     */
     static async insertRow(table, data) {
         const columns = Object.keys(data).join(',');
         const values = Object.values(data).map(value => `'${value}'`).join(',');
