@@ -154,9 +154,11 @@ module.exports = {
                 .setTimestamp()
                 .setFooter({ text: 'Ticket Closed At:' })
 
-            const userId = blahblahblah; // Get ticket_user ID from mysql table wher ticketId =?.
-            const user = interaction.guild.members.cache.get(userId)
             const channel = interaction.channel;
+            const userId = await MySQL.getValueFromTableWithCondition('ticket_data', 'user_id', 'ticket_id', `${channel.id}`);
+            const user = interaction.guild.members.cache.get(userId)
+
+            console.log(userId.toString());
 
             const reopenBtn = new ButtonBuilder()
                 .setCustomId('reopen')
@@ -170,7 +172,7 @@ module.exports = {
             
             const row = new ActionRowBuilder().addComponents(reopenBtn, deleteBtn);
             
-            await channel.permissionOverwrites.edit(user, {ViewChannel: false});
+            // await channel.permissionOverwrites.edit(user, {ViewChannel: false});
             await channel.send({ embeds: [ticketClosed] })
             await channel.send({ embeds: [modPanel], components: [row] })
             await interaction.deferUpdate()
@@ -179,7 +181,7 @@ module.exports = {
 
         if (interaction.isButton() && interaction.customId == 'reopen') {
 
-            const userId = blahblahblah; // Get ticket_user ID from mysql table wher ticketId =?.
+            const userId = await MySQL.getValueFromTableWithCondition('ticket_data', 'user_id', 'ticket_id', `${channel.id}`);
             const openEmbed = new EmbedBuilder()
                 .setTitle('Ticket Reopened')
                 .setDescription(`> <@${interaction.user.id}> has reopened this ticket.`)
@@ -187,9 +189,9 @@ module.exports = {
                 .setTimestamp();
             
             const channel = interaction.channel;
-            await channel.permissionOverwrites.edit(userId, {ViewChannel: true});
+            // await channel.permissionOverwrites.edit(userId, {ViewChannel: true});
             await interaction.message.delete();
-            await channel.send({ content: `<@${userId}>`, embeds: [openEmbed] });
+            await channel.send({ content: `<@${userId.toString()}>`, embeds: [openEmbed] });
         };
 
         if (interaction.isButton() && interaction.customId == 'delete') {
