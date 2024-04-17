@@ -195,10 +195,18 @@ module.exports = {
 
         if (interaction.isButton() && interaction.customId == 'delete') {
             
-            delete tickets[interaction.user.id];
+            const deletionEmbed = new EmbedBuilder()
+                .setDescription(`${emojis.warning} *Deleting Ticket...*`)
+                .setColor('Red');
 
-            interaction.channel.delete();
+            await interaction.channel.send({ embeds: [deletionEmbed] })
+            await interaction.deferUpdate()
             MySQL.deleteRow('ticket_data', 'ticket_id', `${interaction.channel.id}`);
+
+            setTimeout(() => {
+                delete tickets[interaction.user.id];
+                interaction.channel.delete();
+            }, 5000);
         };
     },
 };
