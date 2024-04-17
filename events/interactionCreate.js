@@ -2,6 +2,7 @@ const { ButtonBuilder } = require('discord-gamecord/utils/utils');
 const { Events, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, ChannelType, PermissionsBitField, EmbedBuilder, ButtonStyle, Embed } = require('discord.js');
 const MySQL = require('../models/mysql');
 const colors = require('../models/colors');
+const { emojis } = require('../config');
 const delay = require('node:timers/promises').setTimeout;
 
 var tickets = [];
@@ -67,7 +68,7 @@ module.exports = {
             .setTitle('Ticket Opened')
             .setDescription('Ticket Created, please wait for a staff member to respond.')
             .setTimestamp()
-            .setFooter({ text: `ticket Created At:` })
+            .setFooter({ text: `Ticket Created At:` })
             .addFields
             ({
                 name: 'User',
@@ -146,6 +147,13 @@ module.exports = {
                 .setTimestamp()
                 .setColor(colors.bot);
             
+            const ticketClosed = new EmbedBuilder()
+                .setTitle(`${emojis.warning} Ticket Closed`)
+                .setDescription(`Ticket was closed by <@${interaction.user.id}>`)
+                .setColor('Orange')
+                .setTimestamp()
+                .setFooter({ text: 'Ticket Closed At:' })
+
             const userId = await MySQL.getTableColumnData('ticket_data', interaction.guild.id, 'user_id')
             const user = interaction.guild.members.cache.get(userId)
             const channel = interaction.channel;
@@ -154,7 +162,7 @@ module.exports = {
                 .setCustomId('reopen')
                 .setLabel('Reopen Ticket')
                 .setStyle(ButtonStyle.Primary);
-            
+
             const deleteBtn = new ButtonBuilder()
                 .setCustomId('delete')
                 .setLabel('Delete Ticket')
@@ -163,6 +171,7 @@ module.exports = {
             const row = new ActionRowBuilder().addComponents(reopenBtn, deleteBtn);
             
             await channel.permissionOverwrites.edit(user, {ViewChannel: false});
+            await channel.send({ embeds: [ticketClosed] })
             await channel.send({ embeds: [modPanel], components: [row] })
             await interaction.deferUpdate()
             
