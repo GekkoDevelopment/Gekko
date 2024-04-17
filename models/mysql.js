@@ -321,22 +321,7 @@ class MySQL {
             });
         });
     }
-
-
-    static async updateColumnInfo(table, column, newValue,) {
-        return new Promise((resolve, reject) => {
-            const query = `UPDATE ${table} SET ${column} = ?`;
-
-            mysql.query(query, [newValue], (error, results) => {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(results.affectedRows);
-                }
-            });
-        });
-    }
-
+    
     /**
      * Updates a specific column with a new value in a table for all rows.
      * @param {string} table - The name of the table.
@@ -372,7 +357,7 @@ class MySQL {
             await this.insertInto(table, column, value);
             return true;
         } else {
-            await this.updateColumnInfo(table, column, value);
+            await this.updateColumnValue(table, column, value);
             return true;
         }
     }
