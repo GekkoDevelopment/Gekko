@@ -154,7 +154,7 @@ module.exports = {
                 .setTimestamp()
                 .setFooter({ text: 'Ticket Closed At:' })
 
-            const userId = await MySQL.getTableColumnData('ticket_data', interaction.guild.id, 'user_id')
+            const userId = blahblahblah; // Get ticket_user ID from mysql table wher ticketId =?.
             const user = interaction.guild.members.cache.get(userId)
             const channel = interaction.channel;
 
@@ -179,7 +179,7 @@ module.exports = {
 
         if (interaction.isButton() && interaction.customId == 'reopen') {
 
-            const userId = blahblahblah; // Get ticket_user ID from mysql table.
+            const userId = blahblahblah; // Get ticket_user ID from mysql table wher ticketId =?.
             const openEmbed = new EmbedBuilder()
                 .setTitle('Ticket Reopened')
                 .setDescription(`> <@${interaction.user.id}> has reopened this ticket.`)
