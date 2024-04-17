@@ -1,8 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const fetch = require('node-fetch');
 const colors = require('../../models/colors');
-const { emojis } = require('../../config');
-const animeInfo = require('./anime-info');
 
 module.exports = {
     data: new SlashCommandBuilder()

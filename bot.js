@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, Collection, EmbedBuilder, PermissionFlagsBits, StringSelectMenuBuilder, ActionRowBuilder, ChannelType } = require('discord.js');
+const { Client, GatewayIntentBits, Collection, EmbedBuilder, PermissionFlagsBits, StringSelectMenuBuilder, ActionRowBuilder, ChannelType, Embed } = require('discord.js');
 const { NodeactylClient } = require('nodeactyl');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -296,10 +296,6 @@ client.on('messageCreate', async message => {
                 // do nothing
             }
         });
-    }
-
-    if (command === 'bugreport' || command === 'bug') {
-        message.channel.send('hey...');
     }
 });
 
