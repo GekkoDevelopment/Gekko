@@ -4,7 +4,7 @@ const MySQL = require('../../models/mysql.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('allow-nsfw').setDescription('This feature is off by default. If you want NSFW commands on turn it on using this command.'),
+        .setName('allow-nsfw').setDescription('The NSFW is off by default. If you want NSFW commands on turn it on using this command.').setNSFW(true),
     async execute(interaction) {
         const confirmButton1 = new ButtonBuilder().setLabel('Yes').setCustomId('confirm_nsfw_1').setStyle(ButtonStyle.Success);
         const denyButton1 = new ButtonBuilder().setLabel('No').setCustomId('deny_nsfw_1').setStyle(ButtonStyle.Danger);

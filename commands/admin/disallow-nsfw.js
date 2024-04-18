@@ -4,7 +4,7 @@ const colors = require('../../models/colors');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('disallow-nsfw-anime').setDescription('Disallow NSFW anime command. This feature is usually off by default.'),
+        .setName('disallow-nsfw').setDescription('Disallow NSFW commands. The NSFW feature is usually off by default.'),
     async execute(interaction) {
         const guildId = interaction.guild.id;
         const isNsfw = await MySQL.getColumnValuesWithGuildId(guildId, 'nsfw_enabled');
