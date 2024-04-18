@@ -72,7 +72,6 @@ module.exports = {
         const actionRow2 = new ActionRowBuilder().addComponents(discordBtn, documentationBtn);
         await interaction.reply({ embeds: [configEmbed], components: [actionRow, actionRow2] });
 
-
         const filter = i => i.customId === 'config_select' && i.user.id === interaction.user.id;
         const collector = interaction.channel.createMessageComponentCollector({
             filter,
