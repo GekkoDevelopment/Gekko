@@ -7,7 +7,6 @@ module.exports = {
         .setName('set-welcome').setDescription('Set welcome message, image, and channel for the guild.')
         .addChannelOption(option => option.setName('channel').setDescription('Welcome channel').setRequired(true))
         .addStringOption(option => option.setName('message').setDescription('Welcome message').setRequired(true))
-        .addStringOption(option => option.setName('embed-color').setDescription('Please use a Hex code').setRequired(true))
         .addStringOption(option => option.setName('image-url').setDescription('Image URL (optional)').setRequired(false)),
 
     async execute(interaction) {
