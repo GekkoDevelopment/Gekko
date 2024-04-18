@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const MySQL = require('../../models/mysql');
 const config = require('../../config');
 
@@ -8,6 +8,35 @@ module.exports = {
         .addRoleOption(option => option.setName('role').setDescription('Select a join role').setRequired(true)),
 
     async execute(interaction) {
+
+        if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+            const permissionErrorEmbed = new EmbedBuilder()
+            .setTitle('Permissions Error: 50013')
+            .addFields(
+                {
+                    name: 'Error Message:',
+                    value: '```\nYou lack permissions to perform that action```',
+                    inline: true
+                }
+            )
+            .setColor('Red');
+        return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
+        }
+
+        if (!interaction.guild.members.me.permissions.has(PermissionFlagsBits.ManageRoles)) {
+            const permissionErrorEmbed = new EmbedBuilder()
+            .setTitle('Permissions Error: 50013')
+            .addFields(
+                {
+                    name: 'Error Message:',
+                    value: '```\nI lack permissions to perform that action \nPlease check my permissions, or reinvite me to use my default permissions.```',
+                    inline: true
+                }
+            )
+            .setColor('Red');
+            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
+        }
+
         const guildId = interaction.guild.id;
         const role = interaction.options.getRole('role');
 
