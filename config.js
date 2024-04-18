@@ -64,6 +64,8 @@ module.exports = {
         exclamationMark: '<:gekko_exclamationMark:1226506603755475015>',
         configuration: '<:hammer:1230255584117264487>',
         discord: '<:discordemote:1230262224057274439>',
-        gekko: '<:gekkoemote:1230261004395483367>'
+        gekko: '<:gekkoemote:1230261004395483367>',
+        arrowLeft: '<a:gekko_arrowLeft:1230484672715161680> ',
+        arrowRight: '<a:gekko_arrowRight:1230484728130310227>'
     }
 }
