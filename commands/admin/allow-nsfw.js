@@ -1,11 +1,10 @@
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require('discord.js');
-const config = require('../../config.js');
-const colors = require('../../models/colors');
+const colors = require('../../models/colors.js');
 const MySQL = require('../../models/mysql.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('allow-nsfw-anime').setDescription('This feature is off by default. If you want NSFW anime stuff on turn it on using this command.'),
+        .setName('allow-nsfw').setDescription('The NSFW is off by default. If you want NSFW commands on turn it on using this command.').setNSFW(true),
     async execute(interaction) {
         const confirmButton1 = new ButtonBuilder().setLabel('Yes').setCustomId('confirm_nsfw_1').setStyle(ButtonStyle.Success);
         const denyButton1 = new ButtonBuilder().setLabel('No').setCustomId('deny_nsfw_1').setStyle(ButtonStyle.Danger);
