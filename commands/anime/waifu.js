@@ -14,7 +14,7 @@ module.exports = {
         const nsfwEnabled = MySQL.getColumnValuesWithGuildId(guildId, 'nsfw_enabled');
 
         try {
-            if (nsfwEnabled.toString() === 'false' && isNsfw === false || !channel.nsfw && isNsfw === false) {
+            if (nsfwEnabled.toString() === 'false' || isNsfw === false) {
                 const response = await fetch("https://api.waifu.pics/sfw/waifu");
                 if (!response.ok) {
                     throw new Error('Failed to fetch image');
@@ -42,6 +42,8 @@ module.exports = {
                     .setImage(`${data.url}`)
 
                 await interaction.reply({ embeds: [embed] });
+            } else {
+                await interaction.reply('You need to have NSFW commands enabled for this to work.');
             }
         } catch(error) {
             const stackLines = error.stack.split('\n');
@@ -52,8 +54,9 @@ module.exports = {
             const catchErrorEmbed = new EmbedBuilder()
             .setTitle('Unexpected Error:')
             .setDescription(`\`\`\`\n${errorMessage} \n\n${errorDescription}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
-            .setColor('Red')
-            await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
+            .setColor('Red');
+
+            await interaction.editReply({ embeds: [catchErrorEmbed], ephemeral: true });
         }
     }
 };

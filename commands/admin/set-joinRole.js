@@ -19,6 +19,5 @@ module.exports = {
         .setImage(config.assets.gekkoBanner);
 
         await interaction.reply({ embeds: [roleEmbed] });
-
     }
 };
