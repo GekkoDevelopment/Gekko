@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const { SlashCommandBuilder, EmbedBuilder, StringSelectMenuBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, Embed } = require('discord.js');
 const config = require('../../config');
 const MySQL = require('../../models/mysql');
@@ -39,11 +38,6 @@ module.exports = {
                 label: 'Welcome Messages',
                 emoji: config.emojis.configuration,
                 value: 'welcome'
-            },
-            {
-                label: 'Audit Logging',
-                emoji: config.emojis.configuration,
-                value: 'auditLogging'
             },
             {
                 label: 'Fun & Misc',
@@ -165,5 +159,3 @@ module.exports = {
 
     }
 }
-=======
->>>>>>> 2283250027afd671b977e5c6f72066beb5f56404
