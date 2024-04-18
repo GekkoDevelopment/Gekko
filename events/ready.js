@@ -18,7 +18,6 @@ module.exports = {
             "welcome_message VARCHAR(255) DEFAULT NULL",
             "image_url VARCHAR(255) DEFAULT NULL",
             "embed_clr VARCHAR(255) DEFAULT '#7B598D'",
-            "join_role VARCHAR(255) DEFAULT NULL",
             "nsfw_enabled VARCHAR(255) DEFAULT 'false'",
             "guild_prefix VARCHAR(255) DEFAULT '!'",
             "join_role VARCHAR(255) DEFAULT NULL",
