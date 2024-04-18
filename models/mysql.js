@@ -414,6 +414,16 @@ static async getValueFromTableWithCondition(table, column, conditionColumn, cond
         });
     }
 
+    static async editColumnValue(table, column, newValue) {
+        const query = `UPDATE ${table} SET ${column} = ?`
+
+        mysql.query(query, [newValue], function (error, results) {
+            if (error) {
+                throw error;
+            }
+        });
+    }
+    
     /**
      * Determines if a specific table column has a "true" or "false" value.
      * @param {string} table 

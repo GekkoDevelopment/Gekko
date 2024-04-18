@@ -12,8 +12,8 @@ module.exports = {
         const channelIds = channelsInput.match(/\d+/g);
         console.log(channelIds)
 
-        await MySQL.updateColumnValue('lockdown_config', 'guild_id', interaction.guild.id)
-        await MySQL.updateColumnValue('lockdown_config', 'channel_id', channelIds)
+        await MySQL.editColumnValue('lockdown_config', 'guild_id', interaction.guild.id);
+        await MySQL.editColumnValue('lockdown_config', 'channel_id', channelIds.toString());
 
         await interaction.reply({ content: 'done.', ephemeral: true })
     }

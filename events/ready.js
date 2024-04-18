@@ -26,7 +26,7 @@ module.exports = {
         ];
 
         const lockdownColumns = [
-            "guild_id VARCHAR(255) NOT NULL PRIMARY KEY",
+            "guild_id VARCHAR(255) NOT NULL DEFAULT '0'",
             "channel_id VARCHAR(255) DEFAULT NULL",
         ]
 
