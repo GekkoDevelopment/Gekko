@@ -25,6 +25,11 @@ module.exports = {
             "logging_type VARCHAR(255) DEFAULT NULL"
         ];
 
+        const lockdownColumns = [
+            "guild_id VARCHAR(255) NOT NULL PRIMARY KEY",
+            "channel_id VARCHAR(255) DEFAULT NULL",
+        ]
+
         const ticketDataColumns = [
             "guild_id VARCHAR(255) NOT NULL",
             "ticket_id VARCHAR(255) PRIMARY KEY DEFAULT '0'",
@@ -57,5 +62,6 @@ module.exports = {
         MySQL.createTable('muted_users', mutedUsersColumns);
         MySQL.createTable('tickets', ticketsColumns);
         MySQL.createTable('ticket_data', ticketDataColumns);
+        MySQL.createTable('lockdown_config', lockdownColumns);
     }
 };
