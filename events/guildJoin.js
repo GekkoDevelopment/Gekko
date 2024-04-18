@@ -1,12 +1,14 @@
-const { Events, EmbedBuilder, AttachmentBuilder } = require('discord.js');
+const { Events, AttachmentBuilder } = require('discord.js');
+const { createCanvas, loadImage, GlobalFonts } = require('@napi-rs/canvas')
 const MySQL = require('../models/mysql.js');
-const { createCanvas, loadImage } = require('@napi-rs/canvas')
 
 
 module.exports = {
     name: Events.GuildMemberAdd,
     async execute(member) {
         try {
+            GlobalFonts.registerFromPath('../fonts/Bangers-Regular.ttf', 'Bangers')
+            
             const guildId = member.guild.id;
 
             const welcomeMessage = await MySQL.getColumnValuesWithGuildId(guildId, 'welcome_message');
@@ -45,7 +47,7 @@ module.exports = {
 
                 // Title
                 const welc = `Welcome`;
-                ctx.font = "90px bangers";
+                ctx.font = "90px Bangers";
                 ctx.strokeStyle = '#000000';
                 ctx.lineWidth = 12;
                 ctx.strokeText(welc, 400, 200);
@@ -53,7 +55,7 @@ module.exports = {
                 ctx.fillText(welc, 400, 200);
 
                 // Username
-                ctx.font = "65px bangers";
+                ctx.font = "65px Bangers";
                 ctx.strokeStyle = "#000000";
                 ctx.lineWidth = 10;
                 ctx.strokeText(member.user.username.slice(0, 25), 400, 280);
@@ -62,7 +64,7 @@ module.exports = {
 
                 // Member count
                 ctx.fillStyle = "#ffffff";
-                ctx.font = "30px bangers";
+                ctx.font = "30px Bangers";
                 ctx.fillText(
                     `${member.guild.memberCount}th member`,
                     40,
