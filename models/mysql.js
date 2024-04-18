@@ -414,6 +414,12 @@ static async getValueFromTableWithCondition(table, column, conditionColumn, cond
         });
     }
 
+    /**
+     * Edit a specific column in a specific table.
+     * @param {string} table - The table you want to modify the column.
+     * @param {string} column - The column you want to modify.
+     * @param {string} newValue - The new value to want to replace in a specific column.
+     */
     static async editColumnValue(table, column, newValue) {
         const query = `UPDATE ${table} SET ${column} = ?`
 
