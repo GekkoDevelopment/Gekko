@@ -18,7 +18,7 @@ module.exports = {
                 console.log("Welcome channel not found.", welcomeChannelId);
                 return;
             }
-
+            
             let canvas;
             
             if (imageUrl && imageUrl !== 'null') {
@@ -45,7 +45,7 @@ module.exports = {
 
                 // Title
                 const welc = `Welcome`;
-                ctx.font = "bold 90px Ariel";
+                ctx.font = "90px bangers";
                 ctx.strokeStyle = '#000000';
                 ctx.lineWidth = 12;
                 ctx.strokeText(welc, 400, 200);
@@ -53,7 +53,7 @@ module.exports = {
                 ctx.fillText(welc, 400, 200);
 
                 // Username
-                ctx.font = "bold, 65px Ariel";
+                ctx.font = "65px bangers";
                 ctx.strokeStyle = "#000000";
                 ctx.lineWidth = 10;
                 ctx.strokeText(member.user.username.slice(0, 25), 400, 280);
@@ -62,7 +62,7 @@ module.exports = {
 
                 // Member count
                 ctx.fillStyle = "#ffffff";
-                ctx.font = "bold 30px Ariel";
+                ctx.font = "30px bangers";
                 ctx.fillText(
                     `${member.guild.memberCount}th member`,
                     40,

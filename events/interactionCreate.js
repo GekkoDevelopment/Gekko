@@ -31,8 +31,15 @@ module.exports = {
             }
         } 
         
-        if (interaction.isStringSelectMenu()) {
-            // select interaciton
+        if (interaction.isStringSelectMenu() && interaction.customId === 'mod') {
+            const logReplyMod = new EmbedBuilder()
+            .setDescription(`Ok! Logging for Moderation has been enabled and the logging channel is set to ${setChannel}`)
+            .setFooter({ text: `${interaction.client.user.username}`, iconURL: interaction.client.user.displayAvatarURL() });
+                        
+            await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_channel', interaction.channel.id);
+            await MySQL.editColumnInGuilds(interaction.guild.id, 'log_type', interaction.customId);
+
+            interaction.editReply({ embeds: [logReplyMod] });
         }
 
         if (interaction.isButton() && interaction.customId == 'ticketBtn') {
