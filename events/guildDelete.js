@@ -8,7 +8,5 @@ module.exports = {
         const guildId = guild.id;
         MySQL.deleteRow('guilds', 'guild_id', guildId);
 
-        console.log('guild data cleared from database.');
-
     }
 }
