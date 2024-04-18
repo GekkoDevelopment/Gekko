@@ -7,11 +7,15 @@ module.exports = {
     name: Events.GuildMemberAdd,
     async execute(member) {
 
-        const joinRole = await MySQL.getColumnValuesWithGuildId(member.guild.id, 'join_role')
-        console.log(joinRole)
-        //const joinRole = member.guild.roles.cache.get('1226502598094491648')
-        await member.roles.add(joinRole)
+        const joinRoleId = await MySQL.getColumnValuesWithGuildId(member.guild.id, 'join_role')
+        if (joinRoleId) {
+            console.log(joinRoleId)
 
+            const joinRole = member.guild.roles.cache.get(joinRoleId)
+            await member.roles.add(joinRole)
+        } else {
+            return; // Do nothing
+        }
 
     }
 }
