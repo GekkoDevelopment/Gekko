@@ -21,7 +21,7 @@ module.exports = {
             "join_role VARCHAR(255) DEFAULT NULL",
             "nsfw_enabled VARCHAR(255) DEFAULT 'false'",
             "guild_prefix VARCHAR(255) DEFAULT '!'",
-            "join_role VARCHAR(255) DEFAULT NULL",,
+            "join_role VARCHAR(255) DEFAULT NULL",
             "logging_channel VARCHAR(255) DEFAULT NULL",
             "logging_type VARCHAR(255) DEFAULT NULL"
         ];
