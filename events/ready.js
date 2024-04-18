@@ -19,7 +19,8 @@ module.exports = {
             "image_url VARCHAR(255) DEFAULT NULL",
             "embed_clr VARCHAR(255) DEFAULT '#7B598D'",
             "nsfw_enabled VARCHAR(255) DEFAULT 'false'",
-            "guild_prefix VARCHAR(255) DEFAULT '!'"
+            "guild_prefix VARCHAR(255) DEFAULT '!'",
+            "join_role VARCHAR(255) DEFAULT NULL",
         ];
 
         const ticketDataColumns = [
