@@ -12,7 +12,7 @@ module.exports = {
         const guildId = interaction.guild.id;
         const role = interaction.options.getRole('role');
 
-        MySQL.editColumnInGuilds(guildId, 'join_role', role);
+        MySQL.editColumnInGuilds(guildId, 'join_role', role.id);
 
         const roleEmbed = new EmbedBuilder()
         .setDescription(`New members will be given ${role} when they join your guild`)
