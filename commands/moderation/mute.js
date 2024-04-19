@@ -46,7 +46,9 @@ module.exports = {
                     inline: true
                 }
             )
-            .setColor('Red');
+            .setColor('Red')
+            .setTimestamp()
+            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 
@@ -69,6 +71,8 @@ module.exports = {
                     .setTitle('Unexpected Error:')
                     .setDescription(`\`\`\`\n${errorMessage} \n\n${errorDescription}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
                     .setColor('Red')
+                    .setTimestamp()
+                    .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
                    return interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
                 }
 
@@ -82,7 +86,9 @@ module.exports = {
                         const errorEmbed = new EmbedBuilder()
                             .setTitle('Database Error:')
                             .setDescription(`Guild couldn't be found`)
-                            .setColor('Red');
+                            .setColor('Red')
+                            .setTimestamp()
+                            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
                         return interaction.reply({ embeds: [errorEmbed] });
                     }
 
@@ -134,7 +140,9 @@ module.exports = {
                                     const errorEmbed = new EmbedBuilder()
                                         .setTitle('Mute Error:')
                                         .setDescription(`Failed to mute user`)
-                                        .setColor('Red');
+                                        .setColor('Red')
+                                        .setTimestamp()
+                                        .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
                                     return interaction.reply({ embeds: [errorEmbed] });
                                 });
                             }
@@ -144,7 +152,9 @@ module.exports = {
                         const errorEmbed = new EmbedBuilder()
                             .setTitle('Role Creation Error:')
                             .setDescription(`Failed to create muted role`)
-                            .setColor('Red');
+                            .setColor('Red')
+                            .setTimestamp()
+                            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
                         return interaction.reply({ embeds: [errorEmbed] });
                     });
                 }

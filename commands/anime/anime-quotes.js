@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const fetch = require('node-fetch');
 const colors = require('../../models/colors');
+const { emojis } = require('../../config');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -46,9 +47,11 @@ module.exports = {
             const errorDescription = error.message;
 
             const catchErrorEmbed = new EmbedBuilder()
-            .setTitle('Unexpected Error:')
+            .setTitle(`${emojis.warning} Unexpected Error:`)
             .setDescription(`\`\`\`\n${errorMessage} \n\n${errorDescription}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
             .setColor('Red')
+            .setTimestamp()
+            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
             await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
         }
     }

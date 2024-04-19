@@ -20,7 +20,9 @@ module.exports = {
                         inline: true
                     }
                 )
-                .setColor('Red');
+                .setColor('Red')
+                .setTimestamp()
+                .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
             }
     
@@ -34,7 +36,9 @@ module.exports = {
                         inline: true
                     }
                 )
-                .setColor('Red');
+                .setColor('Red')
+                .setTimestamp()
+                .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
                 return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
             }
 
@@ -83,6 +87,8 @@ module.exports = {
             .setTitle('Unexpected Error:')
             .setDescription(`\`\`\`\n${errorMessage} \n\n${errorDescription}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
             .setColor('Red')
+            .setTimestamp()
+            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
             await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
         }
     }

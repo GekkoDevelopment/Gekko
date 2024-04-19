@@ -25,8 +25,8 @@ module.exports = {
                     .setTitle(`${title}`)
                     .setImage(`${image}`)
                     .setURL(`${image}`)
-                    .setColor('Red')
-                    .setUL(`https://www.reddit.com${memeData.permalink}`)
+                    .setColor(colors.bot)
+                    .setURL(`https://www.reddit.com${memeData.permalink}`)
                     .setFooter({ text: `Posted by ${author}` });
 
                 await interaction.reply({ embeds: [embed] });
