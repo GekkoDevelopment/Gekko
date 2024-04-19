@@ -1,36 +1,58 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
-const config = require('../../config.js');
-const color = require('../../models/colors.js');
 const MySQL = require('../../models/mysql.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('mute').setDescription('Mute a user from your discord server.')
-        .addUserOption(option => option.setName('user').setDescription('The user you want to mute.').setRequired(true)),
+        .addUserOption(option => option.setName('user').setDescription('The user you want to mute.').setRequired(true))
+        .addStringOption(option => option.setName('reason').setDescription('The reason to mute the user. (optional)')),
     async execute(interaction) {
+        
+        await interaction.deferReply();
+
+        const mutedUser = interaction.options.getUser('user');
+        const reason = interaction.options.getString('reason');
+
+        const undefinedReason = undefined;
+        const muteReason = undefinedReason ? "No Reason Provided" : `${reason}`;
         
         if (!interaction.member.permissions.has(PermissionFlagsBits.MuteMembers)) {
             const permissionErrorEmbed = new EmbedBuilder()
             .setTitle('Permissions Error: 50013')
-            .addFields(
-                {
-                    name: 'Error Message:',
-                    value: '```\nYou lack permissions to perform that action```',
-                    inline: true
-                }
-            )
+            .addFields
+            ({
+                name: 'Error Message:',
+                value: '```\nYou lack permissions to perform that action```',
+                inline: true
+            })
             .setColor('Red')
             .setTimestamp()
             .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
-            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
+            return await interaction.editReply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 
-        try {
-            if (mutedRoleId === 'null' || mutedRoleId === 'undefined') {
-                let mutedRole = interaction.guild.roles.cache.find(x => x.name === 'muted');
-    
-                if (typeof mutedRoles === undefined) {
-                    interaction.guild.roles.create
+        const mutedRole = interaction.guild.roles.cache.get(x => x.name === 'muted');
+        const mutedRoleId = mutedRole.id;
+        
+        const sqlRoleId = await MySQL.getValueFromTableWithCondition('muted_users', 'role_id', 'guild_id', interaction.guild.id);
+        
+        if (sqlRoleId === null || sqlRoleId === 'undefined') {
+            
+            if (mutedRole !== null) {
+                MySQL.insertOrUpdateValue('muted_users', 'role_id', mutedRoleId);
+                mutedUser.roles.add(mutedRole);
+
+                interaction.editReply(`Successfully muted ${mutedUser.name} for: ${muteReason}`);
+            } else {
+
+            }
+        }
+    }  
+};
+
+
+/*
+    interaction.guild.roles.create
                     ({
                         name: 'muted',
                         permissionOverwrites: 
@@ -68,21 +90,4 @@ module.exports = {
                         ]
                     });
     
-                    MySQL.updateValueInTableWithCondition('muted_users', 'role_id', roleId, 'guild_id', guildId);
-                    MySQL.updateValueInTableWithCondition('muted_users', 'muted_user_id', mutedUser.id, 'guild_id', guildId );
-    
-                    await mutedUser.role.add(muted)
-    
-                    interaction.editReply({ content: "I couldn't find a muted role so I created one for you!", ephemeral: true });
-                } else {
-                    MySQL.updateValueInTableWithCondition('muted_users', 'muted_user_id', mutedUser.id, 'guild_id', guildId );
-                    await mutedUser.role.add(muted);
-                    
-                    await interaction.editReply(`Muted: ${mutedUser.name}`);
-                }
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }  
-};
+*/

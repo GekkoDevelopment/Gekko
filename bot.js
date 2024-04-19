@@ -142,8 +142,8 @@ client.on('messageCreate', async message => {
 });
 
 client.on('messageCreate', async message => {
-    let guildId = message.guild.id;
-    let guildPrefix = await MySQL.getColumnValuesWithGuildId(guildId, 'guild_prefix');
+    const guildId = message.guild.id;
+    const guildPrefix = await MySQL.getValueFromTableWithCondition('guilds', 'guild_prefix', 'guild_id', guildId);
     let prefix = guildPrefix;
     
     if (!message.content.startsWith(prefix) || message.author.bot) return;

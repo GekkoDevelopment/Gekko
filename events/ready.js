@@ -45,6 +45,7 @@ module.exports = {
         const mutedUsersColumns = [
             "guild_id VARCHAR(255) NOT NULL DEFAULT '0'",
             "role_id VARCHAR(255) DEFAULT NULL",
+            "muted_member_id VARCHAR(255) DEFAULT NULL",
             "reason VARCHAR(255) DEFAULT NULL"
         ];
 
