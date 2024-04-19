@@ -10,11 +10,10 @@ module.exports = {
     async execute(interaction) {
         const isNsfw = interaction.options.getBoolean('nsfw');
         const guildId = interaction.guild.id;
-        const channel = interaction.channel;
         const nsfwEnabled = MySQL.getColumnValuesWithGuildId(guildId, 'nsfw_enabled');
 
         try {
-            if (nsfwEnabled.toString() === 'false' || isNsfw === false) {
+            if (nsfwEnabled.toString() === 'false' || isNsfw === false || isNsfw === null) {
                 const response = await fetch("https://api.waifu.pics/sfw/waifu");
                 if (!response.ok) {
                     throw new Error('Failed to fetch image');
@@ -27,8 +26,22 @@ module.exports = {
 
                 await interaction.reply({ embeds: [embed] });
             }
+        } catch(error) {
+            const stackLines = error.stack.split('\n');
+            const relevantLine = stackLines[1];
+            const errorMessage = relevantLine.replace(/^\s+at\s+/g, '')
+            const errorDescription = error.message;
 
-            if (nsfwEnabled.toString() === 'true' && channel.nsfw && isNsfw === true) {
+            const catchErrorEmbed = new EmbedBuilder()
+            .setTitle('Unexpected Error:')
+            .setDescription(`\`\`\`\n${errorMessage} \n\n${errorDescription}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
+            .setColor('Red');
+
+            await interaction.editReply({ embeds: [catchErrorEmbed], ephemeral: true });
+        }
+
+        try {
+            if (nsfwEnabled.toString() === 'true' && interaction.channel.nsfw === true && isNsfw === true) {
                 const response = await fetch("https://api.waifu.pics/nsfw/waifu");
                
                 if (!response.ok) {
@@ -42,10 +55,10 @@ module.exports = {
                     .setImage(`${data.url}`)
 
                 await interaction.reply({ embeds: [embed] });
-            } else {
-                await interaction.reply('You need to have NSFW commands enabled for this to work.');
+            } else if (nsfwEnabled.toString() === 'false' && isNsfw === true) {
+                await interaction.editReply('You need to have NSFW commands enabled for this to work.');
             }
-        } catch(error) {
+        } catch (error) {
             const stackLines = error.stack.split('\n');
             const relevantLine = stackLines[1];
             const errorMessage = relevantLine.replace(/^\s+at\s+/g, '')
@@ -56,7 +69,7 @@ module.exports = {
             .setDescription(`\`\`\`\n${errorMessage} \n\n${errorDescription}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
             .setColor('Red');
 
-            await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
+            await interaction.editReply({ embeds: [catchErrorEmbed], ephemeral: true });
         }
     }
 };
