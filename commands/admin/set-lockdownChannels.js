@@ -2,6 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('disc
 const MySQL = require('../../models/mysql');
 const config = require('../../config');
 const colors = require('../../models/colors');
+const delay = require('node:timers/promises').setTimeout;
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -45,8 +46,10 @@ module.exports = {
         const channelsInput = interaction.options.getString('channels')
         const channelIds = channelsInput.match(/\d+/g);
 
-        await MySQL.editColumnValue('lockdown_config', 'guild_id', interaction.guild.id);
-        await MySQL.editColumnValue('lockdown_config', 'channel_id', channelIds.toString());
+        await MySQL.insertValueIfNotExists('lockdown_config', 'guild_id', interaction.guild.id);
+        await delay(1000);
+        await MySQL.updateValueInTableWithCondition('lockdown_config', 'channel_id', channelIds.toString(), 'guild_id', interaction.guild.id);
+
 
         const savedChannelIds = await MySQL.getValueFromTableWithCondition('lockdown_config', 'channel_id', 'guild_id', interaction.guild.id);
         const channelIdsArray = savedChannelIds.split(',');
