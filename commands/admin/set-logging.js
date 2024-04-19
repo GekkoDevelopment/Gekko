@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, StringSelectMenuBuilder, ActionRowBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, StringSelectMenuBuilder, ActionRowBuilder, PermissionFlagsBits } = require('discord.js');
 const MySQL = require('../../models/mysql');
 const config = require('../../config');
 const colors = require('../../models/colors');
@@ -10,6 +10,36 @@ module.exports = {
     async execute(interaction) {
         const setChannel = interaction.options.getChannel('channel');
         
+        if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
+            const permissionErrorEmbed = new EmbedBuilder()
+            .setTitle(`${config.emojis.warning} Permissions Error: 50013`)
+            .addFields(
+                {
+                    name: 'Error Message:',
+                    value: '```\nYou need the MANAGE_GUILD permission to use this command.```',
+                    inline: true
+                }
+            )
+            .setColor('Red')
+            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
+        return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
+        }
+
+        if (!interaction.guild.members.me.permissions.has(PermissionFlagsBits.ViewAuditLog)) {
+            const permissionErrorEmbed = new EmbedBuilder()
+            .setTitle(`${config.emojis.warning} Permissions Error: 50013`)
+            .addFields(
+                {
+                    name: 'Error Message:',
+                    value: '```\nI need the VIEW_AUDIT_LOG permission to use this command.```',
+                    inline: true
+                }
+            )
+            .setColor('Red')
+            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
+            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
+        }
+
         const embed = new EmbedBuilder()
         .setTitle('Gekkō Logging')
         .addFields

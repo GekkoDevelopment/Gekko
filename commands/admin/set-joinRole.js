@@ -9,32 +9,33 @@ module.exports = {
 
     async execute(interaction) {
 
-        if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+        if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
             const permissionErrorEmbed = new EmbedBuilder()
-            .setTitle('Permissions Error: 50013')
+            .setTitle(`${config.emojis.warning} Permissions Error: 50013`)
             .addFields(
                 {
                     name: 'Error Message:',
-                    value: '```\nYou lack permissions to perform that action```',
+                    value: '```\nYou need the MANAGE_GUILD permission to use this command.```',
                     inline: true
                 }
             )
-            .setColor('Red');
-        return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
+            .setColor('Red')
+            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
+            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 
-        if (!interaction.guild.members.me.permissions.has(PermissionFlagsBits.ManageRoles)) {
+        if (!interaction.member.me.permissions.has(PermissionFlagsBits.ManageRoles)) {
             const permissionErrorEmbed = new EmbedBuilder()
-            .setTitle('Permissions Error: 50013')
+            .setTitle(`${config.emojis.warning} Permissions Error: 50013`)
             .addFields(
                 {
                     name: 'Error Message:',
-                    value: '```\nI lack permissions to perform that action \nPlease check my permissions, or reinvite me to use my default permissions.```',
-                    inline: true
+                    value: '```\nI need the MANAGE_ROLES permission to use this command.```',
                 }
             )
-            .setColor('Red');
-            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
+            .setColor('Red')
+            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
+            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true })
         }
 
         const guildId = interaction.guild.id;
@@ -43,6 +44,7 @@ module.exports = {
         MySQL.editColumnInGuilds(guildId, 'join_role', role.id);
 
         const roleEmbed = new EmbedBuilder()
+        .setTitle(`${config.emojis.passed} Join Roles successfully set`)
         .setDescription(`New members will be given ${role} when they join your guild`)
         .setColor('Green')
         .setImage(config.assets.gekkoBanner);

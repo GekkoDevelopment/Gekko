@@ -8,28 +8,30 @@ module.exports = {
         .setName('reset-prefix').setDescription('Reset the prefix back to the default which is "!"'),
     async execute(interaction) {
 
-        if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+        if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
             const permissionErrorEmbed = new EmbedBuilder()
-            .setTitle('Permissions Error: 50013')
+            .setTitle(`${config.emojis.warning} Permissions Error: 50013`)
             .addFields(
                 {
                     name: 'Error Message:',
-                    value: '```\nYou lack permissions to perform that action```',
+                    value: '```\nYou need the MANAGE_GUILD permission to use this command.```',
                     inline: true
                 }
             )
-            .setColor('Red');
+            .setColor('Red')
+            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
         return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
-
+        
         const guildId = interaction.guild.id;
         const originalPrefix = '!';
 
         MySQL.editColumnInGuilds(guildId, 'guild_prefix', originalPrefix);
         
         const embed = new EmbedBuilder()
-        .setDescription('The bot prefix has been set back to ```!```')
-        .setColor(color.bot)
+        .setTitle(`${config.emojis.passed} Prefix successfully set`)
+        .setDescription('The bot prefix has been set back to: ```!```')
+        .setColor('Green')
         .setImage(config.assets.gekkoBanner);
 
         interaction.reply({ embeds: [embed] });

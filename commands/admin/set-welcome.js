@@ -1,5 +1,6 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const MySQL = require('../../models/mysql')
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+const MySQL = require('../../models/mysql');
+const { emojis } = require('../../config');
 const delay = require('node:timers/promises').setTimeout;
 
 module.exports = {
@@ -10,6 +11,22 @@ module.exports = {
         .addStringOption(option => option.setName('image-url').setDescription('Image URL (optional)').setRequired(false)),
 
     async execute(interaction) {
+
+        if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
+            const permissionErrorEmbed = new EmbedBuilder()
+            .setTitle(`${emojis.warning} Permissions Error: 50013`)
+            .addFields(
+                {
+                    name: 'Error Message:',
+                    value: '```\nYou need the MANAGE_GUILD permission to use this command.```',
+                    inline: true
+                }
+            )
+            .setColor('Red')
+            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
+        return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
+        }
+
         const guildId = interaction.guild.id;
         const welcomeMessage = interaction.options.getString('message');
         const imageUrl = interaction.options.getString('image-url');
@@ -40,6 +57,7 @@ module.exports = {
         delay(1000);
 
         const successEmbed = new EmbedBuilder()
+        .setTitle(`${emojis.passed} Welcome setting successfully set`)
         .setDescription('Welcome message, image, embed color, and channel has been set successfully!')
         .setColor('Green')
         interaction.reply({ embeds: [successEmbed] });

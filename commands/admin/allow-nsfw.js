@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require('discord.js');
 const colors = require('../../models/colors.js');
 const MySQL = require('../../models/mysql.js');
+const { emojis } = require('../../config.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -30,9 +31,9 @@ module.exports = {
 
         const channel = interaction.channel;
 
-        if (!channel.nsfw && !interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+        if (!channel.nsfw && !interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
             const permissionErrorEmbed = new EmbedBuilder()
-            .setTitle('Permissions Error: 50013')
+            .setTitle(`${emojis.warning} Permissions Error: 50013`)
             .addFields(
                 {
                     name: 'Error Message:',
@@ -40,22 +41,24 @@ module.exports = {
                     inline: true
                 }
             )
-            .setColor('Red');
+            .setColor('Red')
+            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
 
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 
-        if (!channel.nsfw && interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+        if (!channel.nsfw && interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
             const permissionErrorEmbed = new EmbedBuilder()
             .setDescription('You are not in a NSFW channel to do this!')
-            .setColor('Red');
+            .setColor('Red')
+            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
 
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 
-        if (channel.nsfw && !interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+        if (channel.nsfw && !interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
             const permissionErrorEmbed = new EmbedBuilder()
-            .setTitle('Permissions Error: 50013')
+            .setTitle(`${emojis.warning} Permissions Error: 50013`)
             .addFields(
                 {
                     name: 'Error Message:',
@@ -63,12 +66,13 @@ module.exports = {
                     inline: true
                 }
             )
-            .setColor('Red');
+            .setColor('Red')
+            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
             
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 
-        if (channel.nsfw && interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+        if (channel.nsfw && interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
             const response = await interaction.reply({ embeds: [embedConfirmEmbed1], components: [actionRow1] });
             const collectFilter = i => i.user.id === interaction.user.id;
             
@@ -84,11 +88,12 @@ module.exports = {
                     try {
                         if (confirm2.customId === 'confirm_nsfw_2') {
                             const success = new EmbedBuilder()
+                                .setTitle(`${emojis.passed} NSFW Enabled`)
                                 .setDescription('Okay! NSFW Commands are enabled but they can only be used in this channel.')
                                 .setColor(colors.deepPink);
                     
                             MySQL.updateColumnInfo(guildId, 'nsfw_enabled', 'true');
-                            await confirm2.update({ embeds: [success], components: [] });
+                            await confirm2.update({ embeds: [success], components: [], ephemeral: true });
                     
                         } else if (confirm2.customId === 'deny_nsfw_2') {
                             await confirm2.update({ content: 'Alright we cancelled it.', components: [] });
@@ -102,9 +107,10 @@ module.exports = {
                         const errorDescription = error.message;
         
                         const catchErrorEmbed = new EmbedBuilder()
-                        .setTitle('Unexpected Error:')
+                        .setTitle(`${emojis.warning} Unexpected Error:`)
                         .setDescription(`\`\`\`\n${errorMessage} \n\n${errorDescription}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
                         .setColor('Red')
+                        .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
                         await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
                     }
 
@@ -120,9 +126,10 @@ module.exports = {
                 const errorDescription = error.message;
 
                 const catchErrorEmbed = new EmbedBuilder()
-                .setTitle('Unexpected Error:')
+                .setTitle(`${emojis.warning} Unexpected Error:`)
                 .setDescription(`\`\`\`\n${errorMessage} \n\n${errorDescription}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
                 .setColor('Red')
+                .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
                 await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
             }
         }

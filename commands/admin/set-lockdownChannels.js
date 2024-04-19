@@ -10,31 +10,33 @@ module.exports = {
     
     async execute(interaction) {
 
-        if (!interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+        if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
             const permissionErrorEmbed = new EmbedBuilder()
-            .setTitle('Permissions Error: 50013')
+            .setTitle(`${config.emojis.warning} Permissions Error: 50013`)
             .addFields(
                 {
                     name: 'Error Message:',
-                    value: '```\nYou lack permissions to perform that action```',
+                    value: '```\nYou need the MANAGE_GUILD permission to use this command.```',
                     inline: true
                 }
             )
-            .setColor('Red');
+            .setColor('Red')
+            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
         return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 
-        if (!interaction.guild.members.me.permissions.has(PermissionFlagsBits.ManageChannels)) {
+        if (!interaction.guild.members.me.permissions.has(PermissionFlagsBits.ManageGuild)) {
             const permissionErrorEmbed = new EmbedBuilder()
-            .setTitle('Permissions Error: 50013')
+            .setTitle(`${config.emojis.warning} Permissions Error: 50013`)
             .addFields(
                 {
                     name: 'Error Message:',
-                    value: '```\nI lack permissions to perform that action \nPlease check my permissions, or reinvite me to use my default permissions.```',
+                    value: '```\nI need the MANAGE_GUILD permission to use this command.```',
                     inline: true
                 }
             )
-            .setColor('Red');
+            .setColor('Red')
+            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 

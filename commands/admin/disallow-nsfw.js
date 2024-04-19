@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const MySQL = require('../../models/mysql');
 const colors = require('../../models/colors');
+const { emojis } = require('../../config');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -10,14 +11,24 @@ module.exports = {
         const isNsfw = await MySQL.getColumnValuesWithGuildId(guildId, 'nsfw_enabled');
 
         try {
-            if (interaction.member.permissions.has(PermissionFlagsBits.Administrator) && isNsfw.toString() === 'true') {
+            if (interaction.member.permissions.has(PermissionFlagsBits.ManageGuild) && isNsfw.toString() === 'true') {
                 const disableEmbed = new EmbedBuilder()
+                .setTitle(`${emojis.passed} NSFW disabled`)
                 .setDescription('Okay, NSFW Commands are disabled!')
-                .setColor(colors.deepPink);
+                .setColor(colors.deepPink)
+                .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
     
                 MySQL.editColumnInGuilds(guildId, 'nsfw_enabled', 'false');
-                interaction.reply({ embeds: [disableEmbed], ephemeral: true });
-            }    
+                await interaction.reply({ embeds: [disableEmbed], ephemeral: true });
+            } else {
+                if (interaction.member.permissions.has(PermissionFlagsBits.ManageGuild) && isNsfw.toString() === 'false'){
+                    const disabledEmbed = new EmbedBuilder()
+                    .setTitle(`${emojis.warning} Command Error:`)
+                    .setDescription('> NSFW is already disabled in this guild.')
+                    .setColor(colors.deepPink);
+                    await interaction.reply({ embeds: [disabledEmbed], ephemeral: true })
+                }
+            } 
         } catch (error) {
             const stackLines = error.stack.split('\n');
             const relevantLine = stackLines[1];
@@ -25,9 +36,10 @@ module.exports = {
             const errorDescription = error.message;
 
             const catchErrorEmbed = new EmbedBuilder()
-            .setTitle('Unexpected Error:')
+            .setTitle(`${emojis.warning} Unexpected Error:`)
             .setDescription(`\`\`\`\n${errorMessage} \n\n${errorDescription}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
             .setColor('Red')
+            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
             await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
         }
     }
