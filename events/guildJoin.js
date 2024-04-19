@@ -11,7 +11,6 @@ module.exports = {
             
             const guildId = member.guild.id;
 
-            const welcomeMessage = await MySQL.getColumnValuesWithGuildId(guildId, 'welcome_message');
             const imageUrl = await MySQL.getColumnValuesWithGuildId(guildId, 'image_url');
             const welcomeChannelId = await MySQL.getColumnValuesWithGuildId(guildId, 'welcome_channel_id');
             const welcomeChannel = member.guild.channels.cache.get(welcomeChannelId);
@@ -85,7 +84,7 @@ module.exports = {
 
             }
 
-            welcomeChannel.send({ content: `**Welcome to the server, <@${member.user.id}>!** \n ${welcomeMessage}`, files: [new AttachmentBuilder(await canvas.encode("png"), { name: "welcome.png", }), ], });
+            welcomeChannel.send({ content: `**Welcome to the server, <@${member.user.id}>!**`, files: [new AttachmentBuilder(await canvas.encode("png"), { name: "welcome.png", }), ], });
         } catch (error) {
             console.error('Error sending welcome message:', error);
         }
