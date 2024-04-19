@@ -44,20 +44,19 @@ module.exports = {
         const rolesInput = interaction.options.getString('roles');
         const roleIds = rolesInput.match(/\d+/g);
 
-        console.log(roleIds);
-
         await MySQL.editColumnInGuilds(guildId, 'join_role', roleIds.toString());
-        console.log('db updated');
-        await interaction.reply({ content: 'done', ephemeral: true })
 
-        /*const roleEmbed = new EmbedBuilder()
-        .setTitle(`${config.emojis.passed} Join Roles successfully set`)
-        .setDescription(`New members will be given ${role} roles(s) when they join your guild`)
-        .setColor('Green')
-        .setFooter({ text: 'Gekkō', iconURL: interaction.client.user.displayAvatarURL() })
-        .setTimestamp()
-        .setImage(config.assets.gekkoBanner);
+        const savedRoleIds = await MySQL.getValueFromTableWithCondition('guilds', 'join_role', 'guild_id', guildId)
+        const roleIdsArray = savedRoleIds.split(',');
+        const formattedRoles = roleIdsArray.map(roleId => `<@&${roleId}>`).join('\n');
 
-        await interaction.reply({ embeds: [roleEmbed] });*/
+        const successEmbed = new EmbedBuilder()
+            .setTitle(`${config.emojis.passed} Join roles successfully set`)
+            .setDescription(`${formattedRoles}`)
+            .setColor('Green')
+            .setFooter({ text: 'Gekkō', iconURL: interaction.client.user.displayAvatarURL() })
+            .setTimestamp();
+
+        await interaction.reply({ embeds: [successEmbed] })
     }
 };
