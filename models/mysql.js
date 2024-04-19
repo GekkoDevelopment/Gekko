@@ -243,7 +243,7 @@ class MySQL {
      * @param {string} table - The name of the table.
      * @param {string} column - The name of the column to retrieve the value from.
      * @param {string} conditionColumn - The name of the second column to use as a condition.
-     * @param {any} conditionValue - The value of the second column to use as a condition.
+     * @param {string} conditionValue - The value of the second column to use as a condition.
      * @returns {Promise<any>} - A Promise that resolves with the value from the specified column.
      */
     static async getValueFromTableWithCondition(table, column, conditionColumn, conditionValue) {
