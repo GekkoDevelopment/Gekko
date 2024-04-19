@@ -42,6 +42,7 @@ module.exports = {
             interaction.editReply({ embeds: [logReplyMod] });
         }
 
+        ////// Ticketing //////
         if (interaction.isButton() && interaction.customId == 'ticketBtn') {
             const modal = new ModalBuilder()
             .setCustomId('ticketModal')
