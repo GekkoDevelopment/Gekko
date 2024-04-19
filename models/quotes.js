@@ -64,7 +64,7 @@ module.exports = {
         ]
     },
 
-    psychologyQuotes: {
+    philosophyQuotes: {
         quotes: [
             {
                 quote: "We are so accustomed to disguise ourselves to others, that in the end, we become disguised to ourselves.",
@@ -72,47 +72,47 @@ module.exports = {
             },
             {
                 quote: "If we resist our passions, it is more due to their weakness than our strength.",
-                author: "Francois de La Rochefoucauld"
+                author: "François de La Rochefoucauld"
             },
             {
                 quote: "Old people love to give good advice; it compensates them for their inability to set a bad example.",
-                author: "Francois de La Rochefoucauld"
+                author: "François de La Rochefoucauld"
             },
             {
                 quote: "We promise according to our expectations and we want according to our fears.",
-                author: "Francois de La Rochefoucauld"
+                author: "François de La Rochefoucauld"
             },
             {
                 quote: "Gratitude is merely the secret hope of further favors.",
-                author: "Francois de La Rochefoucauld"
+                author: "François de La Rochefoucauld"
             },
             {
                 quote: "Quarrels would not last long if the fault was only one side.",
-                author: "Francois de La Rochefoucauld"
+                author: "François de La Rochefoucauld"
             },
             {
                 quote: "The intellect is always fooled by the heart.",
-                author: "Francois de La Rochefoucauld"
+                author: "François de La Rochefoucauld"
             },        
             {
                 quote: "There are good marriages, but there was none of delicious.",
-                author: "Francois de La Rochefoucauld"
+                author: "François de La Rochefoucauld"
             },    
             {
                 quote: "Perhaps being old is having lighted rooms inside your head, and people in them, acting. People you know, yet can’t quite name.",
-                author: "Francois de La Rochefoucauld"
+                author: "François de La Rochefoucauld"
             },
             {
                 quote: "We are strong enough to bear the misfortunes of others.",
-                author: "Francois de La Rochefoucauld"
+                author: "François de La Rochefoucauld"
             },
             {
                 quote: "No man is clever enough to know all the evil he does.",
-                author: "Francois de La Rochefoucauld"
+                author: "François de La Rochefoucauld"
             },
             {
                 quote: "Men give away nothing as so liberally as their advice.",
-                author: "Francois de La Rochefoucauld"
+                author: "François de La Rochefoucauld"
             },
             {
                 quote: "Remember to keep a clear head in difficult times.",
@@ -162,8 +162,23 @@ module.exports = {
                 quote: "Those who cannot remember the past are condemned to repeat it.",
                 author: "George Santayana"
             },
+            {
+                quote: "What is evil? - Whatever springs from weakness.",
+                author: "Friedrich Wilhelm Nietzsche"
+            },
+            {
+                quote: "It takes a great talent and skill to conceal one's talent and skill.",
+                author: "François de La Rochefoucauld"
+            },
+            {
+                quote: "Man is an animal that makes bargains: no other animal does this - no dog exchanges bones with another.",
+                author: "Adam Smith"
+            },
+            {
+                quote: "We should not be upset that others hide the truth from us, when we hide it so often from ourselves.",
+                author: "François de La Rochefoucauld"
+            }
         ]
-
     },
 
     romanceQuotes: {
