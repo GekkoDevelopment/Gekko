@@ -50,20 +50,6 @@ module.exports = {
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 
-        if (!interaction.guild.members.me.permissions.has(PermissionFlagsBits.MuteMembers)) {
-            const permissionErrorEmbed = new EmbedBuilder()
-            .setTitle('Permissions Error: 50013')
-            .addFields(
-                {
-                    name: 'Error Message:',
-                    value: '```\nI lack permissions to perform that action \nPlease check my permissions, or reinvite me to use my default permissions.```',
-                    inline: true
-                }
-            )
-            .setColor('Red');
-            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
-        }
-
         const mutedUser = interaction.options.getUser('user');
         const guildId = interaction.guild.id;
 
