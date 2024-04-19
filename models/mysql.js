@@ -238,31 +238,6 @@ class MySQL {
         });
     }
 
-    /**
- * Retrieves a specific value from a column in a table based on a condition on a second column.
- * @param {string} table - The name of the table.
- * @param {string} column - The name of the column to retrieve the value from.
- * @param {string} conditionColumn - The name of the second column to use as a condition.
- * @param {any} conditionValue - The value of the second column to use as a condition.
- * @returns {Promise<any>} - A Promise that resolves with the value from the specified column.
- */
-static async getValueFromTableWithCondition(table, column, conditionColumn, conditionValue) {
-    return new Promise((resolve, reject) => {
-        const query = `SELECT ${column} FROM ${table} WHERE ${conditionColumn} = ? LIMIT 1`;
-        mysql.query(query, [conditionValue], (error, results) => {
-            if (error) {
-                reject(error);
-            } else {
-                if (results.length > 0) {
-                    resolve(results[0][column]);
-                } else {
-                    resolve(null);
-                }
-            }
-        });
-    });
-}
-
     static async getColumnData(table, column) {
         return new Promise((resolve, reject) => {
             const query = `SELECT ${column} FROM ${table}`;
@@ -359,6 +334,7 @@ static async getValueFromTableWithCondition(table, column, conditionColumn, cond
             });
         });
     }
+
     
     /**
      * Inserts a single value into the specified column of a table if it doesn't already exist,
