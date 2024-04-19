@@ -179,7 +179,68 @@ module.exports = {
                 author: "François de La Rochefoucauld"
             },
             {
-                
+                quote: "Hell is other people.",
+                author: "Jean-Paul Sartre"
+            },
+            {
+                quote: "There are two kinds of lies; one concerns an accomplished fact, the other concerns a future duty.",
+                author: "Jean-Paul Rousseau"
+            },
+            {
+                quote: "Nothing is as dangerous as an ignorant friend; a wise enemy is to be preferred.",
+                author: "Jean de Fontaine"
+            },
+            {
+                quote: "Abandon all hope, ye who enter here.",
+                author: "Dante Alighieri"
+            },
+            {
+                quote: "Man is condemned to be free.",
+                author: "Jean-Paul Sartre"
+            },
+            {
+                quote: "Every man has in himself the most dangerous traitor of all.",
+                author: "Kierkegaard"
+            },
+            {
+                quote: "What people commonly call fate is mosstly their own stupidity.",
+                author: "Kierkegaard"
+            },
+            {
+                quote: "Genius lives only one story above madness.",
+                author: "Arthur Schopenhauer"
+            },
+            {
+                quote: "There are two main human sins from which all the other derive: impatience and indolence.",
+                author: "Franz Kafka"
+            },
+            {
+                quote: "Remember to keep a clear head in difficult times.",
+                author: "Horace"
+            },
+            {
+                quote: "The greatest souls are capable of the greatest vices as well as of the greatest virtues.",
+                author: "René Descartes"
+            },
+            {
+                quote: "Every failure is a step to success.",
+                author: "William Whewell"
+            },
+            {
+                quote: "Adversity is the first path to truth.",
+                author: "George Gordon Byron Don Juan"
+            },
+            {
+                quote: "To doubt everything or to believe everything are two equally convenient solutions; both dispense with necessity of reflection.",
+                author: "Henri Poincaré"
+            },
+            {
+                quote: "The wound is at her heart.",
+                author: "Virgil Aeneis"
+            },
+            {
+                quote: "People, often deceived by an illusive good, desire their own ruin.",
+                author: "Niccolò Machiavelli"
             }
         ]
     },
