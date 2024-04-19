@@ -97,12 +97,12 @@ module.exports = {
                                 .setTimestamp()
                                 .setColor(colors.deepPink);
                     
-                            MySQL.updateColumnInfo(guildId, 'nsfw_enabled', 'true');
+                            MySQL.editColumnInGuilds(guildId, 'nsfw_enabled', 'true');
                             await confirm2.update({ embeds: [success], components: [], ephemeral: true });
                     
                         } else if (confirm2.customId === 'deny_nsfw_2') {
                             await confirm2.update({ content: 'Alright we cancelled it.', components: [] });
-                            MySQL.updateColumnInfo(guildId, 'nsfw_enabled', 'false');
+                            MySQL.editColumnInGuilds(guildId, 'nsfw_enabled', 'false');
                         }
                     
                     } catch(error) {
@@ -117,7 +117,7 @@ module.exports = {
                         .setColor('Red')
                         .setTimestamp()
                         .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
-                        await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
+                        await interaction.editReply({ embeds: [catchErrorEmbed], ephemeral: true });
                     }
 
                 } else if (confirm1.customId === 'deny_nsfw_1') {
@@ -137,7 +137,7 @@ module.exports = {
                 .setColor('Red')
                 .setTimestamp()
                 .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
-                await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
+                await interaction.editReply({ embeds: [catchErrorEmbed], ephemeral: true });
             }
         }
     }

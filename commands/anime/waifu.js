@@ -10,41 +10,35 @@ module.exports = {
     async execute(interaction) {
         const isNsfw = interaction.options.getBoolean('nsfw');
         const guildId = interaction.guild.id;
-        const channel = interaction.channel;
-        const nsfwEnabled = MySQL.getColumnValuesWithGuildId(guildId, 'nsfw_enabled');
+        
+        const dbPromise = MySQL.getValueFromTableWithCondition('guilds', 'nsfw_enabled', 'guild_id', guildId);
+        const nsfwEnabled = await dbPromise;
 
         try {
-            if (nsfwEnabled.toString() === 'false' || isNsfw === false) {
-                const response = await fetch("https://api.waifu.pics/sfw/waifu");
-                if (!response.ok) {
-                    throw new Error('Failed to fetch image');
-                }
-                const data = await response.json();
-                const embed = new EmbedBuilder()
-                    .setTitle('Waifu!')
-                    .setColor(colors.bot)
-                    .setImage(`${data.url}`)
-
-                await interaction.reply({ embeds: [embed] });
+            await interaction.deferReply();
+            
+            if (!interaction.channel.nsfw && isNsfw) {
+                return await interaction.editReply({ content: 'NSFW can only be used in NSFW channels.', ephemeral: true });
             }
 
-            if (nsfwEnabled.toString() === 'true' && channel.nsfw && isNsfw === true) {
-                const response = await fetch("https://api.waifu.pics/nsfw/waifu");
-               
-                if (!response.ok) {
-                    throw new Error('Failed to fetch image');
-                }
-
-                const data = await response.json();
-                const embed = new EmbedBuilder()
-                    .setTitle('Waifu!')
-                    .setColor(colors.bot)
-                    .setImage(`${data.url}`)
-
-                await interaction.reply({ embeds: [embed] });
-            } else {
-                await interaction.reply('You need to have NSFW commands enabled for this to work.');
+            if ((nsfwEnabled === 'false' && isNsfw) || (nsfwEnabled === 'false' && interaction.channel.nsfw && isNsfw)) {
+                return await interaction.editReply({ content: 'You must have NSFW enabled to use this feature (Contact your server administrator to change this.)', ephemeral: true });
             }
+
+            const response = await fetch(isNsfw ? 'https://api.waifu.pics/nsfw/waifu' : 'https://api.waifu.pics/sfw/waifu');
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch image');
+            }
+
+            const data = await response.json();
+
+            const embed = new EmbedBuilder()
+            .setTitle('Waifu!')
+            .setColor(colors.bot)
+            .setImage(`${data.url}`);
+
+            await interaction.reply({ embeds: [embed] });
         } catch(error) {
             const stackLines = error.stack.split('\n');
             const relevantLine = stackLines[1];
@@ -56,7 +50,7 @@ module.exports = {
             .setDescription(`\`\`\`\n${errorMessage} \n\n${errorDescription}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
             .setColor('Red');
 
-            await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
+            await interaction.editReply({ embeds: [catchErrorEmbed], ephemeral: true });
         }
     }
 };

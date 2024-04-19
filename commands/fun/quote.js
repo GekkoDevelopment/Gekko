@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { motivationalQuotes, mindfulnessQuotes, psychologyQuotes, romanceQuotes, natureQuotes, humorQuotes } = require('../../models/quotes');
+const { motivationalQuotes, mindfulnessQuotes, philosophyQuotes, romanceQuotes, natureQuotes, humorQuotes } = require('../../models/quotes');
 const colors = require('../../models/colors');
 
 function getRandomQuote(quotes) {
@@ -12,7 +12,7 @@ module.exports = {
         .addStringOption(option => option.setName('quote-category').setDescription('Select a category!').setRequired(true).addChoices(
             { name:"Motivational", value: "motivational"},
             { name:"Mindfulness", value: "mindfulness"},
-            { name:"Psychology", value: "psychology"},
+            { name:"Philosophy", value: "philosophy"},
             { name:"Romance", value: "romance"},
             { name:"Nature", value: "nature"},
             { name:"Humor", value: "humor"}
@@ -31,8 +31,8 @@ module.exports = {
                 title = '𓆩☻𓆪 Mindfulness Quotes! 𓆩☻𓆪';
                 break;
             case 'psychology':
-                ({ quote, author } = getRandomQuote(psychologyQuotes.quotes));
-                title = '❃ Psychology Quotes! ❃';
+                ({ quote, author } = getRandomQuote(philosophyQuotes.quotes));
+                title = '❃ Philosophy Quotes! ❃';
                 break;
             case 'romance':
                 ({ quote, author } = getRandomQuote(romanceQuotes.quotes));
