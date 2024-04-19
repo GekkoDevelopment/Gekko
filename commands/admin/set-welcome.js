@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, AttachmentBuilder, PermissionFlagsBits } = require('discord.js');
 const MySQL = require('../../models/mysql');
 const { emojis } = require('../../config');
 const { createCanvas, loadImage, GlobalFonts } = require('@napi-rs/canvas');
@@ -49,7 +49,7 @@ module.exports = {
             }
         });
 
-        delay(1000);
+        await delay(1000);
 
         try {
             GlobalFonts.registerFromPath('../fonts/Bangers-Regular.ttf', 'Bangers')
@@ -121,7 +121,6 @@ module.exports = {
                 ctx.restore();
 
                 await interaction.reply({ content: `${emojis.passed} Welcome image set, this is how it will appear:\n\n**Welcome to the server, <@${interaction.user.id}>!**`, files: [new AttachmentBuilder(await canvas.encode("png"), { name: "welcome.png", }), ], });
-                console.log('wecome image sent')
             }
 
         } catch (error) {
