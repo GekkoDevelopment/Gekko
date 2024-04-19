@@ -8,7 +8,6 @@ module.exports = {
         .setName('mute').setDescription('Mute a user from your discord server.')
         .addUserOption(option => option.setName('user').setDescription('The user you want to mute.').setRequired(true)),
     async execute(interaction) {
-        await interaction.deferReply();
         
         if (!interaction.member.permissions.has(PermissionFlagsBits.MuteMembers)) {
             const permissionErrorEmbed = new EmbedBuilder()
@@ -26,14 +25,64 @@ module.exports = {
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 
-        const mutedUser = interaction.options.getUser('user');
-        const guildId = interaction.guild.id;
-
-        MySQL.insertValueIfNotExists('muted_users', 'guild_id', guildId);
-        const mutedRoleId = MySQL.getValueFromTableWithCondition('muted_users', 'muted_role_id', 'guild_id', guildId);
-
-        if (mutedRoleId === 'null' || mutedRoleId === 'undefined') {
-            
+        try {
+            if (mutedRoleId === 'null' || mutedRoleId === 'undefined') {
+                let mutedRole = interaction.guild.roles.cache.find(x => x.name === 'muted');
+    
+                if (typeof mutedRoles === undefined) {
+                    interaction.guild.roles.create
+                    ({
+                        name: 'muted',
+                        permissionOverwrites: 
+                        [
+                            {
+                                id: mutedRole.id,
+                                deny: [PermissionFlagsBits.SendMessages],
+                                
+                            },
+                            {
+                                id: mutedRole.id,
+                                deny: [PermissionFlagsBits.SendVoiceMessages],
+                                
+                            },
+                            {
+                                id: mutedRole.id,
+                                deny: [PermissionFlagsBits.SendTTSMessages],
+                            },
+                            {
+                                id: mutedRole.id,
+                                deny: [PermissionFlagsBits.SendMessagesInThreads],
+                            },
+                            {
+                                id: mutedRole.id,
+                                deny: [PermissionFlagsBits.UseExternalSounds],
+                            },
+                            {
+                                id: mutedRole.id,
+                                deny: [PermissionFlagsBits.SendMessagesInThreads],
+                            },
+                            {
+                                id: mutedRole.id,
+                                deny: [PermissionFlagsBits.UseSoundboard]
+                            }
+                        ]
+                    });
+    
+                    MySQL.updateValueInTableWithCondition('muted_users', 'role_id', roleId, 'guild_id', guildId);
+                    MySQL.updateValueInTableWithCondition('muted_users', 'muted_user_id', mutedUser.id, 'guild_id', guildId );
+    
+                    await mutedUser.role.add(muted)
+    
+                    interaction.editReply({ content: "I couldn't find a muted role so I created one for you!", ephemeral: true });
+                } else {
+                    MySQL.updateValueInTableWithCondition('muted_users', 'muted_user_id', mutedUser.id, 'guild_id', guildId );
+                    await mutedUser.role.add(muted);
+                    
+                    await interaction.editReply(`Muted: ${mutedUser.name}`);
+                }
+            }
+        } catch (error) {
+            console.log(error);
         }
     }  
 };

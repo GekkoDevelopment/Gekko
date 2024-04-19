@@ -263,6 +263,28 @@ class MySQL {
         });
     }
 
+    /**
+     * Updates a specific value in a column in a table based on a condition on a second column.
+     * @param {string} table - The name of the table.
+     * @param {string} column - The name of the column to update.
+     * @param {any} newValue - The new value to set in the column.
+     * @param {string} conditionColumn - The name of the second column to use as a condition.
+     * @param {any} conditionValue - The value of the second column to use as a condition.
+     * @returns {Promise<number>} - A Promise that resolves with the number of affected rows.
+     */
+    static async updateValueInTableWithCondition(table, column, newValue, conditionColumn, conditionValue) {
+        return new Promise((resolve, reject) => {
+            const query = `UPDATE ${table} SET ${column} = ? WHERE ${conditionColumn} = ?`;
+            mysql.query(query, [newValue, conditionValue], (error, results) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(results.affectedRows);
+                }
+            });
+        });
+    }
+
     static async getColumnData(table, column) {
         return new Promise((resolve, reject) => {
             const query = `SELECT ${column} FROM ${table}`;
