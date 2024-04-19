@@ -5,7 +5,7 @@ const config = require('../../config');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('set-join-roles').setDescription('Set welcome message, image, and channel for the guild.')
-        .addRoleOption(option => option.setName('role').setDescription('Select a join role').setRequired(true)),
+        .addStringOption(option => option.setName('roles').setDescription('Enter the roles you want to give new users').setRequired(true)),
 
     async execute(interaction) {
 
@@ -41,11 +41,16 @@ module.exports = {
         }
 
         const guildId = interaction.guild.id;
-        const role = interaction.options.getRole('role');
+        const rolesInput = interaction.options.getString('roles');
+        const roleIds = rolesInput.match(/\d+/g);
 
-        MySQL.editColumnInGuilds(guildId, 'join_role', role.id);
+        console.log(roleIds);
 
-        const roleEmbed = new EmbedBuilder()
+        await MySQL.editColumnInGuilds(guildId, 'join_role', roleIds.toString());
+        console.log('db updated');
+        await interaction.reply({ content: 'done', ephemeral: true })
+
+        /*const roleEmbed = new EmbedBuilder()
         .setTitle(`${config.emojis.passed} Join Roles successfully set`)
         .setDescription(`New members will be given ${role} roles(s) when they join your guild`)
         .setColor('Green')
@@ -53,6 +58,6 @@ module.exports = {
         .setTimestamp()
         .setImage(config.assets.gekkoBanner);
 
-        await interaction.reply({ embeds: [roleEmbed] });
+        await interaction.reply({ embeds: [roleEmbed] });*/
     }
 };
