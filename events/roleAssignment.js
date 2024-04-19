@@ -8,7 +8,6 @@ module.exports = {
         try {
             const guildId = member.guild.id
             const roleIds = await MySQL.getValueFromTableWithCondition('guilds', 'join_role', 'guild_id', guildId)
-            //const joinRoleId = await MySQL.getColumnValuesWithGuildId(member.guild.id, 'join_role')
 
             if (roleIds) {
                 const roleIdsArray = roleIds.split(',');
