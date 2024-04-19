@@ -58,11 +58,10 @@ module.exports = {
         const collector = interaction.channel.createMessageComponentCollector({
             filter,
             time: null,
-            max: 1
+            max: null
         });
 
         collector.on('collect', async interaction => {
-            console.log(interaction.values[0])
             const value = interaction.values[0];
             try {
                 if (value === 'general_commands') {
@@ -142,7 +141,7 @@ module.exports = {
                     
                     await interaction.editReply({ embeds: [fCom], components: [actionRow] }); 
                 }
-                
+
             } catch (error) {
                 const stackLines = error.stack.split('\n');
                 const relevantLine = stackLines[1];
