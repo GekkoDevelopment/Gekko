@@ -42,8 +42,10 @@ module.exports = {
 
         MySQL.valueExistsInGuildsColumn(guildId, 'welcome_channel_id', welcomeChannelId).then(exists => {
             if (exists) {
-                MySQL.updateColumnInfo(guildId, 'welcome_channel_id', welcomeChannelId);
-                MySQL.updateColumnInfo(guildId, 'image_url', imageUrl);
+                MySQL.editColumnInGuilds(guildId, 'welcome_channel_id', welcomeChannelId);
+                MySQL.editColumnInGuilds(guildId, 'welcome_message', welcomeMessage);
+                MySQL.editColumnInGuilds(guildId, 'image_url', imageUrl);
+                MySQL.editColumnInGuilds(guildId, 'embed_clr', hexCode);
             } else {
                 MySQL.insertIntoGuildTable(columns, values);
             }
