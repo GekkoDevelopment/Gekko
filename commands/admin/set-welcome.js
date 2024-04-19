@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, AttachmentBuilder, PermissionFlagsBits } = require('discord.js');
 const MySQL = require('../../models/mysql');
 const { emojis } = require('../../config');
 const { createCanvas, loadImage, GlobalFonts } = require('@napi-rs/canvas');
@@ -8,7 +8,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('set-welcome').setDescription('Set welcome message, image, and channel for the guild.')
         .addChannelOption(option => option.setName('channel').setDescription('Welcome channel').setRequired(true))
-        .addStringOption(option => option.setName('image-url').setDescription('Image URL (optional)').setRequired(false)),
+        .addStringOption(option => option.setName('image-url').setDescription('Image URL (optional)').setRequired(true)),
 
     async execute(interaction) {
 
@@ -43,15 +43,13 @@ module.exports = {
         MySQL.valueExistsInGuildsColumn(guildId, 'welcome_channel_id', welcomeChannelId).then(exists => {
             if (exists) {
                 MySQL.editColumnInGuilds(guildId, 'welcome_channel_id', welcomeChannelId);
-                MySQL.editColumnInGuilds(guildId, 'welcome_message', welcomeMessage);
                 MySQL.editColumnInGuilds(guildId, 'image_url', imageUrl);
-                MySQL.editColumnInGuilds(guildId, 'embed_clr', hexCode);
             } else {
                 MySQL.insertIntoGuildTable(columns, values);
             }
         });
 
-        delay(1000);
+        await delay(1000);
 
         try {
             GlobalFonts.registerFromPath('../fonts/Bangers-Regular.ttf', 'Bangers')
@@ -123,9 +121,7 @@ module.exports = {
                 ctx.restore();
 
                 await interaction.reply({ content: `${emojis.passed} Welcome image set, this is how it will appear:\n\n**Welcome to the server, <@${interaction.user.id}>!**`, files: [new AttachmentBuilder(await canvas.encode("png"), { name: "welcome.png", }), ], });
-                console.log('wecome image sent')
             }
-
 
         } catch (error) {
             console.log('Error sending welcome message:', error);

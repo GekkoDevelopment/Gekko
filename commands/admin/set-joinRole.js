@@ -5,7 +5,7 @@ const config = require('../../config');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('set-join-roles').setDescription('Set welcome message, image, and channel for the guild.')
-        .addRoleOption(option => option.setName('role').setDescription('Select a join role').setRequired(true)),
+        .addStringOption(option => option.setName('roles').setDescription('Enter the roles you want to give new users').setRequired(true)),
 
     async execute(interaction) {
 
@@ -41,18 +41,22 @@ module.exports = {
         }
 
         const guildId = interaction.guild.id;
-        const role = interaction.options.getRole('role');
+        const rolesInput = interaction.options.getString('roles');
+        const roleIds = rolesInput.match(/\d+/g);
 
-        MySQL.editColumnInGuilds(guildId, 'join_role', role.id);
+        await MySQL.editColumnInGuilds(guildId, 'join_role', roleIds.toString());
 
-        const roleEmbed = new EmbedBuilder()
-        .setTitle(`${config.emojis.passed} Join Roles successfully set`)
-        .setDescription(`New members will be given ${role} roles(s) when they join your guild`)
-        .setColor('Green')
-        .setFooter({ text: 'Gekkō', iconURL: interaction.client.user.displayAvatarURL() })
-        .setTimestamp()
-        .setImage(config.assets.gekkoBanner);
+        const savedRoleIds = await MySQL.getValueFromTableWithCondition('guilds', 'join_role', 'guild_id', guildId)
+        const roleIdsArray = savedRoleIds.split(',');
+        const formattedRoles = roleIdsArray.map(roleId => `<@&${roleId}>`).join('\n');
 
-        await interaction.reply({ embeds: [roleEmbed] });
+        const successEmbed = new EmbedBuilder()
+            .setTitle(`${config.emojis.passed} Join roles successfully set`)
+            .setDescription(`${formattedRoles}`)
+            .setColor('Green')
+            .setFooter({ text: 'Gekkō', iconURL: interaction.client.user.displayAvatarURL() })
+            .setTimestamp();
+
+        await interaction.reply({ embeds: [successEmbed] })
     }
 };
