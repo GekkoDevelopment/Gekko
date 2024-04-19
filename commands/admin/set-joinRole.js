@@ -20,11 +20,12 @@ module.exports = {
                 }
             )
             .setColor('Red')
+            .setTimestamp()
             .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 
-        if (!interaction.member.me.permissions.has(PermissionFlagsBits.ManageRoles)) {
+        if (!interaction.guild.members.me.permissions.has(PermissionFlagsBits.ManageRoles)) {
             const permissionErrorEmbed = new EmbedBuilder()
             .setTitle(`${config.emojis.warning} Permissions Error: 50013`)
             .addFields(
@@ -34,6 +35,7 @@ module.exports = {
                 }
             )
             .setColor('Red')
+            .setTimestamp()
             .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true })
         }
@@ -45,8 +47,10 @@ module.exports = {
 
         const roleEmbed = new EmbedBuilder()
         .setTitle(`${config.emojis.passed} Join Roles successfully set`)
-        .setDescription(`New members will be given ${role} when they join your guild`)
+        .setDescription(`New members will be given ${role} roles(s) when they join your guild`)
         .setColor('Green')
+        .setFooter({ text: 'Gekkō', iconURL: interaction.client.user.displayAvatarURL() })
+        .setTimestamp()
         .setImage(config.assets.gekkoBanner);
 
         await interaction.reply({ embeds: [roleEmbed] });

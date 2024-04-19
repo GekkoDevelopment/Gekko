@@ -21,6 +21,7 @@ module.exports = {
                 }
             )
             .setColor('Red')
+            .setTimestamp()
             .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
         return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
@@ -36,10 +37,10 @@ module.exports = {
                 }
             )
             .setColor('Red')
+            .setTimestamp()
             .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
-
 
         const channelsInput = interaction.options.getString('channels')
         const channelIds = channelsInput.match(/\d+/g);
@@ -53,9 +54,9 @@ module.exports = {
 
 
         const successEmbed = new EmbedBuilder()
-            .setTitle(`${config.emojis.passed} Lockdown Channels Set`)
+            .setTitle(`${config.emojis.passed} Lockdown Channels successfully set`)
             .setDescription(`${formattedChannels}`)
-            .setColor(colors.bot)
+            .setColor('Green')
             .setFooter({ text: 'Gekkō', iconURL: interaction.client.user.displayAvatarURL() })
             .setTimestamp();
 

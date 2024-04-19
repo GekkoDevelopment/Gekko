@@ -19,6 +19,7 @@ module.exports = {
                 }
             )
             .setColor('Red')
+            .setTimestamp()
             .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
         return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
@@ -30,8 +31,10 @@ module.exports = {
         
         const embed = new EmbedBuilder()
         .setTitle(`${config.emojis.passed} Prefix successfully set`)
-        .setDescription('The bot prefix has been set back to: ```!```')
+        .setDescription('The bot prefix has been set back to: `!`')
         .setColor('Green')
+        .setFooter({ text: 'Gekkō', iconURL: interaction.client.user.displayAvatarURL() })
+        .setTimestamp()
         .setImage(config.assets.gekkoBanner);
 
         interaction.reply({ embeds: [embed] });

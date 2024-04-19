@@ -23,6 +23,7 @@ module.exports = {
                 }
             )
             .setColor('Red')
+            .setTimestamp()
             .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
         return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
@@ -60,6 +61,8 @@ module.exports = {
         .setTitle(`${emojis.passed} Welcome setting successfully set`)
         .setDescription('Welcome message, image, embed color, and channel has been set successfully!')
         .setColor('Green')
+        .setTimestamp()
+        .setFooter({ text: 'Gekkō', iconURL: interaction.client.user.displayAvatarURL() });
         interaction.reply({ embeds: [successEmbed] });
     }
 };

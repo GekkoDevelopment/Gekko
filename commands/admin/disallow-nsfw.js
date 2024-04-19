@@ -14,9 +14,10 @@ module.exports = {
             if (interaction.member.permissions.has(PermissionFlagsBits.ManageGuild) && isNsfw.toString() === 'true') {
                 const disableEmbed = new EmbedBuilder()
                 .setTitle(`${emojis.passed} NSFW disabled`)
-                .setDescription('Okay, NSFW Commands are disabled!')
+                .setDescription('Okay, **NSFW** Commands are disabled!')
                 .setColor(colors.deepPink)
-                .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
+                .setTimestamp()
+                .setFooter({ text: 'Gekkō', iconURL: interaction.client.user.displayAvatarURL() });
     
                 MySQL.editColumnInGuilds(guildId, 'nsfw_enabled', 'false');
                 await interaction.reply({ embeds: [disableEmbed], ephemeral: true });
@@ -24,7 +25,9 @@ module.exports = {
                 if (interaction.member.permissions.has(PermissionFlagsBits.ManageGuild) && isNsfw.toString() === 'false'){
                     const disabledEmbed = new EmbedBuilder()
                     .setTitle(`${emojis.warning} Command Error:`)
-                    .setDescription('> NSFW is already disabled in this guild.')
+                    .setDescription(' **NSFW** is already disabled in this guild.')
+                    .setFooter({ text: 'Gekkō', iconURL: interaction.client.user.displayAvatarURL() })
+                    .setTimestamp()
                     .setColor(colors.deepPink);
                     await interaction.reply({ embeds: [disabledEmbed], ephemeral: true })
                 }
@@ -39,6 +42,7 @@ module.exports = {
             .setTitle(`${emojis.warning} Unexpected Error:`)
             .setDescription(`\`\`\`\n${errorMessage} \n\n${errorDescription}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
             .setColor('Red')
+            .setTimestamp()
             .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
             await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
         }

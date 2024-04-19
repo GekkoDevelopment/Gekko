@@ -16,13 +16,13 @@ module.exports = {
         const denyButton2 = new ButtonBuilder().setLabel('No').setCustomId('deny_nsfw_2').setStyle(ButtonStyle.Danger);
         
         const embedConfirmEmbed1 = new EmbedBuilder()
-        .setTitle('Enable Not Safe For Work Feature')
+        .setTitle(`${emojis.warning} Enable Not Safe For Work Feature`)
         .setColor(colors.deepPink)
         .setDescription("This command turns on NSFW anime features (such as the waifu command will show NSFW images)." + 
         "This command/feature is turned off by default... **Are you sure you want to enable this feature?**");
 
         const embedConfirmEmbed2 = new EmbedBuilder()
-        .setTitle('Enable Not Safe For Work Feature')
+        .setTitle(`${emojis.warning} Enable Not Safe For Work Feature`)
         .setColor(colors.deepPink)
         .setDescription("**Are you sure you're sure?**");
 
@@ -42,6 +42,7 @@ module.exports = {
                 }
             )
             .setColor('Red')
+            .setTimestamp()
             .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
 
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
@@ -51,6 +52,7 @@ module.exports = {
             const permissionErrorEmbed = new EmbedBuilder()
             .setDescription('You are not in a NSFW channel to do this!')
             .setColor('Red')
+            .setTimestamp()
             .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
 
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
@@ -67,6 +69,7 @@ module.exports = {
                 }
             )
             .setColor('Red')
+            .setTimestamp()
             .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
             
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
@@ -89,7 +92,9 @@ module.exports = {
                         if (confirm2.customId === 'confirm_nsfw_2') {
                             const success = new EmbedBuilder()
                                 .setTitle(`${emojis.passed} NSFW Enabled`)
-                                .setDescription('Okay! NSFW Commands are enabled but they can only be used in this channel.')
+                                .setDescription('Okay! **NSFW** Commands are enabled but they can only be used in this channel.')
+                                .setFooter({ text: 'Gekkō', iconURL: interaction.client.user.displayAvatarURL() })
+                                .setTimestamp()
                                 .setColor(colors.deepPink);
                     
                             MySQL.updateColumnInfo(guildId, 'nsfw_enabled', 'true');
@@ -110,6 +115,7 @@ module.exports = {
                         .setTitle(`${emojis.warning} Unexpected Error:`)
                         .setDescription(`\`\`\`\n${errorMessage} \n\n${errorDescription}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
                         .setColor('Red')
+                        .setTimestamp()
                         .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
                         await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
                     }
@@ -129,6 +135,7 @@ module.exports = {
                 .setTitle(`${emojis.warning} Unexpected Error:`)
                 .setDescription(`\`\`\`\n${errorMessage} \n\n${errorDescription}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
                 .setColor('Red')
+                .setTimestamp()
                 .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
                 await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
             }
