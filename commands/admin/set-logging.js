@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, StringSelectMenuBuilder, ActionRowBuilder, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, StringSelectMenuBuilder, ActionRowBuilder, PermissionFlagsBits, ALLOWED_SIZES } = require('discord.js');
 const MySQL = require('../../models/mysql');
 const config = require('../../config');
 const colors = require('../../models/colors');
@@ -94,7 +94,7 @@ module.exports = {
             },
             {
                 label: 'Audit Logs',
-                emoji: config.emote,
+                emoji: config.emojis.configuration,
                 value: 'audit'
             },
             {
@@ -113,74 +113,76 @@ module.exports = {
         await interaction.reply({ embeds: [embed], components: [actionRow] });
 
         const filter = i => i.customId === 'config_logging' && i.user.id === interaction.user.id;
-        const collector = interaction.channel.createMessageComponentCollector({ filter, time: null, max: 1 });
+        const collector = interaction.channel.createMessageComponentCollector({ filter, time: null, max: null });
 
-        collector.on('end', async collected => {
-            if (collected.size === 0) {
-                return;
-            }
-
-            const value = collected.values[0];
+        collector.on('collect', async interaction => {
+            const value = interaction.values[0];
 
             try {
-                switch (value) {
-                    case 'mod':
-                        const logReplyMod = new EmbedBuilder()
-                        .setDescription(`Ok! Logging for Moderation has been enabled and the logging channel is set to ${setChannel}`)
-                        .setFooter({ text: `${interaction.client.user.username}`, iconURL: interaction.client.user.displayAvatarURL() });
-                        
-                        await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_channel', interaction.channel.id);
-                        await MySQL.editColumnInGuilds(interaction.guild.id, 'log_type', interaction.customId);
+                if (value === 'mod') {
+                    await interaction.deferUpdate();
+                    const logReplyMod = new EmbedBuilder()
+                    .setTitle(`${config.emojis.passed} Logging Channel Set`)
+                    .setColor('Green')
+                    .setDescription(`Ok! Logging for Moderation has been enabled and the logging channel is set to ${setChannel}`)
+                    .setFooter({ text: `${interaction.client.user.username}`, iconURL: interaction.client.user.displayAvatarURL() });
+                    
+                    await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_channel', interaction.channel.id);
+                    await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_type', interaction.customId);
 
-                        interaction.editReply({ embeds: [logReplyMod] });
-                        break;
-                        
-                    case 'ticket':
-                        const logReplyTicket = new EmbedBuilder()
-                        .setDescription(`Ok! Logging for tickets has been enabled and the logging channel is set to ${setChannel}`)
-                        .setFooter({ text: `${interaction.client.user.username}`, iconURL: interaction.client.user.displayAvatarURL() });
-                        
-                        await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_channel', interaction.channel.id);
-                        await MySQL.editColumnInGuilds(interaction.guild.id, 'log_type', interaction.customId);
+                    interaction.editReply({ embeds: [logReplyMod] });
 
-                        interaction.editReply({ embeds: [logReplyTicket] });
-                        break;
+                } if (value === 'ticket') {
+                    await interaction.deferUpdate();    
+                    const logReplyTicket = new EmbedBuilder()
+                    .setTitle(`${config.emojis.passed} Logging Channel Set`)
+                    .setColor('Green')
+                    .setDescription(`Ok! Logging for tickets has been enabled and the logging channel is set to ${setChannel}`)
+                    .setFooter({ text: `${interaction.client.user.username}`, iconURL: interaction.client.user.displayAvatarURL() });
+                    
+                    await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_channel', interaction.channel.id);
+                    await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_type', interaction.customId);
 
-                    case 'message':
-                        const logReplyMessage = new EmbedBuilder()
-                        .setDescription(`Ok! Logging for messages has been enabled and the logging channel is set to ${setChannel}`)
-                        .setFooter({ text: `${interaction.client.user.username}`, iconURL: interaction.client.user.displayAvatarURL() });
-                        
-                        await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_channel', interaction.channel.id);
-                        await MySQL.editColumnInGuilds(interaction.guild.id, 'log_type', interaction.customId);
+                    interaction.editReply({ embeds: [logReplyTicket] });
 
-                        interaction.editReply({ embeds: [logReplyMessage] });
-                        break;
-                        
-                    case 'auditLogging':
-                        const logReplyAudit = new EmbedBuilder()
-                        .setDescription(`Ok! Logging for audit logs has been enabled and the logging channel is set to ${setChannel}`)
-                        .setFooter({ text: `${interaction.client.user.username}`, iconURL: interaction.client.user.displayAvatarURL() });
-                        
-                        await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_channel', interaction.channel.id);
-                        await MySQL.editColumnInGuilds(interaction.guild.id, 'log_type', interaction.customId);
+                } if (value === 'message') {
+                    await interaction.deferUpdate();
+                    const logReplyMessage = new EmbedBuilder()
+                    .setTitle(`${config.emojis.passed} Logging Channel Set`)
+                    .setColor('Green')
+                    .setDescription(`Ok! Logging for messages has been enabled and the logging channel is set to ${setChannel}`)
+                    .setFooter({ text: `${interaction.client.user.username}`, iconURL: interaction.client.user.displayAvatarURL() });
+                    
+                    await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_channel', interaction.channel.id);
+                    await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_type', interaction.customId);
 
-                        interaction.editReply({ embeds: [logReplyAudit] });
-                        break;
+                    interaction.editReply({ embeds: [logReplyMessage] });
 
-                    case 'all':
-                        const logReplyAll = new EmbedBuilder()
-                        .setDescription(`Ok! All logging has been enabled and the logging channel is set to ${setChannel}`)
-                        .setFooter({ text: `${interaction.client.user.username}`, iconURL: interaction.client.user.displayAvatarURL() });
-                        
-                        await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_channel', interaction.channel.id);
-                        await MySQL.editColumnInGuilds(interaction.guild.id, 'log_type', interaction.customId);
+                } if (value === 'auditLogging') {
+                    await interaction.deferUpdate();
+                    const logReplyAudit = new EmbedBuilder()
+                    .setTitle(`${config.emojis.passed} Logging Channel Set`)
+                    .setColor('Green')
+                    .setDescription(`Ok! Logging for audit logs has been enabled and the logging channel is set to ${setChannel}`)
+                    .setFooter({ text: `${interaction.client.user.username}`, iconURL: interaction.client.user.displayAvatarURL() });
+                    
+                    await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_channel', interaction.channel.id);
+                    await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_type', interaction.customId);
 
-                        interaction.editReply({ embeds: [logReplyAll] });
-                        break;
-                        
-                    default:
-                        break;
+                    interaction.editReply({ embeds: [logReplyAudit] });
+
+                } if (value === 'all') {
+                    await interaction.deferUpdate();
+                    const logReplyAll = new EmbedBuilder()
+                    .setTitle(`${config.emojis.passed} Logging Channel Set`)
+                    .setColor('Green')
+                    .setDescription(`Ok! All logging has been enabled and the logging channel is set to ${setChannel}`)
+                    .setFooter({ text: `${interaction.client.user.username}`, iconURL: interaction.client.user.displayAvatarURL() });
+                    
+                    await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_channel', interaction.channel.id);
+                    await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_type', interaction.customId);
+
+                    interaction.editReply({ embeds: [logReplyAll] });
                 }
             } catch (error) {
                 const stackLines = error.stack.split('\n');
