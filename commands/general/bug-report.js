@@ -49,12 +49,12 @@ module.exports = {
             bugModal.addComponents(bugModalVid);
 
             await interaction.showModal(bugModal);
-
+            
             const filter = (int) => int.customId === 'bug_report_modal';
-            int.awaitModalSubmit({ filter, time: 30_000 }).then((int) => {
+            interaction.awaitModalSubmit({ filter, time: 30_000 }).then((int) => {
                 int.reply({ content: 'Bug Report submitted! Our development team will take a look.', ephemeral: true });
 
-                let guild = i.client.guilds.cache.get(config.developer.devGuild);
+                let guild = int.client.guilds.cache.get(config.developer.devGuild);
                 let channel = guild.channels.cache.get(config.developer.devBugReportsChannel);
 
                 let bugReportEmbed = new EmbedBuilder()
@@ -91,7 +91,7 @@ module.exports = {
             .setColor('Red')
             .setTimestamp()
             .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
-            await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
+            await interaction.channel.send({ embeds: [catchErrorEmbed], ephemeral: true });
         }
     } 
 }

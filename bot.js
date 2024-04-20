@@ -200,7 +200,7 @@ client.on('messageCreate', async message => {
     const guildPrefix = await MySQL.getValueFromTableWithCondition('guilds', 'guild_prefix', 'guild_id', guildId);
     let prefix = guildPrefix;
     
-    const restricted = MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', interaction.guild.id);
+    const restricted = MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', guildId);
 
     if (restricted === 'true') {
         const permissionErrorEmbed = new EmbedBuilder()

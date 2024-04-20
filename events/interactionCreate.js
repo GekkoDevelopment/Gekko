@@ -43,7 +43,7 @@ module.exports = {
         }
 
         ////// Ticketing //////
-        if (interaction.isButton() && interaction.customId == 'ticketBtn') {
+        if (interaction.isButton() && interaction.customId === 'ticketBtn') {
             const modal = new ModalBuilder()
             .setCustomId('ticketModal')
             .setTitle('Support Ticket');
@@ -67,7 +67,7 @@ module.exports = {
 
             modal.addComponents(firstActionRow, seconActionRow)
             await interaction.showModal(modal)
-        } else if (interaction.isModalSubmit()) {
+        } else if (interaction.isModalSubmit() && interaction.customId === 'ticketModal') {
 
             const topic = interaction.fields.getTextInputValue('topic');
             const issue = interaction.fields.getTextInputValue('issue');
@@ -147,7 +147,7 @@ module.exports = {
             await interaction.reply({ embeds: [successEmbed], ephemeral: true })
         };
 
-        if (interaction.isButton() && interaction.customId == 'closeTicket') {
+        if (interaction.isButton() && interaction.customId === 'closeTicket') {
             
             const modPanel = new EmbedBuilder()
                 .setTitle('Ticket Panel')
@@ -185,7 +185,7 @@ module.exports = {
             
         };
 
-        if (interaction.isButton() && interaction.customId == 'reopen') {
+        if (interaction.isButton() && interaction.customId === 'reopen') {
 
             const userId = await MySQL.getValueFromTableWithCondition('ticket_data', 'user_id', 'ticket_id', `${interaction.channel.id}`);
             const user = interaction.guild.members.cache.get(userId.toString())
@@ -201,7 +201,7 @@ module.exports = {
             await channel.send({ content: `<@${userId.toString()}>`, embeds: [openEmbed] });
         };
 
-        if (interaction.isButton() && interaction.customId == 'delete') {
+        if (interaction.isButton() && interaction.customId === 'delete') {
             
             const deletionEmbed = new EmbedBuilder()
                 .setDescription(`${emojis.warning} *Deleting Ticket...*`)
