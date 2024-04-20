@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Embed } = require('discord.js');
 const giveaways = new Map();
 const delay = require('node:timers/promises').setTimeout;
 const MySQL = require('../../models/mysql');
@@ -43,7 +43,20 @@ module.exports = {
         const collector = giveawayMessage.createReactionCollector({ filter, time: duration * 60 * 1000 });
     
         collector.on('end', async (collected) => {
-            const participants = collected.get('🎉').users.cache.map(user => user.id);
+            const reaction = collected.get('🎉');
+            if (!reaction) {
+                const failEmbed = new EmbedBuilder()
+                .setTitle(' ☹️ Give Away Cancelled ')
+                .setDescription('No participants or invalid winners count. Giveaway cancelled.')
+                .setTimestamp()
+                .setColor('Gold');
+                interaction.channel.send({ embeds: [failEmbed] });
+                return endGiveaway(interaction, giveawayMessage);
+            }
+    
+            const participants = reaction.users.cache.map(user => user.id);
+            console.log("Participants:", participants);
+    
             await giveaways.set(giveawayMessage.id, {
                 prize,
                 winnersCount,
@@ -58,15 +71,22 @@ module.exports = {
 
 async function endGiveaway(interaction, giveawayMessage) {
     const giveawayData = await giveaways.get(giveawayMessage.id);
+    console.log("GiveMessage ID:", giveawayMessage.id);
+
+    console.log("Giveaway Data:", giveawayData);
     if (!giveawayData) {
+        console.log("No giveaway data found. Exiting...");
         return;
     }
 
     const participants = giveawayData.participants.filter(userId => userId !== interaction.client.user.id);
+    console.log("Filtered Participants:", participants);
     const winnersCount = giveawayData.winnersCount;
+    console.log("Winners Count:", winnersCount);
 
     if (participants.length === 0 || winnersCount <= 0) {
-        interaction.channel.send('No participants or invalid winners count. Giveaway canceled.');
+        console.log("No participants or invalid winners count. Giveaway Cancelled .");
+        interaction.channel.send('No participants or invalid winners count. Giveaway Cancelled .');
         giveaways.delete(giveawayMessage.id);
         return;
     }
@@ -79,7 +99,12 @@ async function endGiveaway(interaction, giveawayMessage) {
     }
 
     const winnerNames = winners.map(winner => `<@${winner}>`).join(', ');
-    await interaction.channel.send(`🎉 Congratulations to ${winnerNames}! You have won ${giveawayData.prize}! 🎉`);
+    console.log("Winners:", winnerNames);
+    const winnersEmbed = new EmbedBuilder()
+    .setTitle('🎉 Giveaway Results!')
+    .setColor('Green')
+    .setDescription(`Congratulations to ${winnerNames}! 🎉 \nYou have won ***${giveawayData.prize}*** 👏`)
+    await interaction.channel.send({ content: `${winnerNames}`, embeds: [winnersEmbed] });
 
     giveaways.delete(giveawayMessage.id);
 }
