@@ -2,7 +2,6 @@ const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('disc
 const MySQL = require('../../models/mysql.js');
 const config = require('../../config.js');
 const colors = require('../../models/colors.js');
-const MySQL = require('../../models/mysql');
 
 module.exports = {
     data: new SlashCommandBuilder()
