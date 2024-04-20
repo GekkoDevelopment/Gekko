@@ -9,10 +9,47 @@ module.exports = {
         .addRoleOption(option => option.setName('role').setDescription('Select a role to assign to the user').setRequired(true)),
     
     async execute(interaction) {
+
+        const restricted = MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', interaction.guild.id);
+
+        if (restricted === 'true') {
+            const permissionErrorEmbed = new EmbedBuilder()
+            .setTitle('Permissions Error: 50105')
+            .addFields(
+                {
+                    name: 'Error Message:',
+                    value: '```\nYour guild has been banned by the Gekkō Development Team. If you feel like this is an error please contact the development team by joining our [Support Discord.](https://discord.gg/2aw45ajSw2)```',
+                    inline: true
+                }
+            )
+            .setColor('Red')
+            .setTimestamp()
+            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
+            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
+        }
+        
         try {
             const user = interaction.options.getMember('user');
             const role = interaction.options.getRole('role');
             const member = await interaction.guild.members.fetch(user);
+
+            const restricted = MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', interaction.guild.id);
+
+            if (restricted === 'true') {
+                const permissionErrorEmbed = new EmbedBuilder()
+                .setTitle('Permissions Error: 50105')
+                .addFields(
+                    {
+                        name: 'Error Message:',
+                        value: '```\nYour guild has been banned by the Gekkō Development Team. If you feel like this is an error please contact the development team by joining our [Support Discord.](https://discord.gg/2aw45ajSw2)```',
+                        inline: true
+                    }
+                )
+                .setColor('Red')
+                .setTimestamp()
+                .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
+                return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
+            }
 
             if (!interaction.member.permissions.has(PermissionFlagsBits.ManageRoles)) {
                 const permissionErrorEmbed = new EmbedBuilder()

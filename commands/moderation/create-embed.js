@@ -30,6 +30,24 @@ module.exports = {
         const thumbnailUrl = interaction.options.getString('thumbnail-url');
         const image = interaction.options.getString('image');
 
+        const restricted = MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', interaction.guild.id);
+
+        if (restricted === 'true') {
+            const permissionErrorEmbed = new EmbedBuilder()
+            .setTitle('Permissions Error: 50105')
+            .addFields(
+                {
+                    name: 'Error Message:',
+                    value: '```\nYour guild has been banned by the Gekkō Development Team. If you feel like this is an error please contact the development team by joining our [Support Discord.](https://discord.gg/2aw45ajSw2)```',
+                    inline: true
+                }
+            )
+            .setColor('Red')
+            .setTimestamp()
+            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
+            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
+        }
+        
         if (image) {
             if (!image.startsWith('http')) {
                 return await interaction.reply({ content: "You can't use make this your image! (Reason: Starts with HTTP)", ephemeral: true });

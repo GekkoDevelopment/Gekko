@@ -20,7 +20,8 @@ module.exports = {
             "guild_prefix VARCHAR(255) DEFAULT '!'",
             "join_role VARCHAR(255) DEFAULT NULL",
             "logging_channel VARCHAR(255) DEFAULT NULL",
-            "logging_type VARCHAR(255) DEFAULT NULL"
+            "logging_type VARCHAR(255) DEFAULT NULL",
+            "restricted_guild VARCHAR(255) DEFAULT 'false'" // When talking about "restricted guilds" this is referring to guilds that are blacklisted by the bot and the bot will not be used.
         ];
 
         const lockdownColumns = [
