@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, Embed } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, Embed, PermissionFlagsBits } = require('discord.js');
 const giveaways = new Map();
 const delay = require('node:timers/promises').setTimeout;
 const MySQL = require('../../models/mysql');
@@ -8,7 +8,8 @@ module.exports = {
         .setName('giveaway').setDescription('Start a givaway with prizes.')
         .addStringOption(option => option.setName('prize').setDescription('The prize for the giveaway.').setRequired(true))
         .addIntegerOption(option => option.setName('winners').setDescription('The amount of winners for the giveaway').setRequired(true))
-        .addIntegerOption(option => option.setName('duration').setDescription('The duration that giveaway lasts in minutes.').setRequired(true)),
+        .addIntegerOption(option => option.setName('duration').setDescription('The duration that giveaway lasts in minutes.').setRequired(true))
+        .addStringOption(option => option.setName('ping').setDescription('Who would you like to ping in the giveaway?')),
     async execute(interaction) {
         const prize = interaction.options.getString('prize');
         const winnersCount = interaction.options.getInteger('winners');
@@ -29,14 +30,30 @@ module.exports = {
                 .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
-    
+
+        if (!interaction.member.permissions.has(PermissionFlagsBits.ModerateMembers)) {
+            const permissionErrorEmbed = new EmbedBuilder()
+            .setTitle(`${config.emojis.warning} Permissions Error: 50013`)
+            .addFields(
+                {
+                    name: 'Error Message:',
+                    value: '```\nYou need the MODERATE_MEMBERS permission to use this command.```',
+                    inline: true
+                }
+            )
+            .setColor('Red')
+            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
+        return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
+        }
+
+        const ping = interaction.options.getString('ping')
         const giveawayEmbed = new EmbedBuilder()
             .setColor('Gold')
             .setTitle(`🎉 ${prize} Giveaway! 🎉`)
             .setDescription(`React with 🎉 to enter!\n**Winners**: ${winnersCount}\n**Duration**: ${duration} ${duration === 1 ? 'minute.' :  'minutes.'}`);
     
         await interaction.reply({ content: 'Giveaway Launched!', ephemeral: true });
-        const giveawayMessage = await interaction.channel.send({ embeds: [giveawayEmbed] });
+        const giveawayMessage = await interaction.channel.send({ content: `${ping}`, embeds: [giveawayEmbed] });
         await giveawayMessage.react('🎉');
     
         const filter = (reaction, user) => reaction.emoji.name === '🎉' && !user.bot;
@@ -55,7 +72,6 @@ module.exports = {
             }
     
             const participants = reaction.users.cache.map(user => user.id);
-            console.log("Participants:", participants);
     
             await giveaways.set(giveawayMessage.id, {
                 prize,
@@ -71,24 +87,18 @@ module.exports = {
 
 async function endGiveaway(interaction, giveawayMessage) {
     const giveawayData = await giveaways.get(giveawayMessage.id);
-    console.log("GiveMessage ID:", giveawayMessage.id);
 
-    console.log("Giveaway Data:", giveawayData);
     if (!giveawayData) {
-        console.log("No giveaway data found. Exiting...");
         return;
     }
 
     const participants = giveawayData.participants.filter(userId => userId !== interaction.client.user.id);
-    console.log("Filtered Participants:", participants);
     const winnersCount = giveawayData.winnersCount;
-    console.log("Winners Count:", winnersCount);
 
     if (participants.length === 0 || winnersCount <= 0) {
-        console.log("No participants or invalid winners count. Giveaway Cancelled .");
         interaction.channel.send('No participants or invalid winners count. Giveaway Cancelled .');
         giveaways.delete(giveawayMessage.id);
-        return;
+        return; // This if statement might be redundent now - couldn't be bothered to check lol, but the code is working perfectly now. 
     }
 
     const winners = [];
@@ -99,7 +109,6 @@ async function endGiveaway(interaction, giveawayMessage) {
     }
 
     const winnerNames = winners.map(winner => `<@${winner}>`).join(', ');
-    console.log("Winners:", winnerNames);
     const winnersEmbed = new EmbedBuilder()
     .setTitle('🎉 Giveaway Results!')
     .setColor('Green')
