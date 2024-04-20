@@ -64,8 +64,7 @@ client.on('messageCreate', async message => {
         });
 
         logChannel.send({ embeds: [logEmbed] });
-        delay(3000);
-        
+        delay()
         process.exit();
     }
 
