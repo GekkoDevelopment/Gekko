@@ -315,7 +315,7 @@ client.on('messageCreate', async message => {
                         break;
                 }
             } catch (err) {
-                // do nothing
+
             }
         });
     
