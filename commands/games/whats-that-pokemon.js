@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { GuessThePokemon } = require('discord-gamecord');
+const MySQL = require('../../models/mysql');
 
 module.exports = {
     data: new SlashCommandBuilder()

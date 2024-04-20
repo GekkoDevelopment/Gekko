@@ -7,7 +7,6 @@ module.exports = {
         .addUserOption(option => option.setName('user').setDescription('The user you want to mute.').setRequired(true))
         .addStringOption(option => option.setName('reason').setDescription('The reason to mute the user. (optional)')),
     async execute(interaction) {
-        
         const restricted = MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', interaction.guild.id);
 
         if (restricted === 'true') {

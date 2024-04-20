@@ -141,7 +141,7 @@ client.on('messageCreate', async message => {
     }
 
     if (command === 'restrict-guild') {
-        // const guild = MySQL.getValueFromTableWithCondition()
+        
     }
 });
 

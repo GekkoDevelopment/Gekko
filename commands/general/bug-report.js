@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, ModalBuilder, ActionRowBuilder, TextInputBuilder, TextInputStyle, EmbedBuilder } = require('discord.js');
 const config = require('../../config');
+const MySQL = require('../../models/mysql');
 
 module.exports = {
     data: new SlashCommandBuilder()

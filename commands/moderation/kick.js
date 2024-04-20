@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
 const colors = require('../../models/colors.js');
+const MySQL = require('../../models/mysql');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -8,7 +9,6 @@ module.exports = {
         .addStringOption(option => option.setName('reason').setDescription('Reason for Kick')),
 
     async execute(interaction) {
-
         const restricted = MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', interaction.guild.id);
 
         if (restricted === 'true') {

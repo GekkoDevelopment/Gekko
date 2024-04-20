@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const config = require('../../config');
 const colors = require('../../models/colors');
+const MySQL = require('../../models/mysql');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -9,7 +10,6 @@ module.exports = {
         .addRoleOption(option => option.setName('role').setDescription('Select a role to assign to the user').setRequired(true)),
     
     async execute(interaction) {
-
         const restricted = MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', interaction.guild.id);
 
         if (restricted === 'true') {
@@ -27,7 +27,7 @@ module.exports = {
             .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
-        
+
         try {
             const user = interaction.options.getMember('user');
             const role = interaction.options.getRole('role');

@@ -16,6 +16,8 @@ const purpleSquare = ':purple_square:';
 const redSquare = ':red_square:';
 const embedColor = '#0x077ff7';
 
+const MySQL = require('../../models/mysql');
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('tetris').setDescription('Play a game of tetris.'),

@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { motivationalQuotes, mindfulnessQuotes, philosophyQuotes, romanceQuotes, natureQuotes, humorQuotes } = require('../../models/quotes');
 const colors = require('../../models/colors');
+const MySQL = require('../../models/mysql');
 
 function getRandomQuote(quotes) {
     return quotes[Math.floor(Math.random() * quotes.length)];

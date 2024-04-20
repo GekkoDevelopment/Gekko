@@ -1,11 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const config = require('../../config.js');
-const db = require('mysql');
-
-let mysql = db.createConnection({
-    host: config.database.host,
-    user: config.database.host
-})
+const MySQL = require('../../models/mysql');
 
 module.exports = {
     data: new SlashCommandBuilder()

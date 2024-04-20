@@ -2,6 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, Butt
 const colors = require('../../models/colors.js');
 const MySQL = require('../../models/mysql.js');
 const { emojis } = require('../../config.js');
+const MySQL = require('../../models/mysql');
 
 module.exports = {
     data: new SlashCommandBuilder()

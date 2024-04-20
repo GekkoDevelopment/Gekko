@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const fetch = require('node-fetch')
+const MySQL = require('../../models/mysql');
 
 module.exports = {
     data: new SlashCommandBuilder()
