@@ -13,69 +13,59 @@ module.exports = {
         const prize = interaction.options.getString('prize');
         const winnersCount = interaction.options.getInteger('winners');
         const duration = interaction.options.getInteger('duration');
-
-        const restricted = MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', interaction.guild.id);
-
+    
+        const restricted = await MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', interaction.guild.id);
+    
         if (restricted === 'true') {
             const permissionErrorEmbed = new EmbedBuilder()
-            .setTitle('Permissions Error: 50105')
-            .addFields(
-                {
+                .setTitle('Permissions Error: 50105')
+                .addFields({
                     name: 'Error Message:',
                     value: '```\nYour guild has been banned by Gekkō Development. If you feel like this is an error please contact the development team by joining our [Support Discord.](https://discord.gg/2aw45ajSw2)```',
                     inline: true
-                }
-            )
-            .setColor('Red')
-            .setTimestamp()
-            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
+                })
+                .setColor('Red')
+                .setTimestamp()
+                .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
-        
+    
         const giveawayEmbed = new EmbedBuilder()
-        .setColor('Gold')
-        .setTitle(`🎉 ${prize} Giveaway! 🎉`)
-        .setDescription(`React with 🎉 to enter!\n**Winners**: ${winnersCount}\n**Duration**: ${duration} ${duration === 1 ? 'minute.' :  'minutes.'}`);
-
-        await interaction.reply({ content: 'Giveaway Launched!', ephemeral: true })
+            .setColor('Gold')
+            .setTitle(`🎉 ${prize} Giveaway! 🎉`)
+            .setDescription(`React with 🎉 to enter!\n**Winners**: ${winnersCount}\n**Duration**: ${duration} ${duration === 1 ? 'minute.' :  'minutes.'}`);
+    
+        await interaction.reply({ content: 'Giveaway Launched!', ephemeral: true });
         const giveawayMessage = await interaction.channel.send({ embeds: [giveawayEmbed] });
         await giveawayMessage.react('🎉');
-
-        giveawayMessage.awaitReactions({ filter: (reaction, user) => reaction.emoji.name === '🎉' })
-            .then(collected => {
-                const participants = collected.get('🎉').users.cache.filter(user => !user.bot).map(user => user.id);
-                console.log("Participants:", participants);
-
-                giveaways.set(giveawayMessage.id, {
-                    prize,
-                    winnersCount,
-                    endTime: Date.now() + duration * 60 * 1000,
-                    participants
-                });
-            })
-            .catch(console.error);
-
-        delay(duration * 60 * 1000);
-        endGiveaway(interaction, giveawayMessage);
-    },
-};
+    
+        const filter = (reaction, user) => reaction.emoji.name === '🎉' && !user.bot;
+        const collector = giveawayMessage.createReactionCollector({ filter, time: duration * 60 * 1000 });
+    
+        collector.on('end', async (collected) => {
+            const participants = collected.get('🎉').users.cache.map(user => user.id);
+            await giveaways.set(giveawayMessage.id, {
+                prize,
+                winnersCount,
+                endTime: Date.now() + duration * 60 * 1000,
+                participants
+            });
+    
+            endGiveaway(interaction, giveawayMessage);
+        });
+    }
+}
 
 async function endGiveaway(interaction, giveawayMessage) {
-    const giveawayData = giveaways.get(giveawayMessage.id);
-
-    console.log("Giveaway Data:", giveawayData);
+    const giveawayData = await giveaways.get(giveawayMessage.id);
     if (!giveawayData) {
-        console.log("No giveaway data found. Exiting...");
         return;
     }
 
     const participants = giveawayData.participants.filter(userId => userId !== interaction.client.user.id);
-    console.log("Filtered Participants:", participants);
     const winnersCount = giveawayData.winnersCount;
-    console.log("Winners Count:", winnersCount);
 
     if (participants.length === 0 || winnersCount <= 0) {
-        console.log("No participants or invalid winners count. Giveaway canceled.");
         interaction.channel.send('No participants or invalid winners count. Giveaway canceled.');
         giveaways.delete(giveawayMessage.id);
         return;
@@ -89,7 +79,6 @@ async function endGiveaway(interaction, giveawayMessage) {
     }
 
     const winnerNames = winners.map(winner => `<@${winner}>`).join(', ');
-    console.log("Winners:", winnerNames);
     await interaction.channel.send(`🎉 Congratulations to ${winnerNames}! You have won ${giveawayData.prize}! 🎉`);
 
     giveaways.delete(giveawayMessage.id);
