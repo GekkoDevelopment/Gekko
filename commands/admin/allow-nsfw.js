@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require('discord.js');
 const colors = require('../../models/colors.js');
-const MySQL = require('../../models/mysql.js');
 const { emojis } = require('../../config.js');
 const MySQL = require('../../models/mysql');
 
