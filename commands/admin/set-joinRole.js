@@ -25,7 +25,7 @@ module.exports = {
             .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
-
+        
         if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
             const permissionErrorEmbed = new EmbedBuilder()
             .setTitle(`${config.emojis.warning} Permissions Error: 50013`)

@@ -10,7 +10,6 @@ module.exports = {
         .setDescription('Hug another user!')
         .addUserOption(option => option.setName('user').setDescription('chose a user').setRequired(true)),
     async execute(interaction) { 
-
         const restricted = MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', interaction.guild.id);
 
         if (restricted === 'true') {
@@ -28,7 +27,7 @@ module.exports = {
             .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
-        
+
         try {
             const user = interaction.options.getUser('user');
             const response = await fetch("https://api.waifu.pics/sfw/hug");

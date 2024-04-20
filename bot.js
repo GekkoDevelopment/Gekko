@@ -1,5 +1,4 @@
 const { Client, GatewayIntentBits, Collection, EmbedBuilder, PermissionFlagsBits, StringSelectMenuBuilder, ActionRowBuilder, ChannelType, Embed, ButtonBuilder, ButtonStyle } = require('discord.js');
-const { NodeactylClient } = require('nodeactyl');
 const fs = require('node:fs');
 const path = require('node:path');
 const delay = require('node:timers/promises').setTimeout;
@@ -13,10 +12,9 @@ const client = new Client({
     allowedMentions: { parse: ['users', 'roles', 'everyone'], repliedUser: true}
 });
 
-//const pterodactyl = new NodeactylClient(config.panel.host, config.panel.apiKey);
-
-//////// Prefix Commands ////////
-// --- Developer Commands --- //
+//////// Prefix Commands ///////|
+// --- Developer Commands --- //|
+////////////////////////////////|
 client.on('messageCreate', async message => {
     let prefix = "-d"
     
@@ -24,6 +22,19 @@ client.on('messageCreate', async message => {
 
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLocaleLowerCase();
+
+    let permissionErrorEmbed = new EmbedBuilder()
+        .setTitle('**Permissions Error: 50013**')
+        .addFields
+        ({ 
+            name: 'Error Message:', 
+            value: '```You lack permissions to perform that action```' 
+        });
+
+        if (message.author.id !== config.developer.dev1Id && message.author.id !== config.developer.dev2Id) {
+            message.channel.send({ embeds: [permissionErrorEmbed] });
+            return;
+        }
 
     if (command === 'bot-restart') {
         if (guildId !== config.developer.devGuild) return;
@@ -52,15 +63,9 @@ client.on('messageCreate', async message => {
             value: '```You lack permissions to perform that action```' 
         });
 
-        if (message.author.id !== config.developer.dev1Id && message.author.id !== config.developer.dev2Id) {
-            message.channel.send({ embeds: [permissionErrorEmbed] });
-            return; // Exit if permission denied
-        }
-
-        delay(3000);
-        pterodactyl.restartServer(config.panel.gekkoServerId);
-        
         logChannel.send({ embeds: [logEmbed] });
+        delay()
+        process.exit();
     }
 
     if (command === 'bot-stats' && (message.author.id === config.developer.dev1Id || message.author.id === config.developer.dev2Id)) {
@@ -145,6 +150,9 @@ client.on('messageCreate', async message => {
     }
 });
 
+//////// Prefix Commands ////////|
+// ------ User Commands ------ //|
+/////////////////////////////////|
 client.on('messageCreate', async message => {
     const guildId = message.guild.id;
     const guildPrefix = await MySQL.getValueFromTableWithCondition('guilds', 'guild_prefix', 'guild_id', guildId);
