@@ -194,6 +194,8 @@ module.exports = {
                 .setTitle('Unexpected Error:')
                 .setDescription(`\`\`\`\n${errorMessage} \n\n${errorDescription}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
                 .setColor('Red')
+                .setTimestamp()
+                .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
                 
                 await interaction.channel.send({ embeds: [catchErrorEmbed] });
             }
