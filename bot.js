@@ -17,24 +17,23 @@ const client = new Client({
 ////////////////////////////////|
 client.on('messageCreate', async message => {
     let prefix = "-d"
+
+    const permissionErrorEmbed = new EmbedBuilder()
+    .setTitle('**Permissions Error: 50105**')
+    .addFields
+    ({ 
+        name: 'Error Message:', 
+        value: '```You lack permissions to perform that action```' 
+    });
     
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
+    if (!message.author === config.developer.dev1Id || !message.author === config.developer.dev2Id) {
+        message.channel.send({ embeds: [permissionErrorEmbed] });
+    };
+
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLocaleLowerCase();
-
-    let permissionErrorEmbed = new EmbedBuilder()
-        .setTitle('**Permissions Error: 50013**')
-        .addFields
-        ({ 
-            name: 'Error Message:', 
-            value: '```You lack permissions to perform that action```' 
-        });
-
-        if (message.author.id !== config.developer.dev1Id && message.author.id !== config.developer.dev2Id) {
-            message.channel.send({ embeds: [permissionErrorEmbed] });
-            return;
-        }
 
     if (command === 'bot-restart') {
         if (guildId !== config.developer.devGuild) return;
@@ -69,7 +68,7 @@ client.on('messageCreate', async message => {
     }
 
     if (command === 'bot-stats' && (message.author.id === config.developer.dev1Id || message.author.id === config.developer.dev2Id)) {
-        if (message.guild.id !== '1226501941249576980' || message.channel.id === config.developer.devTestLogChannel) return;
+        if (guildId !== config.developer.devGuild) return;
 
         let logChannel = client.guilds.cache.get('1226501941249576980').channels.cache.get('1226548220801450074');
         let totalSeconds = (client.uptime / 1000);
@@ -101,21 +100,7 @@ client.on('messageCreate', async message => {
             inline: true
         });
 
-        let permissionErrorEmbed = new EmbedBuilder()
-        .setTitle('**Permissions Error: 50013**')
-        .setColor('Red')
-        .addFields
-        ({ 
-            name: 'Error Message:', 
-            value: '```You lack permission to perform this action.```' 
-        });
-
-        if (message.author.id !== config.developer.dev1Id && message.author.id !== config.developer.dev2Id) {
-            message.channel.send({ embeds: [permissionErrorEmbed] });
-            return; // Exit if permission denied
-        }
-
-        let statEmbed = new EmbedBuilder()
+        const statEmbed = new EmbedBuilder()
         .setTitle('Gekkō Bot Stats')
         .setThumbnail(client.user.displayAvatarURL())
         .setColor(color.bot)
@@ -146,7 +131,64 @@ client.on('messageCreate', async message => {
     }
 
     if (command === 'restrict-guild') {
+        const restrictedValue = await MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', message.guild.id);
         
+        if (message.guild.id === config.developer.devGuild) {
+            const errorEmbed = new EmbedBuilder()
+            .setTitle('**Restriction Error: 50100**')
+            .addFields
+            ({ 
+                name: 'Error Message:', 
+                value: '```You can not restrict the development guild.```' 
+            });
+
+            message.channel.send({ embeds: [errorEmbed] });
+        }
+
+        if (restrictedValue === 'true') {
+            const errorEmbed = new EmbedBuilder()
+            .setTitle('**Restriction Error: 50110**')
+            .addFields
+            ({ 
+                name: 'Error Message:', 
+                value: '```You can not restrict a guild that is not restricted.```' 
+            });
+
+            message.channel.send({ embeds: [errorEmbed] });
+        }
+
+        const successEmbed = new EmbedBuilder()
+        .setDescription('Successfully unrestricted guild!')
+        .setColor('Green')
+        .setFooter({ text: 'Gekkō Development', iconURL: config.assets.gekkoLogo });
+
+        message.channel.send({ embeds: [successEmbed] });
+        MySQL.updateValueInTableWithCondition('guilds', 'restricted_guild', 'true', 'guild_id', message.guild.id);
+    }
+
+    if (command === 'unrestrict-guild') {
+        const restrictedValue = await MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', message.guild.id);
+
+        if (restrictedValue === 'false') {
+            const errorEmbed = new EmbedBuilder()
+            .setTitle('**Restriction Error: 50105**')
+            .addFields
+            ({ 
+                name: 'Error Message:', 
+                value: '```You can not unrestrict a guild that is not restricted.```' 
+            });
+
+            message.channel.send({ embeds: [errorEmbed] });
+        } else {
+            const successEmbed = new EmbedBuilder()
+            .setDescription('Successfully unrestricted guild!')
+            .setColor('Green')
+            .setFooter({ text: 'Gekkō Development', iconURL: client.user.displayAvatarURL() });
+
+            MySQL.updateValueInTableWithCondition('guilds', 'restricted_guild', 'false', 'guild_id', message.guild.id);    
+
+            message.channel.send({ embeds: [successEmbed] });
+        }
     }
 });
 
@@ -215,10 +257,10 @@ client.on('messageCreate', async message => {
             }
         ];
         
-        let selectMenu = new StringSelectMenuBuilder()
-            .setCustomId('command_select_prefix')
-            .setPlaceholder('Select a category')
-            .addOptions(options);
+        const selectMenu = new StringSelectMenuBuilder()
+        .setCustomId('command_select_prefix')
+        .setPlaceholder('Select a category')
+        .addOptions(options);
 
         const actionRow = new ActionRowBuilder().addComponents(selectMenu);
 
@@ -251,7 +293,7 @@ client.on('messageCreate', async message => {
                         )
                         .setImage(config.assets.gekkoBanner);
                         
-                        await interaction.editReply({ embeds: [gCom], components: [actionRow] });
+                        await message.edit({ embeds: [gCom], components: [actionRow] });
                     break;
                     
                     case 'admin_commands':
@@ -264,7 +306,7 @@ client.on('messageCreate', async message => {
                         )
                         .setImage(config.assets.gekkoBanner);
                         
-                        await interaction.editReply({ embeds: [aCom], components: [actionRow] });
+                        await message.edit({ embeds: [aCom], components: [actionRow] });
                         break;
     
                     case 'moderation_commands':
@@ -277,7 +319,7 @@ client.on('messageCreate', async message => {
                         )
                         .setImage(config.assets.gekkoBanner);
                         
-                        await interaction.editReply({ embeds: [mCom], components: [actionRow] });
+                        await message.edit({ embeds: [mCom], components: [actionRow] });
                         break;
     
                     case 'anime_commands':
@@ -290,7 +332,7 @@ client.on('messageCreate', async message => {
                          )
                         .setImage(config.assets.gekkoBanner);
                         
-                        await interaction.editReply({ embeds: [animCom], components: [actionRow] });
+                        await message.edit({ embeds: [animCom], components: [actionRow] });
                         break;
     
                     case 'minigame_commands':
@@ -303,7 +345,7 @@ client.on('messageCreate', async message => {
                         )
                         .setImage(config.assets.gekkoBanner);
                         
-                        await interaction.editReply({ embeds: [miniCom], components: [actionRow] });
+                        await message.edit({ embeds: [miniCom], components: [actionRow] });
                         break;
     
                     case 'fun_commands':
@@ -316,14 +358,14 @@ client.on('messageCreate', async message => {
                         )
                         .setImage(config.assets.gekkoBanner);
                         
-                        await interaction.editReply({ embeds: [fCom], components: [actionRow] });
+                        await message.edit({ embeds: [fCom], components: [actionRow] });
                         break;
     
                     default:
                         break;
                 }
             } catch (err) {
-
+                // Do nothing
             }
         });
     
