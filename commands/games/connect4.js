@@ -1,5 +1,6 @@
 const { Connect4 } = require('discord-gamecord');
 const { SlashCommandBuilder } = require('discord.js')
+const MySQL = require('../../models/mysql');
 
 module.exports = {
     data: new SlashCommandBuilder()

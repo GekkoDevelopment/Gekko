@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const color = require('../../models/colors.js');
+const MySQL = require('../../models/mysql');
 
 let respones = [
     'It is certain.',

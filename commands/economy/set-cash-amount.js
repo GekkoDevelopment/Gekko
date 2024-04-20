@@ -13,6 +13,24 @@ module.exports = {
         const loggingChannel = MySQL.getColumnValuesWithGuildId(guildId, 'logging_channel');
         const channel = interaction.guilds.roles.cache.get(loggingChannel.toString());
 
+        const restricted = MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', interaction.guild.id);
+
+        if (restricted === 'true') {
+            const permissionErrorEmbed = new EmbedBuilder()
+            .setTitle('Permissions Error: 50105')
+            .addFields(
+                {
+                    name: 'Error Message:',
+                    value: '```\nYour guild has been banned by the Gekkō Development Team. If you feel like this is an error please contact the development team by joining our [Support Discord.](https://discord.gg/2aw45ajSw2)```',
+                    inline: true
+                }
+            )
+            .setColor('Red')
+            .setTimestamp()
+            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
+            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
+        }
+
         MySQL.insertInto('economy', 'guild_id', guildId);
         MySQL.insertInto('economy', 'user_id', userId);
         MySQL.insertInto('economy', 'cash_amount', startingAmount);

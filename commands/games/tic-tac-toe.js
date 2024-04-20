@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { TicTacToe } = require('discord-gamecord');
 const colors = require('../../models/colors');
+const MySQL = require('../../models/mysql');
 
 module.exports = {
     data: new SlashCommandBuilder()

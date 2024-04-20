@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, ButtonBuilder, EmbedBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js');
+const MySQL = require('../../models/mysql');
 
 let board = [];
 let numbOfRows = 18;

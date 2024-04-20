@@ -1,5 +1,4 @@
 const { Client, GatewayIntentBits, Collection, EmbedBuilder, PermissionFlagsBits, StringSelectMenuBuilder, ActionRowBuilder, ChannelType, Embed, ButtonBuilder, ButtonStyle } = require('discord.js');
-const { NodeactylClient } = require('nodeactyl');
 const fs = require('node:fs');
 const path = require('node:path');
 const delay = require('node:timers/promises').setTimeout;
