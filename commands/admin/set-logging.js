@@ -127,7 +127,7 @@ module.exports = {
                     .setDescription(`Ok! Logging for Moderation has been enabled and the logging channel is set to ${setChannel}`)
                     .setFooter({ text: `${interaction.client.user.username}`, iconURL: interaction.client.user.displayAvatarURL() });
                     
-                    await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_channel', interaction.channel.id);
+                    await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_channel', setChannel.id);
                     await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_type', interaction.customId);
 
                     interaction.editReply({ embeds: [logReplyMod] });
@@ -140,7 +140,7 @@ module.exports = {
                     .setDescription(`Ok! Logging for tickets has been enabled and the logging channel is set to ${setChannel}`)
                     .setFooter({ text: `${interaction.client.user.username}`, iconURL: interaction.client.user.displayAvatarURL() });
                     
-                    await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_channel', interaction.channel.id);
+                    await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_channel', setChannel.id);
                     await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_type', interaction.customId);
 
                     interaction.editReply({ embeds: [logReplyTicket] });
@@ -153,7 +153,7 @@ module.exports = {
                     .setDescription(`Ok! Logging for messages has been enabled and the logging channel is set to ${setChannel}`)
                     .setFooter({ text: `${interaction.client.user.username}`, iconURL: interaction.client.user.displayAvatarURL() });
                     
-                    await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_channel', interaction.channel.id);
+                    await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_channel', setChannel.id);
                     await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_type', interaction.customId);
 
                     interaction.editReply({ embeds: [logReplyMessage] });
@@ -166,7 +166,7 @@ module.exports = {
                     .setDescription(`Ok! Logging for audit logs has been enabled and the logging channel is set to ${setChannel}`)
                     .setFooter({ text: `${interaction.client.user.username}`, iconURL: interaction.client.user.displayAvatarURL() });
                     
-                    await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_channel', interaction.channel.id);
+                    await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_channel', setChannel.id);
                     await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_type', interaction.customId);
 
                     interaction.editReply({ embeds: [logReplyAudit] });
@@ -179,7 +179,7 @@ module.exports = {
                     .setDescription(`Ok! All logging has been enabled and the logging channel is set to ${setChannel}`)
                     .setFooter({ text: `${interaction.client.user.username}`, iconURL: interaction.client.user.displayAvatarURL() });
                     
-                    await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_channel', interaction.channel.id);
+                    await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_channel', setChannel.id);
                     await MySQL.editColumnInGuilds(interaction.guild.id, 'logging_type', interaction.customId);
 
                     interaction.editReply({ embeds: [logReplyAll] });
