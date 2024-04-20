@@ -32,7 +32,8 @@ module.exports = {
 
     assets: {
         gekkoBanner: 'https://cdn.discordapp.com/attachments/1226564051488870450/1226587759502954576/card.png?ex=66254fde&is=6612dade&hm=a750c8299cf43e15b773976647ae045fc1c9e1c5cab1ec2b9b927f1e869e738e&', // Gekkō's main profile banner.
-        gekkoLogo: 'https://media.discordapp.net/attachments/1226564051488870450/1226564091913441391/image.png?ex=662539d3&is=6612c4d3&hm=1f5f942aadea918225099ca799aa1f54e40e44beef9d45b8de491e642c1b9db5&=&format=webp&quality=lossless&width=500&height=500' // Gekkō's main profile logo.
+        gekkoBanner2: 'https://media.discordapp.net/attachments/1226564051488870450/1230523310408732742/image.png?ex=6633a123&is=66212c23&hm=a6f540caea1c162780eee349bc3677fe5c1f258d75ca14e7667848a2293a5ccf&=&format=webp&quality=lossless', // The second banner for Gekkō without the text.
+        gekkoLogo: 'https://media.discordapp.net/attachments/1226564051488870450/1226564091913441391/image.png?ex=662539d3&is=6612c4d3&hm=1f5f942aadea918225099ca799aa1f54e40e44beef9d45b8de491e642c1b9db5&=&format=webp&quality=lossless&width=500&height=500', // Gekkō's main profile logo.
     },
 
     emojis: {

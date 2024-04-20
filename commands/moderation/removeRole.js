@@ -23,7 +23,7 @@ module.exports = {
                 .addFields(
                     {
                         name: 'Error Message:',
-                        value: '```\nYour guild has been banned by the Gekkō Development Team. If you feel like this is an error please contact the development team by joining our [Support Discord.](https://discord.gg/2aw45ajSw2)```',
+                        value: '```\nYour guild has been banned by Gekkō Development. If you feel like this is an error please contact the development team by joining our [Support Discord.](https://discord.gg/2aw45ajSw2)```',
                         inline: true
                     }
                 )
