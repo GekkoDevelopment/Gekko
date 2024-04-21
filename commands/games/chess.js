@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
-const fetch = require('node-fetch')
+const fetch = require('node-fetch');
 const MySQL = require('../../models/mysql');
+const config = require('../../config');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -10,8 +11,6 @@ module.exports = {
     async execute(interaction) {
         const playerA = interaction.user;
         const playerB = interaction.options.getUser('user');
-
-        const Lichess = await fetch('https://lichess.org/api/challenge');
 
         const restricted = MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', interaction.guild.id);
 
@@ -30,6 +29,8 @@ module.exports = {
             .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
+
+
     }
 };
 
