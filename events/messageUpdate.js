@@ -50,7 +50,6 @@ module.exports = {
                 .setTimestamp()
                 .setThumbnail(executor.displayAvatarURL())
                 .setFooter({ text: 'Gekkō', iconURL: newMessage.client.user.displayAvatarURL() });
-
             logChannel.send({ embeds: [embed] });
         }
     }
