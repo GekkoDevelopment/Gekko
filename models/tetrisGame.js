@@ -1,5 +1,5 @@
-/*const rotateMatrix = require("rotate-matrix");
-const shuffleArray = require("array-shuffle");
+const rotateMatrix = require("rotate-matrix");
+import shuffleArray from "array-shuffle";
 
 const createMatrix = (rows, columns) => Array.from({ length: rows }, () => Array.from({ length: columns }));
 const createEmptyPlayfield = (rows = ROWS, columns = COLUMNS) => createMatrix(rows + HIDDENROWS, columns);
