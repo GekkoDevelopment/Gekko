@@ -6,8 +6,8 @@ const MySQL = require('../../models/mysql');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('hug')
-        .setDescription('Hug another user!')
+        .setName('kiss')
+        .setDescription('Kiss another user!')
         .addUserOption(option => option.setName('user').setDescription('choose a user').setRequired(true)),
     async execute(interaction) { 
         const restricted = MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', interaction.guild.id);
@@ -30,7 +30,7 @@ module.exports = {
 
         try {
             const user = interaction.options.getUser('user');
-            const response = await fetch("https://api.waifu.pics/sfw/hug");
+            const response = await fetch("https://api.waifu.pics/sfw/kiss");
             if (!response.ok) {
                 throw new Error('Failed to fetch image');
             }
