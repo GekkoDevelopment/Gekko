@@ -52,6 +52,7 @@ module.exports = {
                 throw new Error('Failed to fetch image');
             }
 
+            const user = interaction.options.getUser('user')
             const data = await response.json();
             const content = `<@${user.id}>`
 
