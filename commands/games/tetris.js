@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ButtonComponent } = require('discord.js');
 const pInterval = require('interval-promise');
 const MySQL = require('../../models/mysql');
-const Tetris = require('../../models/tetrisGame');
+// const Tetris = require('../../models/tetrisGame');
 
 const squareMap = new Map([
     ["red", "🟥"],

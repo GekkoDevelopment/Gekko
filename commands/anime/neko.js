@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const fetch = require('node-fetch');
 const MySQL = require('../../models/mysql');
-const config = require('../../config');
+const colors = require('../../models/colors');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -17,6 +17,8 @@ module.exports = {
         const restricted = MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', interaction.guild.id);
 
         if (restricted === 'true') {
+            await interaction.deferReply();
+            
             const permissionErrorEmbed = new EmbedBuilder()
             .setTitle('Permissions Error: 50105')
             .addFields(
@@ -29,12 +31,12 @@ module.exports = {
             .setColor('Red')
             .setTimestamp()
             .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
-            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
+            return await interaction.editReply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 
         try {
             await interaction.deferReply();
-            
+
             if (!interaction.channel.nsfw && isNsfw) {
                 return await interaction.editReply({ content: 'NSFW can only be used in NSFW channels.', ephemeral: true });
             }
@@ -43,7 +45,7 @@ module.exports = {
                 return await interaction.editReply({ content: 'You must have NSFW enabled to use this feature (Contact your server administrator to change this.)', ephemeral: true });
             }
 
-            const response = await fetch(isNsfw ? 'https://api.waifu.pics/nsfw/waifu' : 'https://api.waifu.pics/sfw/waifu');
+            const response = await fetch(isNsfw ? 'https://api.waifu.pics/nsfw/neko' : 'https://api.waifu.pics/sfw/neko');
 
             if (!response.ok) {
                 throw new Error('Failed to fetch image');
@@ -56,7 +58,7 @@ module.exports = {
             .setColor(colors.bot)
             .setImage(`${data.url}`);
 
-            await interaction.reply({ embeds: [embed] });
+            await interaction.editReply({ embeds: [embed] });
         } catch(error) {
             const stackLines = error.stack.split('\n');
             const relevantLine = stackLines[1];
