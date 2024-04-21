@@ -56,8 +56,8 @@ module.exports = {
             const content = `<@${user.id}>`
 
             const embed = new EmbedBuilder()
-            .setTitle('Here\'s a hug!')
-            .setDescription(`<@${interaction.user.id}> hugged <@${user.id}>`)
+            .setTitle('Here\'s a kiss!')
+            .setDescription(`<@${interaction.user.id}> kissed <@${user.id}>`)
             .setColor(colors.bot)
             .setImage(`${data.url}`)
 
