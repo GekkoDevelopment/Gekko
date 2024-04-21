@@ -12,6 +12,8 @@ const client = new Client({
     allowedMentions: { parse: ['users', 'roles', 'everyone'], repliedUser: true}
 });
 
+const numericRegex = /&[0-9]+$/;
+
 //////// Prefix Commands ///////|
 // --- Developer Commands --- //|
 ////////////////////////////////|
@@ -34,14 +36,15 @@ client.on('messageCreate', async message => {
 
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLocaleLowerCase();
+    const guildId = message.guild.id;
 
     if (command === 'bot-restart') {
         if (guildId !== config.developer.devGuild) return;
 
         message.channel.send('Gekkō is now restarting; this will take a few seconds...');
-        let logChannel = client.guilds.cache.get(config.developer.devGuild).channels.cache.get(config.developer.devTestChannel);
+        const logChannel = client.guilds.cache.get(config.developer.devGuild).channels.cache.get(config.developer.devTestChannel);
 
-        let logEmbed = new EmbedBuilder()
+        const logEmbed = new EmbedBuilder()
         .setTitle('Gekkō Restart')
         .setColor(`${color.bot}`)
         .addFields
@@ -54,13 +57,15 @@ client.on('messageCreate', async message => {
             value: `${message.author.id}`, inline: true 
         });
 
-        let permissionErrorEmbed = new EmbedBuilder()
+        const permissionErrorEmbed = new EmbedBuilder()
         .setTitle('**Permissions Error: 50013**')
         .addFields
         ({ 
             name: 'Error Message:', 
             value: '```You lack permissions to perform that action```' 
         });
+
+        message.channel.send({ embeds: [permissionErrorEmbed] });
 
         logChannel.send({ embeds: [logEmbed] });
         delay()
@@ -70,7 +75,7 @@ client.on('messageCreate', async message => {
     if (command === 'bot-stats' && (message.author.id === config.developer.dev1Id || message.author.id === config.developer.dev2Id)) {
         if (guildId !== config.developer.devGuild) return;
 
-        let logChannel = client.guilds.cache.get('1226501941249576980').channels.cache.get('1226548220801450074');
+        const logChannel = client.guilds.cache.get('1226501941249576980').channels.cache.get('1226548220801450074');
         let totalSeconds = (client.uptime / 1000);
         let days = Math.floor(totalSeconds / 86400);
         
@@ -84,7 +89,7 @@ client.on('messageCreate', async message => {
         let uptime = `${days} days, ${hours} hours, ${minutes} minutes & ${seconds} seconds`;
         let latency = `${client.ws.ping}ms`;
 
-        let logEmbed = new EmbedBuilder()
+        const logEmbed = new EmbedBuilder()
         .setTitle('Gekkō Stats Log')
         .setColor(color.bot)
         .setThumbnail(message.author.displayAvatarURL())
@@ -132,6 +137,18 @@ client.on('messageCreate', async message => {
 
     if (command === 'restrict-guild') {
         const restrictedValue = await MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', message.guild.id);
+
+        if (!numericRegex.test(args)) {
+            const errorEmbed = new EmbedBuilder()
+            .setTitle('**Restriction Error: 50115**')
+            .addFields
+            ({ 
+                name: 'Error Message:', 
+                value: '```You must put in only numbers to restrict a guild.```' 
+            });
+
+            message.channel.send({ embeds: [errorEmbed] });
+        }
         
         if (message.guild.id === config.developer.devGuild) {
             const errorEmbed = new EmbedBuilder()
@@ -157,21 +174,35 @@ client.on('messageCreate', async message => {
             message.channel.send({ embeds: [errorEmbed] });
         }
 
-        const successEmbed = new EmbedBuilder()
-        .setDescription('Successfully unrestricted guild!')
-        .setColor('Green')
-        .setFooter({ text: 'Gekkō Development', iconURL: config.assets.gekkoLogo });
+        if (numericRegex.test(args)) {
+            const successEmbed = new EmbedBuilder()
+            .setDescription('Successfully unrestricted guild!')
+            .setColor('Green')
+            .setFooter({ text: 'Gekkō Development', iconURL: config.assets.gekkoLogo });
 
-        message.channel.send({ embeds: [successEmbed] });
-        MySQL.updateValueInTableWithCondition('guilds', 'restricted_guild', 'true', 'guild_id', message.guild.id);
+            message.channel.send({ embeds: [successEmbed] });
+            MySQL.updateValueInTableWithCondition('guilds', 'restricted_guild', 'true', 'guild_id', message.guild.id);
+        }
     }
 
     if (command === 'unrestrict-guild') {
         const restrictedValue = await MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', message.guild.id);
 
+        if (!numericRegex.test(args)) {
+            const errorEmbed = new EmbedBuilder()
+            .setTitle('**Restriction Error: 50115**')
+            .addFields
+            ({ 
+                name: 'Error Message:', 
+                value: '```You must put in only numbers to unrestrict a guild.```' 
+            });
+
+            message.channel.send({ embeds: [errorEmbed] });
+        }
+
         if (restrictedValue === 'false') {
             const errorEmbed = new EmbedBuilder()
-            .setTitle('**Restriction Error: 50105**')
+            .setTitle('**Restriction Error: 50112**')
             .addFields
             ({ 
                 name: 'Error Message:', 
