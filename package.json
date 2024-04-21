@@ -2,11 +2,13 @@
   "dependencies": {
     "@discordjs/rest": "^2.0.0",
     "@napi-rs/canvas": "^0.1.52",
+    "array-shuffle": "^3.0.0",
     "axios": "^1.6.8",
     "discord-gamecord": "^4.4.2",
     "discord.js": "^14.12.1",
     "mysql": "^2.18.1",
     "node-fetch": "^2.7.0",
+    "rotate-matrix": "^0.0.3",
     "superagent": "^8.1.2",
     "weather-js": "^2.0.0"
   }
