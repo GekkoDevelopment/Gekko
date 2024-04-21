@@ -199,7 +199,7 @@ const lWallKicks = {
     },
 };
 
-export default class Tetris {
+class Tetris {
     constructor(rows = ROWS, columns = COLUMNS) {
         this.rows = rows;
         this.columns = columns;
@@ -213,7 +213,7 @@ export default class Tetris {
         this.fallingTetromino = this.tetrominoBag.next().value;
     }
 
-    get playField() {
+    static get playField() {
         const playfield = this.playField.slice(HIDDEN_ROWS).map(row => [...row]);
 
         for (const [rowIndex, row] of this.fallingTetromino.structure.entries()) {
@@ -227,14 +227,14 @@ export default class Tetris {
         return playfield;
     }
 
-    get holdBox() {
+    static get holdBox() {
         return this.holdBox && {
             structure: this.holdBox.structure,
             color: this.holdBox.color,
         };
     }
 
-    drop() {
+    static async drop() {
         if (this.isGameOver) {
             return false;
         }
@@ -255,7 +255,7 @@ export default class Tetris {
         return true;
     }
 
-    hardDrop() {
+    static async hardDrop() {
         if (this.isGameOver) {
             return false;
         }
@@ -268,15 +268,15 @@ export default class Tetris {
         return true;
     }
 
-    rotate() {
+    static async rotate() {
         return this.attemptRotation();
     }
 
-    rotateCounterClockwise() {
+    static async rotateCounterClockwise() {
         return this.attemptRotation(3);
     }
 
-    moveLeft() {
+    static async moveLeft() {
         if (!this.isValidLocation(this.fallingTetromino.x - 1) || this.isGameOver) {
             return false;
         }
@@ -285,7 +285,7 @@ export default class Tetris {
         return true;
     }
 
-    moveRight() {
+    static async moveRight() {
         if (!this.isValidLocation(this.fallingTetromino.x + 1) || this.isGameOver) {
             return false;
         }
@@ -294,7 +294,7 @@ export default class Tetris {
         return true;
     }
 
-    hold() {
+    static async hold() {
         if (!this.canHold || this.isGameOver) {
             return false;
         }
@@ -306,7 +306,7 @@ export default class Tetris {
         return true;
     }
 
-    finalizeFallingTetrominoLocation() {
+    static async finalizeFallingTetrominoLocation() {
         for (const [rowIndex, row] of this.fallingTetromino.structure.entries()) {
             for (const [columnIndex, isFilled] of row.entries()) {
                 if (isFilled) {
@@ -336,7 +336,7 @@ export default class Tetris {
         this.rotation = 0;
     }
 
-    isValidLocation(x = this.fallingTetromino.x, y = this.fallingTetromino.y, structure = this.fallingTetromino.structure) {
+    static async isValidLocation(x = this.fallingTetromino.x, y = this.fallingTetromino.y, structure = this.fallingTetromino.structure) {
         if (x < 0 - L_PIECE_LEFT_SPACE || y < 0 || x > this.columns - 1 || y > this.rows + HIDDEN_ROWS - 1) {
             return false;
         }
@@ -350,11 +350,11 @@ export default class Tetris {
         return true;
     }
 
-    isAtBottom() {
+    static async isAtBottom() {
         return !this.isValidLocation(this.fallingTetromino.x, this.fallingTetromino.y + 1);
     }
 
-    attemptRotation(rotationAmount = 1) {
+    static async attemptRotation(rotationAmount = 1) {
         if (this.isGameOver) {
             return false;
         }

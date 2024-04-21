@@ -6,6 +6,7 @@
     "axios": "^1.6.8",
     "discord-gamecord": "^4.4.2",
     "discord.js": "^14.12.1",
+    "interval-promise": "^1.4.0",
     "mysql": "^2.18.1",
     "node-fetch": "^2.7.0",
     "rotate-matrix": "^0.0.3",
