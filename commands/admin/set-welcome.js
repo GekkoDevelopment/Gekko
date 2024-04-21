@@ -49,23 +49,9 @@ module.exports = {
         const imageUrl = interaction.options.getString('image-url');
         const welcomeChannelId = interaction.options.getChannel('channel').id;
 
-        const columns = ['guild_id', 'welcome_channel_id', 'image_url'];
-
-        const values = [
-            `${guildId}`, // guild_id
-            `${welcomeChannelId}`, // welcome_channel_id
-            `${imageUrl}`, // image_url
-        ];
-
-        MySQL.valueExistsInGuildsColumn(guildId, 'welcome_channel_id', welcomeChannelId).then(exists => {
-            if (exists) {
-                MySQL.editColumnInGuilds(guildId, 'welcome_channel_id', welcomeChannelId);
-                MySQL.editColumnInGuilds(guildId, 'image_url', imageUrl);
-            } else {
-                MySQL.insertIntoGuildTable(columns, values);
-            }
-        });
-
+        MySQL.updateValueInTableWithCondition('guilds', 'welcome_channel_id', welcomeChannelId, 'guild_id', guildId)
+        MySQL.updateValueInTableWithCondition('guilds', 'image_url', imageUrl, 'guild_id', guildId)
+        
         await delay(1000);
 
         try {

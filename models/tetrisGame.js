@@ -1,4 +1,4 @@
-const rotateMatrix = require("rotate-matrix");
+/*const rotateMatrix = require("rotate-matrix");
 const shuffleArray = require("array-shuffle");
 
 const createMatrix = (rows, columns) => Array.from({ length: rows }, () => Array.from({ length: columns }));
@@ -376,4 +376,4 @@ class Tetris {
     }
 }
 
-module.exports = Tetris;
+module.exports = Tetris;*/
