@@ -36,7 +36,7 @@ module.exports = {
             await interaction.deferReply();
             
             if (!interaction.channel.nsfw && isNsfw) {
-                return await interaction.editReply({ content: 'NSFW can only be used in NSFW channels.', ephemeral: true });
+                return await interaction.editReply({ content: 'NSFW Commands can only be used in NSFW channels.', ephemeral: true });
             }
 
             if ((nsfwEnabled === 'false' && isNsfw) || (nsfwEnabled === 'false' && interaction.channel.nsfw && isNsfw)) {
