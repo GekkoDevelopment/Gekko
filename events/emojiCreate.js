@@ -37,6 +37,5 @@ module.exports = {
             .setFooter({ text: 'Gekkō', iconURL: emoji.client.user.displayAvatarURL() });
 
         logChannel.send({ embeds: [embed] });
-        console.log(emoji)
     }
 };
