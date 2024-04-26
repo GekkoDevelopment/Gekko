@@ -44,7 +44,7 @@ module.exports = {
                 }
             )
             .setTitle(`${config.emojis.warning} Sticker Name Updated`)
-            .setDescription(`> **Sticker Name:** ${newSticker.name} \n> **Sticker ID:** ${newSticker.id} \n> **Description:** ${newSticker.description || 'None'} \n> **Tag ID:** ${newSticker.tag} \n> **Created by:** <@${executor.id}>`)
+            .setDescription(`> **Sticker Name:** ${newSticker.name} \n> **Sticker ID:** ${newSticker.id} \n> **Description:** ${newSticker.description || 'None'} \n> **Created by:** <@${executor.id}>`)
             .setColor('Orange')
             .setTimestamp()
             .setFooter({ text: 'Gekkō', iconURL: newSticker.client.user.displayAvatarURL() });
@@ -66,34 +66,11 @@ module.exports = {
                 }
             )
             .setTitle(`${config.emojis.warning} Sticker Description Updated`)
-            .setDescription(`> **Sticker Name:** ${newSticker.name} \n> **Sticker ID:** ${newSticker.id} \n> **Description:** ${newSticker.description || 'None'} \n> **Tag ID:** ${newSticker.tag} \n> **Created by:** <@${executor.id}>`)
+            .setDescription(`> **Sticker Name:** ${newSticker.name} \n> **Sticker ID:** ${newSticker.id} \n> **Description:** ${newSticker.description || 'None'} \n> **Created by:** <@${executor.id}>`)
             .setColor('Orange')
             .setTimestamp()
             .setFooter({ text: 'Gekkō', iconURL: newSticker.client.user.displayAvatarURL() });
             logChannel.send({ embeds: [embed] });
         }
-
-        if (oldSticker.tag !== newSticker.tag) {
-            const embed = new EmbedBuilder()
-            embed.addFields(
-                {
-                    name: 'Previous Tag ID:',
-                    value: oldSticker.tag,
-                    inline: true
-                },
-                {
-                    name: 'New Tag ID:',
-                    value: newSticker.tag,
-                    inline: true
-                }
-            )
-            .setTitle(`${config.emojis.warning} Sticker Tag Updated`)
-            .setDescription(`> **Sticker Name:** ${newSticker.name} \n> **Sticker ID:** ${newSticker.id} \n> **Description:** ${newSticker.description || 'None'} \n> **Tag ID:** ${newSticker.tag} \n> **Created by:** <@${executor.id}>`)
-            .setColor('Orange')
-            .setTimestamp()
-            .setFooter({ text: 'Gekkō', iconURL: newSticker.client.user.displayAvatarURL() });
-            logChannel.send({ embeds: [embed] });
-        }
-
     }
 };

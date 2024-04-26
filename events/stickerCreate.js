@@ -30,11 +30,10 @@ module.exports = {
             const executor = firstEntry.executor;
             const embed = new EmbedBuilder()
             .setTitle(`${config.emojis.warning} Sticker Created`)
-            .setDescription(`> **Sticker Name:** ${sticker.name} \n> **Sticker ID:** ${sticker.id} \n> **Description:** ${sticker.description || 'None'} \n> **Tag ID:** ${sticker.tag} \n> **Created by:** <@${executor.id}>`)
+            .setDescription(`> **Sticker Name:** ${sticker.name} \n> **Sticker ID:** ${sticker.id} \n> **Description:** ${sticker.description || 'None'} \n> **Created by:** <@${executor.id}>`)
             .setColor('Green')
             .setTimestamp()
             .setFooter({ text: 'Gekkō', iconURL: sticker.client.user.displayAvatarURL() });
             logChannel.send({ embeds: [embed] });
-            console.log(sticker)
     }
 };
