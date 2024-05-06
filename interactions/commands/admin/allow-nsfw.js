@@ -66,15 +66,14 @@ module.exports = {
 
         if (isNsfw === 'true') {
             const permissionErrorEmbed = new EmbedBuilder()
-            .setTitle(`${emojis.warning} Configuration Error`)
-            .setDescription('> You\'ve already enabled **NSFW** features for this guild \n> You can disable this with the `/disallow-nsfw ` command')
-            .setColor('Red')
+            .setTitle(`${emojis.warning} Command Error:`)
+            .setDescription(' **NSFW** is already enabled in this guild.')
+            .setFooter({ text: 'Gekkō', iconURL: interaction.client.user.displayAvatarURL() })
             .setTimestamp()
-            .setFooter({ text: 'Gekkō', iconURL: interaction.client.user.displayAvatarURL() });
+            .setColor(colors.deepPink);
             
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true }); 
         }
-
 
         const embedConfirmEmbed1 = embeds.get('nsfwConfirm1')(interaction);
         await interaction.reply({ embeds: [embedConfirmEmbed1], components: [actionRow1] });

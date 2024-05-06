@@ -35,7 +35,7 @@ module.exports = {
                     .setFooter({ text: 'Gekkō', iconURL: interaction.client.user.displayAvatarURL() })
                     .setTimestamp()
                     .setColor(colors.deepPink);
-                    await interaction.reply({ embeds: [disabledEmbed], ephemeral: true })
+                    await interaction.reply({ embeds: [disabledEmbed] })
                 }
             } 
         } catch (error) {
