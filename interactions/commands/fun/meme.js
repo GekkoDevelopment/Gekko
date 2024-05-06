@@ -44,10 +44,7 @@ module.exports = {
                 const errorMessage = relevantLine.replace(/^\s+at\s+/g, '')
                 const errorDescription = error.message;
 
-                const catchErrorEmbed = new EmbedBuilder()
-                .setTitle('Unexpected Error:')
-                .setDescription(`\`\`\`\n${errorMessage} \n\n${errorDescription}\`\`\`\n\nReport this to a developer at our [Discord Server](https://discord.gg/7E5eKtm3YN)`)
-                .setColor('Red')
+                const catchErrorEmbed = embeds.get('tryCatchError')(interaction, {errorMessage, errorDescription});
                 await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
             }
         }

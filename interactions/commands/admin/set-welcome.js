@@ -105,7 +105,13 @@ module.exports = {
             }
 
         } catch (error) {
-            console.log('Error sending welcome message:', error);
+            const stackLines = error.stack.split('\n');
+            const relevantLine = stackLines[1];
+            const errorMessage = relevantLine.replace(/^\s+at\s+/g, '')
+            const errorDescription = error.message;
+
+            const catchErrorEmbed = embeds.get('tryCatchError')(interaction, {errorMessage, errorDescription});
+            await interaction.channel.send({ embeds: [catchErrorEmbed] });
         }
     }
 };
