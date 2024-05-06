@@ -12,6 +12,20 @@ const client = new Client({
     allowedMentions: { parse: ['users', 'roles', 'everyone'], repliedUser: true}
 });
 
+//anyway, new stuff here:
+client.embeds = require('./embeds');
+//doot doot there's all your embeds on the client
+//client.embeds.get('meow');
+//client.embeds.get('PermissionErrorEmbed')(interaction);
+
+//why does this happen in deploy-commands and in bot.js? :P
+//i know you're not deploying the commands here, but DRY KISS
+client.interactions = {
+    commands: new Collection(),
+    components: new Collection()
+};
+
+
 const numericRegex = /&[0-9]+$/;
 
 //////// Prefix Commands ///////|
@@ -465,24 +479,25 @@ client.on('messageCreate', async message => {
 
 //////////////////////////////////
 
-client.commands = new Collection();
-const foldersPath = path.join(__dirname, 'commands');
-const commandFolders = fs.readdirSync(foldersPath);
-
-for (const folder of commandFolders) {
-	const commandsPath = path.join(foldersPath, folder);
-	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
-	
-    for (const file of commandFiles) {
-		const filePath = path.join(commandsPath, file);
-		const command = require(filePath);
-
-		if ('data' in command && 'execute' in command) {
-			client.commands.set(command.data.name, command);
-		} else {
-			console.log(`[WARNING]: The command at ${filePath} is missing a required "data" or "execute" property.`);
-		}
-	}
+for(type of ['commands','components']){
+    const foldersPath = path.join(__dirname, `interactions/${type}`);
+    const commandFolders = fs.readdirSync(foldersPath);
+    
+    for (const folder of commandFolders) {
+        const commandsPath = path.join(foldersPath, folder);
+        const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+        
+        for (const file of commandFiles) {
+            const filePath = path.join(commandsPath, file);
+            const command = require(filePath);
+    
+            if ('data' in command && 'execute' in command) {
+                client.interactions[type].set(command.data.name, command);
+            } else {
+                console.log(`[WARNING]: The command at ${filePath} is missing a required "data" or "execute" property.`);
+            }
+        }
+    }
 }
 
 const eventsPath = path.join(__dirname, 'events');

@@ -161,6 +161,27 @@ class MySQL {
     }
 
     /**
+     * Inserts multiple rows into the specified table. If a row with the same primary key exists, it updates the values instead.
+     * @param {string} table - Table name.
+     * @param {string[]} columns - Array of column names.
+     * @param {any[][]} values - Array of value arrays (each value array corresponds to a row).
+     * @returns {Promise<boolean>} - True if rows were inserted or updated successfully, otherwise false.
+     */
+    static async bulkInsertOrUpdate(table, columns, values) {
+        // Generate the INSERT INTO ... ON DUPLICATE KEY UPDATE query
+        const query = `INSERT INTO ${table} (${columns.join(', ')}) VALUES ? ON DUPLICATE KEY UPDATE ${columns.map(column => `${column}=VALUES(${column})`).join(', ')}`;
+
+        try {
+            // Execute the query with values array
+            await mysql.query(query, [values]);
+            return true;
+        } catch (error) {
+            console.error('Error bulk inserting or updating data:', error);
+            return false;
+        }
+    }
+    
+    /**
      * Select a certain column in a table.
      * @param {string} table - The table you want to select from.
      * @param {array} columns - The columns you want to select from.
