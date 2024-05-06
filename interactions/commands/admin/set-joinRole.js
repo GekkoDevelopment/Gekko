@@ -11,49 +11,17 @@ module.exports = {
         const restricted = MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', interaction.guild.id);
 
         if (restricted === 'true') {
-            const permissionErrorEmbed = new EmbedBuilder()
-            .setTitle('Permissions Error: 50105')
-            .addFields(
-                {
-                    name: 'Error Message:',
-                    value: '```\nYour guild has been banned by Gekkō Development. If you feel like this is an error please contact the development team by joining our [Support Discord.](https://discord.gg/2aw45ajSw2)```',
-                    inline: true
-                }
-            )
-            .setColor('Red')
-            .setTimestamp()
-            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
+            const permissionErrorEmbed = embeds.get('guildRestricted')(interaction);
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
         
         if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
-            const permissionErrorEmbed = new EmbedBuilder()
-            .setTitle(`${emojis.warning} Permissions Error: 50013`)
-            .addFields(
-                {
-                    name: 'Error Message:',
-                    value: '```\nYou need the MANAGE_GUILD permission to use this command.```',
-                    inline: true
-                }
-            )
-            .setColor('Red')
-            .setTimestamp()
-            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
+            const permissionErrorEmbed = embeds.get('permissionsError')(interaction);
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 
         if (!interaction.guild.members.me.permissions.has(PermissionFlagsBits.ManageRoles)) {
-            const permissionErrorEmbed = new EmbedBuilder()
-            .setTitle(`${emojis.warning} Permissions Error: 50013`)
-            .addFields(
-                {
-                    name: 'Error Message:',
-                    value: '```\nI need the MANAGE_ROLES permission to use this command.```',
-                }
-            )
-            .setColor('Red')
-            .setTimestamp()
-            .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
+            const permissionErrorEmbed = embeds.get('botPermissionsError');
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true })
         }
 
