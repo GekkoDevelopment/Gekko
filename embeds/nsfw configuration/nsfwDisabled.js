@@ -5,7 +5,12 @@ const colors = require("../../models/colors");
 module.exports = {
   embed: (interaction, data) =>
     new EmbedBuilder()
-    .setTitle(`${emojis.warning} Enable Not Safe For Work Feature`)
+    .setTitle(`${emojis.passed} NSFW disabled`)
+    .setDescription("Okay, **NSFW** Commands are disabled!")
     .setColor(colors.deepPink)
-    .setDescription("**Are you sure you're sure?**"),
+    .setTimestamp()
+    .setFooter({
+        text: "Gekkō",
+        iconURL: interaction.client.user.displayAvatarURL(),
+    }),
 };

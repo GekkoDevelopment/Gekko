@@ -1,11 +1,5 @@
-const {
-  SlashCommandBuilder,
-  EmbedBuilder,
-  PermissionFlagsBits,
-} = require("discord.js");
+const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 const MySQL = require("../../../models/mysql.js");
-const { emojis } = require("../../../config.js");
-const colors = require("../../../models/colors.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -39,16 +33,7 @@ module.exports = {
         interaction.member.permissions.has(PermissionFlagsBits.ManageGuild) &&
         isNsfw.toString() === "true"
       ) {
-        const disableEmbed = new EmbedBuilder()
-          .setTitle(`${emojis.passed} NSFW disabled`)
-          .setDescription("Okay, **NSFW** Commands are disabled!")
-          .setColor(colors.deepPink)
-          .setTimestamp()
-          .setFooter({
-            text: "Gekkō",
-            iconURL: interaction.client.user.displayAvatarURL(),
-          });
-
+        const disableEmbed = embeds.get("nsfwDisabled")(interaction);
         MySQL.editColumnInGuilds(guildId, "nsfw_enabled", "false");
         await interaction.reply({ embeds: [disableEmbed], ephemeral: true });
       } else {
@@ -56,15 +41,7 @@ module.exports = {
           interaction.member.permissions.has(PermissionFlagsBits.ManageGuild) &&
           isNsfw.toString() === "false"
         ) {
-          const disabledEmbed = new EmbedBuilder()
-            .setTitle(`${emojis.warning} Command Error:`)
-            .setDescription(" **NSFW** is already disabled in this guild.")
-            .setFooter({
-              text: "Gekkō",
-              iconURL: interaction.client.user.displayAvatarURL(),
-            })
-            .setTimestamp()
-            .setColor(colors.deepPink);
+          const disabledEmbed = embeds.get("nsfwDisabledError")(interaction);
           await interaction.reply({ embeds: [disabledEmbed] });
         }
       }
