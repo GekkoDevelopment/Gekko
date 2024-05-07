@@ -27,20 +27,7 @@ module.exports = {
     }
 
     if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
-      const permissionErrorEmbed = new EmbedBuilder()
-        .setTitle(`${emojis.warning} Permissions Error: 50013`)
-        .addFields({
-          name: "Error Message:",
-          value:
-            "```\nYou need the MANAGE_GUILD permission to use this command.```",
-          inline: true,
-        })
-        .setColor("Red")
-        .setTimestamp()
-        .setFooter({
-          text: "Gekkō Development",
-          iconURL: interaction.client.user.displayAvatarURL(),
-        });
+      const permissionErrorEmbed = embeds.get('permissionsError')(interaction);
       return await interaction.reply({
         embeds: [permissionErrorEmbed],
         ephemeral: true,
