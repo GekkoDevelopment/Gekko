@@ -7,7 +7,6 @@ module.exports = {
       !(
         interaction.isChatInputCommand() ||
         interaction.isButton() ||
-        interaction.isStringSelectMenu() ||
         interaction.isModalSubmit()
       )
     )
