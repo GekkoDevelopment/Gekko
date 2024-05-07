@@ -6,18 +6,14 @@ module.exports = {
   name: Events.GuildCreate,
   async execute(guild) {
     const guildId = guild.id;
-    const columns = ["guild_id"];
 
-    const values = [
-      `${guildId}`, // guild_id
-    ];
-
-    MySQL.valueExistsInGuildsColumn(guildId, "guild_id", guildId).then(
+    // I had to update this or else it won't work. This code sucks but if it works it works.
+    MySQL.valueExistsInGuildsColumn(guildId, 'guild_id', guildId).then(
       (exists) => {
         if (exists) {
-          MySQL.updateColumnInfo(guildId, "guild_id", guildId);
+          MySQL.updateColumnValue('guilds', 'guild_id', guildId);
         } else {
-          MySQL.insertIntoGuildTable(columns, values);
+          MySQL.insertOrUpdateValue('guilds', 'guild_id', guildId);
         }
       }
     );

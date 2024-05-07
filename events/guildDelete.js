@@ -1,4 +1,4 @@
-const { Events, EmbedBuilder, AttachmentBuilder } = require("discord.js");
+const { Events, EmbedBuilder } = require("discord.js");
 const MySQL = require("../models/mysql.js");
 const config = require("../config.js");
 
@@ -6,7 +6,7 @@ module.exports = {
   name: Events.GuildDelete,
   async execute(guild) {
     const guildId = guild.id;
-    MySQL.deleteRow("guilds", "guild_id", guildId);
+    MySQL.deleteRow('guilds', 'guild_id', guildId); // needed to comment this in the MySQL.js file
 
     const guildCreateEmbed = new EmbedBuilder()
       .setTitle("I was removed from a guild")

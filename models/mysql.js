@@ -527,9 +527,14 @@ class MySQL {
     await this.executeQuery(query);
   }
 
+  /**
+   * Deletes a specific row on a table.
+   * @param {string} table - The table you want to delete from.
+   * @param {string} column - The column you want to delete from.
+   * @param {any} value - The value fromwhich you wat to delete from.
+   */
   static async deleteRow(table, column, value) {
     const query = `DELETE FROM ${table} WHERE ${column} = ?`;
-
     await this.executeQuery(query, [value]);
   }
 }

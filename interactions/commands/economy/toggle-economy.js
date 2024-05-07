@@ -11,13 +11,15 @@ module.exports = {
 
         let economyEnabled = MySQL.hasTrueFalseValue('economy', 'economy_enabled');
         const restricted = MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', interaction.guild.id);
+        
+        MySQL.insertOrUpdateValue('economy', 'guild_id', interaction.guild.id);
 
         if (restricted === 'true') {
             const permissionErrorEmbed = embeds.get('guildRestricted')(interaction);
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
         
-        if (!interaction.user.permissions.has(PermissionFlagsBits.ModerateMembers)) {
+        if (!interaction.member.permissions.has(PermissionFlagsBits.ModerateMembers)) {
             const errorEmbed = new EmbedBuilder()
             .setDescription("You don't have permission to use this command!")
             .setColor('Red');
@@ -26,7 +28,8 @@ module.exports = {
         }
 
         if (toggleEconomy === true) {
-            MySQL.updateColumnValue('economy', interaction.guild.id, 'economy_enabled', 'true');
+            MySQL.insertOrUpdateValue('economy', 'guild_id', interaction.guild.id);
+            MySQL.updateValueInTableWithCondition('economy', 'economy_enabled', 'true', 'guild_id', interaction.guild.id);
 
             const embed = new EmbedBuilder()
             .setDescription('Economy enabled!')
@@ -34,7 +37,7 @@ module.exports = {
 
             await interaction.reply({ embeds: [embed], ephemeral: true });
         } else {
-            MySQL.updateColumnValue('economy', interaction.guild.id, 'economy_enabled', 'false');
+            MySQL.updateValueInTableWithCondition('')
             
             const embed = new EmbedBuilder()
             .setDescription('Economy disabled!')
