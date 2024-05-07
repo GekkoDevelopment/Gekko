@@ -6,8 +6,6 @@ const {
   PermissionFlagsBits,
   StringSelectMenuBuilder,
   ActionRowBuilder,
-  ChannelType,
-  Embed,
   ButtonBuilder,
   ButtonStyle,
 } = require("discord.js");
@@ -15,8 +13,8 @@ const fs = require("node:fs");
 const path = require("node:path");
 const delay = require("node:timers/promises").setTimeout;
 const config = require("./config.js");
-const color = require("./models/colors.js");
-const colors = require("./models/colors.js");
+const color = require("./models/Colors.js");
+const colors = require("./models/Colors.js");
 const MySQL = require("./models/mysql.js");
 
 const client = new Client({

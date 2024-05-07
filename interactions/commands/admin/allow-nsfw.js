@@ -8,7 +8,8 @@ const {
 } = require("discord.js");
 const MySQL = require("../../../models/mysql.js");
 const { emojis } = require("../../../config.js");
-const colors = require("../../../models/colors.js");
+const colors = require("../../../models/Colors.js");
+const { DiscordExtensions } = require('../../../models/DiscordExtensions.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
