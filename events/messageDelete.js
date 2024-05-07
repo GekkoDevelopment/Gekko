@@ -32,13 +32,6 @@ module.exports = {
         limit: 1,
       });
 
-      const firstEntry = fetchedLogs.entries.first();
-      if (!firstEntry || !firstEntry.executor) {
-        return;
-      }
-
-      const executor = firstEntry.executor;
-
       if (!logChannel) {
         console.log(`${logChannelId} not found.`);
         return;
@@ -55,14 +48,9 @@ module.exports = {
               name: "Message Content:",
               value: `\`\`\`${message.content}\`\`\``,
             },
-            {
-              name: "Deleted by:",
-              value: `<@${executor.id}>`,
-            }
           )
           .setColor("Red")
           .setTimestamp()
-          .setThumbnail(executor.displayAvatarURL())
           .setFooter({
             text: "Gekkō",
             iconURL: message.client.user.displayAvatarURL(),
@@ -81,14 +69,9 @@ module.exports = {
               name: "Embed Content:",
               value: `\`\`\`Message was an Embed, we can't embed an embed within an embed.\`\`\``,
             },
-            {
-              name: "Deleted by:",
-              value: `<@${executor.id}>`,
-            }
           )
           .setColor("Red")
           .setTimestamp()
-          .setThumbnail(executor.displayAvatarURL())
           .setFooter({
             text: "Gekkō",
             iconURL: message.client.user.displayAvatarURL(),

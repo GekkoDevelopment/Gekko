@@ -27,18 +27,6 @@ module.exports = {
       );
       const logChannel = newMessage.guild.channels.cache.get(logChannelId);
 
-      const fetchedLogs = await newMessage.guild.fetchAuditLogs({
-        type: AuditLogEvent.MessageUpdate,
-        limit: 1,
-      });
-
-      const firstEntry = fetchedLogs.entries.first();
-      if (!firstEntry || !firstEntry.executor) {
-        return;
-      }
-
-      const executor = firstEntry.executor;
-
       if (!logChannel) {
         console.log(`${logChannelId} not found.`);
         return;
@@ -47,7 +35,7 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setTitle(`${config.emojis.warning} Message Updated`)
         .setDescription(
-          `> **Channel:** ${newMessage.channel} (||${newMessage.channel.id}||) \n> **Message ID:** ${newMessage.id} \n> **Message Author:** <@${newMessage.author.id}> \n> **Edited by:** <@${executor.id}>`
+          `> **Channel:** ${newMessage.channel} (||${newMessage.channel.id}||) \n> **Message ID:** ${newMessage.id} \n> **Message Author:** <@${newMessage.author.id}`
         )
         .addFields(
           {
@@ -61,7 +49,6 @@ module.exports = {
         )
         .setColor("Orange")
         .setTimestamp()
-        .setThumbnail(executor.displayAvatarURL())
         .setFooter({
           text: "Gekkō",
           iconURL: newMessage.client.user.displayAvatarURL(),
