@@ -230,13 +230,13 @@ module.exports = {
               {
                 name: "Commands",
                 value:
-                  "Chess \nConnect Four \nGuess the Logo \nMinesweeper \nSnake \nTetris \nTicTacToe \nWhat's that Pokemon \nWordle",
+                  "Connect Four \nGuess the Logo \nMinesweeper \nSnake \nTicTacToe \nWhat's that Pokemon \nWordle",
                 inline: true,
               },
               {
                 name: "Usage",
                 value:
-                  "`/chess` \n`/connect-4` \n`/guess-the-logo` \n`/minesweeper` \n`/snake` \n`/tetris` \n`/tic-tac-toe` \n`/whats-that-pokemon` \n`wordle`",
+                  "`/connect-4` \n`/guess-the-logo` \n`/minesweeper` \n`/snake` \n`/tic-tac-toe` \n`/whats-that-pokemon` \n`wordle`",
                 inline: true,
               }
             )

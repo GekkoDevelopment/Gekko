@@ -24,14 +24,8 @@ const client = new Client({
   allowedMentions: { parse: ["users", "roles", "everyone"], repliedUser: true },
 });
 
-//anyway, new stuff here:
 client.embeds = require("./embeds");
-//doot doot there's all your embeds on the client
-//client.embeds.get('meow');
-//client.embeds.get('PermissionErrorEmbed')(interaction);
 
-//why does this happen in deploy-commands and in bot.js? :P
-//i know you're not deploying the commands here, but DRY KISS
 client.interactions = {
   commands: new Collection(),
   components: new Collection(),
