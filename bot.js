@@ -46,7 +46,7 @@ client.on("messageCreate", async (message) => {
     message.author !== config.developer.dev2Id // Red
   ) {
     const permissionErrorEmbed = require('./embeds/errors/permissionsError.js');
-    const permissionsError = permissionErrorEmbed.embed(message); // for prefix commands, we can call the embed from the file directly, if we make mroe prefix cmds I will make an alternative way of doing this.
+    const permissionsError = permissionErrorEmbed.embed(message); // for prefix commands, we can call the embed from the file directly, if we make more prefix cmds I will make an alternative way of doing this.
     return await message.reply({ embeds: [permissionsError], ephemeral: true });
   }
 
