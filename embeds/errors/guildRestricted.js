@@ -2,7 +2,7 @@ const { EmbedBuilder } = require("discord.js");
 const { emojis } = require("../../config");
 
 module.exports = {
-  embed: (interaction, data) =>
+  embed: (interaction, data, message) =>
     new EmbedBuilder()
       .setTitle(`${emojis.warning} Permissions Error: 50105`)
       .addFields({
@@ -15,6 +15,6 @@ module.exports = {
       .setTimestamp()
       .setFooter({
         text: "Gekkō Development",
-        iconURL: interaction.client.user.displayAvatarURL(),
+        iconURL: interaction.client.user.displayAvatarURL() || message.client.user.displayAvatarURL(),
       }),
 };
