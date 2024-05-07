@@ -12,7 +12,7 @@ module.exports = {
         devTestChannel: '1226522704195227771', // The channel in the main support discord where commands are tested.
         devGuild: '1226501941249576980', // The guild ID for Gekkō Support / Testing.
         devLogChannel: '1226502649978032138', // The channel that Gekkō Support user and command logs to.
-        devTestLogChannel: '1226548220801450074', //  The channel in the main support discord where commands that contains logs and .
+        devTestLogChannel: '1226548220801450074', //  The channel in the main support discord where commands that contains logs and stuff.
 
         devBugReportsChannel: '1227662388409663609' // The channel that the bug reports go to.
     },
@@ -49,18 +49,18 @@ module.exports = {
         ratingNa: '<:ratingNA:1228100149415251988>', // N/A Rating
         inspect: '<:wannainspect:1228453507749777481>', // Wanna Inspect emoji
         noted: '<:BeepNoted:1228454277899489336>', // Noted Emoji
-        green: '<:green:1229766565633720381>',
-        amber: '<:amber:1230154433019514982>',
-        red: '<:red:1229766554548305940>',
-        warning: '<:warning:1230154510375063603>',
-        passed: '<:passed:1230154594126925885>',
-        failed: '<:failed:1230154570588749844>',
-        questionMark: '<:gekko_questionMark:1226506605596512287>',
+        green: '<:green:1229766565633720381>', // Green Circle Emoji
+        amber: '<:amber:1230154433019514982>', // Amber Circle Emoji
+        red: '<:red:1229766554548305940>', // Red Circle Emoji
+        warning: '<:warning:1230154510375063603>', // Warning Emoji
+        passed: '<:passed:1230154594126925885>', // Passed Emoji
+        failed: '<:failed:1230154570588749844>', // Failed Emoji
+        questionMark: '<:gekko_questionMark:1226506605596512287>', // Question Mark Emoji
         exclamationMark: '<:gekko_exclamationMark:1226506603755475015>',
-        configuration: '<:hammer:1230255584117264487>',
-        discord: '<:discordemote:1230262224057274439>',
-        gekko: '<:gekkoemote:1230261004395483367>',
-        arrowLeft: '<a:gekko_arrowLeft:1230484672715161680> ',
-        arrowRight: '<a:gekko_arrowRight:1230484728130310227>'
+        configuration: '<:hammer:1230255584117264487>', // Config Emoji
+        discord: '<:discordemote:1230262224057274439>', // Discord Emoji (Literally Discord's logo.)
+        gekko: '<:gekkoemote:1230261004395483367>', // Gekkō Discord Profile Picture
+        arrowLeft: '<a:gekko_arrowLeft:1230484672715161680> ', // Arrow Pointing to the Left
+        arrowRight: '<a:gekko_arrowRight:1230484728130310227>' // Arrow Pointing to the Right
     }
 }

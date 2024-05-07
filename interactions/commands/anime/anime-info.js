@@ -1,142 +1,178 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const fetch = require('node-fetch');
-const colors = require('../../../models/colors');
-const { emojis } = require('../../../config');
-const MySQL = require('../../../models/mysql');
-const delay = require('node:timers/promises').setTimeout;
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const fetch = require("node-fetch");
+const colors = require("../../../models/colors");
+const { emojis } = require("../../../config");
+const MySQL = require("../../../models/mysql");
+const delay = require("node:timers/promises").setTimeout;
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('anime-info')
-        .setDescription('Look up information about a specific anime.')
-        .addStringOption(option => option.setName('anime').setDescription('The anime to get information from.').setRequired(true)),
-    async execute(interaction) {
-        const restricted = MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', interaction.guild.id);
+  data: new SlashCommandBuilder()
+    .setName("anime-info")
+    .setDescription("Look up information about a specific anime.")
+    .addStringOption((option) =>
+      option
+        .setName("anime")
+        .setDescription("The anime to get information from.")
+        .setRequired(true)
+    ),
+  async execute(interaction) {
+    const restricted = MySQL.getValueFromTableWithCondition(
+      "guilds",
+      "restricted_guild",
+      "guild_id",
+      interaction.guild.id
+    );
 
-        if (restricted === 'true') {
-            const permissionErrorEmbed = embeds.get('guildRestricted')(interaction);
-            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
+    if (restricted === "true") {
+      const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
+      return await interaction.reply({
+        embeds: [permissionErrorEmbed],
+        ephemeral: true,
+      });
+    }
+
+    try {
+      const animeName = interaction.options.getString("anime");
+      let option = {
+        url: `https://kitsu.io/api/edge/anime?filter[text]=${animeName}`,
+        method: `GET`,
+        headers: {
+          "Content-Type": "application/vnd.api+json",
+          Accept: "application/vnd.api+json",
+        },
+      };
+
+      const response = await fetch(option.url, option);
+      const data = await response.json();
+
+      if (data.data && data.data.length > 0) {
+        const animeInfo = data.data[0];
+        let synopsis =
+          animeInfo.attributes.synopsis || "No synopsis available.";
+        synopsis =
+          synopsis.length > 300 ? synopsis.substring(0, 300) + "..." : synopsis;
+
+        let ratingEmoji;
+        if (animeInfo.attributes.averageRating >= 70) {
+          ratingEmoji = emojis.ratingGreen;
+        } else if (animeInfo.attributes.averageRating >= 40) {
+          ratingEmoji = emojis.ratingAmber;
+        } else {
+          ratingEmoji = emojis.ratingRed;
         }
-        
-        try {
-            const animeName = interaction.options.getString('anime');
-            let option = {
-                url: `https://kitsu.io/api/edge/anime?filter[text]=${animeName}`,
-                method: `GET`,
-                headers: {
-                    'Content-Type': "application/vnd.api+json",
-                    'Accept': "application/vnd.api+json",
-                }
-            };
-            
-            const response = await fetch(option.url, option);
-            const data = await response.json();
 
-            if (data.data && data.data.length > 0) {
-                const animeInfo = data.data[0];
-                let synopsis = animeInfo.attributes.synopsis || 'No synopsis available.';
-                synopsis = synopsis.length > 300 ? synopsis.substring(0, 300) + '...' : synopsis;
+        let statusEmoji;
+        switch (animeInfo.attributes.status) {
+          case "current":
+            statusEmoji = emojis.ratingGreen;
+            break;
+          case "finished":
+            statusEmoji = emojis.ratingRed;
+            break;
+          case "tba":
+            statusEmoji = emojis.ratingNa;
+            break;
+          case "unreleased":
+            statusEmoji = emojis.ratingNa;
+            break;
+          case "upcoming":
+            statusEmoji = emojis.ratingAmber;
+            break;
+          default:
+            statusEmoji = "";
+        }
 
-                let ratingEmoji;
-                if (animeInfo.attributes.averageRating >= 70) {
-                    ratingEmoji = emojis.ratingGreen;
-                } else if (animeInfo.attributes.averageRating >= 40) {
-                    ratingEmoji = emojis.ratingAmber;
-                } else {
-                    ratingEmoji = emojis.ratingRed;
-                }
+        let nsfwCheck = animeInfo.attributes.nsfw;
+        let isNsfw =
+          nsfwCheck === false ? "✔️ Safe For Work" : "⚠️ Not Safe For Work";
 
-                let statusEmoji;
-                switch (animeInfo.attributes.status) {
-                    case 'current':
-                        statusEmoji = emojis.ratingGreen;
-                        break;
-                    case 'finished':
-                        statusEmoji = emojis.ratingRed;
-                        break;
-                    case 'tba':
-                        statusEmoji = emojis.ratingNa;
-                        break;
-                    case 'unreleased':
-                        statusEmoji = emojis.ratingNa;
-                        break;
-                    case 'upcoming':
-                        statusEmoji = emojis.ratingAmber;
-                        break;
-                    default:
-                        statusEmoji = '';
-                }
-
-                let nsfwCheck = animeInfo.attributes.nsfw;
-                let isNsfw = nsfwCheck === false ? '✔️ Safe For Work' : '⚠️ Not Safe For Work';
-
-                const embed = new EmbedBuilder()
-                    .setTitle(`${animeInfo.attributes.canonicalTitle}`)
-                    .setFooter({text: animeInfo.attributes.titles.en || 'Could not translate name.', iconURL: interaction.client.user.avatarURL() })
-                    .setDescription(`> ${synopsis}[[View More]](https://kitsu.io/anime/${animeInfo.id})`)
-                    .addFields(
-                        {
-                            name: 'Rating',
-                            value: `${ratingEmoji} ${animeInfo.attributes.averageRating}%` || 'Not available',
-                            inline: true 
-                        },
-                        {
-                            name: 'Status',
-                            value: `${statusEmoji} ${animeInfo.attributes.status}` || 'Not available',
-                            inline: true 
-                        },
-                        {
-                            name: 'Episode Length',
-                            value: `📺 ${String(animeInfo.attributes.episodeLength)} minutes` || 'Not available',
-                            inline: true 
-                        },
-                        {
-                            name: 'Is NSFW',
-                            value: `\`${isNsfw}\``,
-                            inline: true
-                        },
-                        {
-                            name: 'Age Rating',
-                            value: `\`${animeInfo.attributes.ageRating}\`` || 'Not available',
-                            inline: true 
-                        },
-                        {
-                            name: 'Start Date:',
-                            value: `\`${animeInfo.attributes.startDate}\``,
-                            inline: true
-                        },
-                        {
-                            name: 'End Date',
-                            value: `\`${animeInfo.attributes.endDate}\``,
-                            inline: true
-                        }
-                    )
-                    .setURL(`https://kitsu.io/anime/${animeInfo.id}`)
-                    .setColor(colors.bot);
-                
-                if (animeInfo.attributes.coverImage && animeInfo.attributes.coverImage.original) {
-                    embed.setImage(animeInfo.attributes.coverImage.original);
-                }
-
-                await interaction.reply({ embeds: [embed] });
-            } else {
-                const errorEmbed = new EmbedBuilder()
-                .setTitle(`${emojis.warning} Search Error:`)
-                .setColor('Red')
-                .setDescription('No anime found with that name.')
-                .setTimestamp()
-                .setFooter({ text: 'Gekkō Development', iconURL: interaction.client.user.displayAvatarURL() });
-
-                await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
+        const embed = new EmbedBuilder()
+          .setTitle(`${animeInfo.attributes.canonicalTitle}`)
+          .setFooter({
+            text: animeInfo.attributes.titles.en || "Could not translate name.",
+            iconURL: interaction.client.user.avatarURL(),
+          })
+          .setDescription(
+            `> ${synopsis}[[View More]](https://kitsu.io/anime/${animeInfo.id})`
+          )
+          .addFields(
+            {
+              name: "Rating",
+              value:
+                `${ratingEmoji} ${animeInfo.attributes.averageRating}%` ||
+                "Not available",
+              inline: true,
+            },
+            {
+              name: "Status",
+              value:
+                `${statusEmoji} ${animeInfo.attributes.status}` ||
+                "Not available",
+              inline: true,
+            },
+            {
+              name: "Episode Length",
+              value:
+                `📺 ${String(animeInfo.attributes.episodeLength)} minutes` ||
+                "Not available",
+              inline: true,
+            },
+            {
+              name: "Is NSFW",
+              value: `\`${isNsfw}\``,
+              inline: true,
+            },
+            {
+              name: "Age Rating",
+              value: `\`${animeInfo.attributes.ageRating}\`` || "Not available",
+              inline: true,
+            },
+            {
+              name: "Start Date:",
+              value: `\`${animeInfo.attributes.startDate}\``,
+              inline: true,
+            },
+            {
+              name: "End Date",
+              value: `\`${animeInfo.attributes.endDate}\``,
+              inline: true,
             }
-        } catch(error) {
-            const stackLines = error.stack.split('\n');
-            const relevantLine = stackLines[1];
-            const errorMessage = relevantLine.replace(/^\s+at\s+/g, '')
-            const errorDescription = error.message;
+          )
+          .setURL(`https://kitsu.io/anime/${animeInfo.id}`)
+          .setColor(colors.bot);
 
-            const catchErrorEmbed = embeds.get('tryCatchError')(interaction, {errorMessage, errorDescription});
-            await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
+        if (
+          animeInfo.attributes.coverImage &&
+          animeInfo.attributes.coverImage.original
+        ) {
+          embed.setImage(animeInfo.attributes.coverImage.original);
         }
-    },
+
+        await interaction.reply({ embeds: [embed] });
+      } else {
+        const errorEmbed = new EmbedBuilder()
+          .setTitle(`${emojis.warning} Search Error:`)
+          .setColor("Red")
+          .setDescription("No anime found with that name.")
+          .setTimestamp()
+          .setFooter({
+            text: "Gekkō Development",
+            iconURL: interaction.client.user.displayAvatarURL(),
+          });
+
+        await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
+      }
+    } catch (error) {
+      const stackLines = error.stack.split("\n");
+      const relevantLine = stackLines[1];
+      const errorMessage = relevantLine.replace(/^\s+at\s+/g, "");
+      const errorDescription = error.message;
+
+      const catchErrorEmbed = embeds.get("tryCatchError")(interaction, {
+        errorMessage,
+        errorDescription,
+      });
+      await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
+    }
+  },
 };

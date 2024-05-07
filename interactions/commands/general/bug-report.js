@@ -1,138 +1,185 @@
-const { SlashCommandBuilder, ModalBuilder, ActionRowBuilder, TextInputBuilder, TextInputStyle, EmbedBuilder } = require('discord.js');
-const config = require('../../../config');
-const MySQL = require('../../../models/mysql');
-const colors = require('../../../models/colors');
+const {
+  SlashCommandBuilder,
+  ModalBuilder,
+  ActionRowBuilder,
+  TextInputBuilder,
+  TextInputStyle,
+  EmbedBuilder,
+} = require("discord.js");
+const config = require("../../../config");
+const MySQL = require("../../../models/mysql");
+const colors = require("../../../models/colors");
 
 function generateBugID() {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*-';
-    const numbers = '0123456789';
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*-";
+  const numbers = "0123456789";
 
-    let bugID = '';
+  let bugID = "";
 
-    for (let i = 0; i < 5; i++) {
-        bugID += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-    for (let i = 0; i < 3; i++) {
-        bugID += characters.charAt(Math.floor(Math.random() * characters.length)).toLowerCase();
-    }
-    for (let i = 0; i < 3; i++) {
-        bugID += numbers.charAt(Math.floor(Math.random() * numbers.length));
-    }
+  for (let i = 0; i < 5; i++) {
+    bugID += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  for (let i = 0; i < 3; i++) {
+    bugID += characters
+      .charAt(Math.floor(Math.random() * characters.length))
+      .toLowerCase();
+  }
+  for (let i = 0; i < 3; i++) {
+    bugID += numbers.charAt(Math.floor(Math.random() * numbers.length));
+  }
 
-    return bugID;
+  return bugID;
 }
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('bug-report').setDescription('Submit a bug-report to the Gekko'),
-    async execute(interaction) {
-        const restricted = MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', interaction.guild.id);
+  data: new SlashCommandBuilder()
+    .setName("bug-report")
+    .setDescription("Submit a bug-report to the Gekko"),
+  async execute(interaction) {
+    const restricted = MySQL.getValueFromTableWithCondition(
+      "guilds",
+      "restricted_guild",
+      "guild_id",
+      interaction.guild.id
+    );
 
-        if (restricted === 'true') {
-            const permissionErrorEmbed = embeds.get('guildRestricted')(interaction);
-            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
-        }
-        
-        try {
-            const bugID = generateBugID();
-            const bugModal = new ModalBuilder().setCustomId('bug_report_modal').setTitle('Bug Description');
-            const bugModalDescInput = new TextInputBuilder()
-            .setCustomId('bug_desc_input')
-			.setLabel('Bug Description')
-			.setStyle(TextInputStyle.Paragraph)
-			.setMinLength(3)
-			.setMaxLength(3000)
-			.setRequired(true);
+    if (restricted === "true") {
+      const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
+      return await interaction.reply({
+        embeds: [permissionErrorEmbed],
+        ephemeral: true,
+      });
+    }
 
-            const bugModalVidInput = new TextInputBuilder()
-            .setCustomId('bug_vid_input')
-            .setLabel('Video (if available)')
-            .setStyle(TextInputStyle.Short)
-            .setMinLength(7)
-            .setMaxLength(100)
-            .setRequired(false);
+    try {
+      const bugID = generateBugID();
+      const bugModal = new ModalBuilder()
+        .setCustomId("bug_report_modal")
+        .setTitle("Bug Description");
+      const bugModalDescInput = new TextInputBuilder()
+        .setCustomId("bug_desc_input")
+        .setLabel("Bug Description")
+        .setStyle(TextInputStyle.Paragraph)
+        .setMinLength(3)
+        .setMaxLength(3000)
+        .setRequired(true);
 
-            const bugModalDesc = new ActionRowBuilder().addComponents(bugModalDescInput);
-            const bugModalVid = new ActionRowBuilder().addComponents(bugModalVidInput);
+      const bugModalVidInput = new TextInputBuilder()
+        .setCustomId("bug_vid_input")
+        .setLabel("Video (if available)")
+        .setStyle(TextInputStyle.Short)
+        .setMinLength(7)
+        .setMaxLength(100)
+        .setRequired(false);
 
-            bugModal.addComponents(bugModalDesc);
-            bugModal.addComponents(bugModalVid);
+      const bugModalDesc = new ActionRowBuilder().addComponents(
+        bugModalDescInput
+      );
+      const bugModalVid = new ActionRowBuilder().addComponents(
+        bugModalVidInput
+      );
 
-            await interaction.showModal(bugModal);
-            
-            const filter = (int) => int.customId === 'bug_report_modal';
-            interaction.awaitModalSubmit({ filter, time: 30_000 }).then((int) => {
-                const replyEmbed = new EmbedBuilder()
-                    .setTitle(`${config.emojis.passed} Bug Report Submitted`)
-                    .setDescription('> Your bug report was submitted to our development team for review. \n> ***You submitted the following information:***')
-                    .addFields
-                    ({
-                        name: 'Bug ID',
-                        value: `\`${bugID}\``,
-                        inline: false
-                    },
-                    {
-                        name: 'Reportee',
-                        value: `${int.user.displayName} (ID: ${int.user.id})`,
-                        inline: false
-                    },
-                    {
-                        name: 'Bug Description',
-                        value: `${int.fields.getTextInputValue('bug_desc_input')}`,
-                        inline: false
-                    },
-                    {
-                        name: 'Video',
-                        value: `${int.fields.getTextInputValue('bug_vid_input')}` || 'None Provided.',
-                        inline: false
-                    })
-                    .setColor(colors.bot)
-                    .setFooter({ text: 'Gekkō', iconURL: int.client.user.displayAvatarURL() })
-                    .setTimestamp();
+      bugModal.addComponents(bugModalDesc);
+      bugModal.addComponents(bugModalVid);
 
-                int.reply({ embeds: [replyEmbed], ephemeral: true });
+      await interaction.showModal(bugModal);
 
-                let guild = int.client.guilds.cache.get(config.developer.devGuild);
-                let channel = guild.channels.cache.get(config.developer.devBugReportsChannel);
+      const filter = (int) => int.customId === "bug_report_modal";
+      interaction.awaitModalSubmit({ filter, time: 30_000 }).then((int) => {
+        const replyEmbed = new EmbedBuilder()
+          .setTitle(`${config.emojis.passed} Bug Report Submitted`)
+          .setDescription(
+            "> Your bug report was submitted to our development team for review. \n> ***You submitted the following information:***"
+          )
+          .addFields(
+            {
+              name: "Bug ID",
+              value: `\`${bugID}\``,
+              inline: false,
+            },
+            {
+              name: "Reportee",
+              value: `${int.user.displayName} (ID: ${int.user.id})`,
+              inline: false,
+            },
+            {
+              name: "Bug Description",
+              value: `${int.fields.getTextInputValue("bug_desc_input")}`,
+              inline: false,
+            },
+            {
+              name: "Video",
+              value:
+                `${int.fields.getTextInputValue("bug_vid_input")}` ||
+                "None Provided.",
+              inline: false,
+            }
+          )
+          .setColor(colors.bot)
+          .setFooter({
+            text: "Gekkō",
+            iconURL: int.client.user.displayAvatarURL(),
+          })
+          .setTimestamp();
 
-                let bugReportEmbed = new EmbedBuilder()
-                .setTitle('Bug Report')
-                .setColor('Red')
-                .setThumbnail(config.assets.gekkoLogo)
-                .setTimestamp()
-                .setFooter({ text: 'Gekkō', iconURL: int.client.user.displayAvatarURL() })
-                .addFields
-                ({
-                    name: 'Bug ID',
-                    value: `\`${bugID}\``,
-                    inline: false
-                },
-                {
-					name: 'Reportee',
-					value: `${int.user.displayName} (ID: ${int.user.id})`,
-                    inline: false
-				},
-				{
-					name: 'Bug Description',
-					value: `${int.fields.getTextInputValue('bug_desc_input')}`,
-					inline: false
-				},
-				{
-					name: 'Video',
-					value: `${int.fields.getTextInputValue('bug_vid_input')}` || 'None Provided.',
-					inline: false
-				});
+        int.reply({ embeds: [replyEmbed], ephemeral: true });
 
-                channel.send({ embeds: [bugReportEmbed] });
-            })
-        } catch (error) {
-            const stackLines = error.stack.split('\n');
-            const relevantLine = stackLines[1];
-            const errorMessage = relevantLine.replace(/^\s+at\s+/g, '')
-            const errorDescription = error.message;
+        let guild = int.client.guilds.cache.get(config.developer.devGuild);
+        let channel = guild.channels.cache.get(
+          config.developer.devBugReportsChannel
+        );
 
-            const catchErrorEmbed = embeds.get('tryCatchError')(interaction, {errorMessage, errorDescription});
-            await interaction.channel.send({ embeds: [catchErrorEmbed], ephemeral: true });
-        }
-    } 
-}
+        let bugReportEmbed = new EmbedBuilder()
+          .setTitle("Bug Report")
+          .setColor("Red")
+          .setThumbnail(config.assets.gekkoLogo)
+          .setTimestamp()
+          .setFooter({
+            text: "Gekkō",
+            iconURL: int.client.user.displayAvatarURL(),
+          })
+          .addFields(
+            {
+              name: "Bug ID",
+              value: `\`${bugID}\``,
+              inline: false,
+            },
+            {
+              name: "Reportee",
+              value: `${int.user.displayName} (ID: ${int.user.id})`,
+              inline: false,
+            },
+            {
+              name: "Bug Description",
+              value: `${int.fields.getTextInputValue("bug_desc_input")}`,
+              inline: false,
+            },
+            {
+              name: "Video",
+              value:
+                `${int.fields.getTextInputValue("bug_vid_input")}` ||
+                "None Provided.",
+              inline: false,
+            }
+          );
+
+        channel.send({ embeds: [bugReportEmbed] });
+      });
+    } catch (error) {
+      const stackLines = error.stack.split("\n");
+      const relevantLine = stackLines[1];
+      const errorMessage = relevantLine.replace(/^\s+at\s+/g, "");
+      const errorDescription = error.message;
+
+      const catchErrorEmbed = embeds.get("tryCatchError")(interaction, {
+        errorMessage,
+        errorDescription,
+      });
+      await interaction.channel.send({
+        embeds: [catchErrorEmbed],
+        ephemeral: true,
+      });
+    }
+  },
+};
