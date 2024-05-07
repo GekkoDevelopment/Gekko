@@ -32,7 +32,7 @@ module.exports = {
 
     githubApi: {
         url: 'https://api.github.com/repos/GekkoDevelopment/Gekko/issues',
-        token: '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'
+        token: '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'
     },
 
     assets: {
