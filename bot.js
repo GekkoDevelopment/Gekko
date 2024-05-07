@@ -42,10 +42,12 @@ client.on("messageCreate", async (message) => {
   if (!message.content.startsWith(prefix) || message.author.bot) return; // return if the prefix doesn't match the set dev prefix.
 
   if (
-    !message.author === config.developer.dev1Id || // Kier
-    !message.author === config.developer.dev2Id // Red
+    message.author !== config.developer.dev1Id && // Kier
+    message.author !== config.developer.dev2Id // Red
   ) {
-    client.embeds.get("perimissionsError"); // can't really put (interaction) here because there is no interaction in the code.
+    const permissionErrorEmbed = require('./embeds/errors/permissionsError.js');
+    const permissionsError = permissionErrorEmbed.embed(message); // for prefix commands, we can call the embed from the file directly, if we make mroe prefix cmds I will make an alternative way of doing this.
+    return await message.reply({ embeds: [permissionsError], ephemeral: true });
   }
 
   const args = message.content.slice(prefix.length).split(/ +/);

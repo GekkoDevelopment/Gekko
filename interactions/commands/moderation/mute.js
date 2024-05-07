@@ -36,7 +36,7 @@ module.exports = {
       });
     }
 
-    await interaction.deferReply();
+    await interaction.deferReply({ ephemeral: true });
 
     const mutedUser = interaction.options.getUser("user");
     const reason = interaction.options.getString("reason");
