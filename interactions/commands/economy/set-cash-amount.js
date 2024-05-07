@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const MySQL = require("../../../models/mysql");
-const colors = require("../../../models/colors");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -17,7 +16,6 @@ module.exports = {
   async execute(interaction) {
     const startingAmount = interaction.options.getInteger("amount");
     const guildId = interaction.member.guild.id;
-    const userId = interaction.user.id;
 
     const loggingChannel = MySQL.getColumnValuesWithGuildId(
       guildId,
@@ -42,10 +40,13 @@ module.exports = {
       });
     }
 
-    MySQL.insertInto("economy", "guild_id", guildId);
-    MySQL.insertInto("economy", "user_id", userId);
-    MySQL.insertInto("economy", "cash_amount", startingAmount);
-    MySQL.insertInto("economy", "starting_amount");
+    MySQL.updateValueInTableWithCondition(
+      "economy",
+      "starting_amount",
+      startingAmount,
+      "guild_id",
+      guildId
+    );
 
     const embed = new EmbedBuilder()
       .setDescription(
