@@ -196,9 +196,7 @@ module.exports = {
         });
 
         const firstEntry = fetchedLogs.entries.first();
-        if (!firstEntry || !firstEntry.executor) {
-          return;
-        }
+        if (!firstEntry || !firstEntry.executor) return; // I removed brackets that aren't needed, so now it's just a return.
 
         const executor = firstEntry.executor;
 
@@ -407,9 +405,7 @@ module.exports = {
         });
 
         const firstEntry = fetchedLogs.entries.first();
-        if (!firstEntry || !firstEntry.executor) {
-          return;
-        }
+        if (!firstEntry || !firstEntry.executor) return; // I removed brackets that aren't needed, so now it's just a return.
 
         const executor = firstEntry.executor;
         if (oldChannel.name !== newChannel.name) {
@@ -629,9 +625,7 @@ module.exports = {
         });
 
         const firstEntry = fetchedLogs.entries.first();
-        if (!firstEntry || !firstEntry.executor) {
-          return;
-        }
+        if (!firstEntry || !firstEntry.executor) return; // I removed brackets that aren't needed, so now it's just a return.
 
         const executor = firstEntry.executor;
 
@@ -784,9 +778,7 @@ module.exports = {
         });
 
         const firstEntry = fetchedLogs.entries.first();
-        if (!firstEntry || !firstEntry.executor) {
-          return;
-        }
+        if (!firstEntry || !firstEntry.executor) return; // I removed brackets that aren't needed, so now it's just a return.
 
         const executor = firstEntry.executor;
         if (oldChannel.name !== newChannel.name) {

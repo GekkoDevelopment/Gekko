@@ -14,6 +14,7 @@ module.exports = {
       name: "/gekko",
     });
 
+    // most of these lines are database table columns, and rows.
     const columns = [
       "guild_id VARCHAR(255) NOT NULL PRIMARY KEY",
       "welcome_channel_id VARCHAR(255) DEFAULT NULL",

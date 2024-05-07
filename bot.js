@@ -37,13 +37,13 @@ const numericRegex = /&[0-9]+$/;
 // --- Developer Commands --- //|
 ////////////////////////////////|
 client.on("messageCreate", async (message) => {
-  let prefix = "-!";
+  const prefix = "-!";
 
-  if (!message.content.startsWith(prefix) || message.author.bot) return;
+  if (!message.content.startsWith(prefix) || message.author.bot) return; // return if the prefix doesn't match the set dev prefix.
 
   if (
-    !message.author === config.developer.dev1Id ||
-    !message.author === config.developer.dev2Id
+    !message.author === config.developer.dev1Id || // Kier
+    !message.author === config.developer.dev2Id // Red
   ) {
     client.embeds.get("perimissionsError"); // can't really put (interaction) here because there is no interaction in the code.
   }
@@ -53,7 +53,7 @@ client.on("messageCreate", async (message) => {
   const guildId = message.guild.id;
 
   if (command === "bot-restart") {
-    if (guildId !== config.developer.devGuild) return;
+    if (guildId !== config.developer.devGuild) return; // return if the guild doesn't match the dev guild (support server)
 
     message.channel.send(
       "Gekkō is now restarting; this will take a few seconds..."
@@ -79,20 +79,16 @@ client.on("messageCreate", async (message) => {
       );
 
     logChannel.send({ embeds: [logEmbed] });
-    delay();
-    process.exit();
+    delay(); // delay by 100ms
+    process.exit(); // kill the bot and wait for pterodactyl to boot it.
   }
 
-  if (
-    command === "bot-stats" &&
-    (message.author.id === config.developer.dev1Id ||
-      message.author.id === config.developer.dev2Id)
-  ) {
+  if (command === "bot-stats") { // there was a if statement to check for our IDs here I don't know why...
     if (guildId !== config.developer.devGuild) return;
 
     const logChannel = client.guilds.cache
-      .get("1226501941249576980")
-      .channels.cache.get("1226548220801450074");
+      .get(config.developer.devGuild) // this wasn't the config version for some reason it was set to the guild ID, so I changed it :P
+      .channels.cache.get(config.developer.devLogChannel); // same for this but I changed it.
     let totalSeconds = client.uptime / 1000;
     let days = Math.floor(totalSeconds / 86400);
 
@@ -176,16 +172,16 @@ client.on("messageCreate", async (message) => {
 
       message.channel.send({ embeds: [errorEmbed] });
     }
-
+    // I want to say that there is a better to do this (at least a cleaner and smaller version of this code) but I don't have any ideas.
     if (restrictedValue === "true") {
       const errorEmbed = new EmbedBuilder()
-        .setTitle("**Restriction Error: 50110**")
+        .setTitle("**Restriction Error: 50110**") // restriction error ID
         .addFields({
-          name: "Error Message:",
-          value: "```You can not restrict a guild that is not restricted.```",
+          name: "Error Message:", // title
+          value: "```You can not restrict a guild that is not restricted.```", // error message
         });
 
-      message.channel.send({ embeds: [errorEmbed] });
+      message.channel.send({ embeds: [errorEmbed] }); // send the embed
     }
 
     if (numericRegex.test(args)) {
@@ -279,20 +275,7 @@ client.on("messageCreate", async (message) => {
   );
 
   if (restricted === "true") {
-    const permissionErrorEmbed = new EmbedBuilder()
-      .setTitle("Permissions Error: 50105")
-      .addFields({
-        name: "Error Message:",
-        value:
-          "```\nYour guild has been banned by the Gekkō Development Team. If you feel like this is an error please contact the development team by joining our [Support Discord.](https://discord.gg/2aw45ajSw2)```",
-        inline: true,
-      })
-      .setColor("Red")
-      .setTimestamp()
-      .setFooter({
-        text: "Gekkō Development",
-        iconURL: interaction.client.user.displayAvatarURL(),
-      });
+    const permissionErrorEmbed = client.embed.get('guildRestricted');
     return await interaction.reply({
       embeds: [permissionErrorEmbed],
       ephemeral: true,

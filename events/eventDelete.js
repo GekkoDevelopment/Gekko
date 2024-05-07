@@ -12,9 +12,7 @@ module.exports = {
       event.guild.id
     );
 
-    if (!logChannelId) {
-      return;
-    }
+    if (!logChannelId) return; // I removed brackets that aren't needed, so now it's just a return.
 
     const logChannel = event.guild.channels.cache.get(logChannelId);
     if (!logChannel) {
@@ -28,9 +26,7 @@ module.exports = {
     });
 
     const firstEntry = fetchedLogs.entries.first();
-    if (!firstEntry || !firstEntry.executor) {
-      return;
-    }
+    if (!firstEntry || !firstEntry.executor) return; // I removed brackets that aren't needed, so now it's just a return.
 
     const executor = firstEntry.executor;
 
