@@ -161,7 +161,10 @@ client.on("messageCreate", async (message) => {
     );
 
     if (!numericRegex.test(args)) {
-      client.embeds.get("guildRestricted");
+
+      const restrictedErrorEmbed = require('./embeds/errors/guildRestricted.js');
+      const restrictedError = restrictedErrorEmbed.embed(message);
+      return await message.reply({ embeds: [restrictedError], ephemeral: true });
     }
 
     if (message.guild.id === config.developer.devGuild) {
@@ -277,11 +280,9 @@ client.on("messageCreate", async (message) => {
   );
 
   if (restricted === "true") {
-    const permissionErrorEmbed = client.embed.get('guildRestricted');
-    return await interaction.reply({
-      embeds: [permissionErrorEmbed],
-      ephemeral: true,
-    });
+    const restrictedErrorEmbed = require('./embeds/errors/guildRestricted.js');
+    const restrictedError = restrictedErrorEmbed.embed(message);
+    return await message.reply({ embeds: [restrictedError], ephemeral: true });
   }
 
   if (!message.content.startsWith(prefix) || message.author.bot) return;
