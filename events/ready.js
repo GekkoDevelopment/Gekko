@@ -43,6 +43,7 @@ module.exports = {
       "user_id VARCHAR(255) DEFAULT NULL",
       "cash_amount VARCHAR(255) DEFAULT NULL",
       "bank_amount VARCHAR(255) DEFAULT NULL",
+      "starting_amount VARCHAR(5) DEFAULT '0'",
       "economy_enabled VARCHAR(255) DEFAULT 'false'",
     ];
 

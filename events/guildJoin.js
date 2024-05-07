@@ -96,6 +96,38 @@ module.exports = {
           }),
         ],
       });
+      // economy stuff
+      const econEnabled = MySQL.getValueFromTableWithCondition(
+        "economy",
+        "guild_id",
+        guildId,
+        "economy_enabled"
+      );
+
+      const econDefaultAmount = MySQL.getValueFromTableWithCondition(
+        "economy",
+        "starting_amount",
+        "guild_id",
+        guildId
+      );
+
+      if (econEnabled === "true") {
+        MySQL.updateValueInTableWithCondition(
+          "economy",
+          "user_id",
+          member.user.id,
+          "guild_id",
+          guildId
+        ); // I think this is the best way to do it. Probably not though
+
+        MySQL.updateValueInTableWithCondition(
+          "economy",
+          "cash_amount",
+          econDefaultAmount,
+          "user_id",
+          member.user.id
+        );
+      }
     } catch (error) {
       console.error("Error sending welcome message:", error);
     }
