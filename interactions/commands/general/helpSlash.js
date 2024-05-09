@@ -64,7 +64,7 @@ module.exports = {
     ];
 
     const selectMenu = new StringSelectMenuBuilder()
-      .setCustomId("command_select")
+      .setCustomId("helpSelectMenu")
       .setPlaceholder("Select a category")
       .addOptions(options);
 
@@ -88,7 +88,7 @@ module.exports = {
       components: [actionRow, actionRow2],
     });
 
-    const filter = (i) =>
+    /*const filter = (i) =>
       i.customId === "command_select" && i.user.id === interaction.user.id;
     const collector = interaction.channel.createMessageComponentCollector({
       filter,
@@ -294,6 +294,6 @@ module.exports = {
         });
         await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
       }
-    });
+    });*/
   },
 };
