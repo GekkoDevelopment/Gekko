@@ -1,13 +1,12 @@
 const { Events, AttachmentBuilder } = require("discord.js");
 const { createCanvas, loadImage, GlobalFonts } = require("@napi-rs/canvas");
 const MySQL = require("../models/mysql.js");
+GlobalFonts.registerFromPath("fonts/Bangers-Regular.ttf", "Bangers");
 
 module.exports = {
   name: Events.GuildMemberAdd,
   async execute(member) {
     try {
-      GlobalFonts.registerFromPath("../fonts/Bangers-Regular.ttf", "Bangers");
-
       const guildId = member.guild.id;
 
       const imageUrl = await MySQL.getColumnValuesWithGuildId(
