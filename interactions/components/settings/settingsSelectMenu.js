@@ -446,7 +446,18 @@ module.exports = {
 
             const ticketEmbed = embeds.get('ticketSettings')(interaction, {guildTicketChannel, guildTicketCategory, guildSupportRoles});
             await interaction.message.edit({ embeds: [ticketEmbed], components: [actionRow1, actionRow2] });
+        }
 
+        if (value === 'logging') {
+            await interaction.reply({ content: 'Not ready just yet', ephemeral: true });
+        }
+
+        if (value === 'lockdown') {
+            await interaction.reply({ content: 'Not ready just yet', ephemeral: true });
+        }
+
+        if (value === 'nsfw') {
+            await interaction.reply({ content: 'Not ready just yet', ephemeral: true });
         }
 
     }
