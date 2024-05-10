@@ -1,4 +1,5 @@
 const { PermissionFlagsBits, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ChannelSelectMenuBuilder } = require("discord.js");
+const MySQL = require("../../../models/mysql");
 
 
 module.exports = {
@@ -57,6 +58,15 @@ module.exports = {
 
             const actionRow1 = new ActionRowBuilder().addComponents(welcomeChannelSelect);
             await interaction.reply({ content: msg, components: [actionRow1], ephemeral: true });
+        }
+
+        if (value === 'disable') {
+            MySQL.editColumnInGuilds(interaction.guild.id, 'welcome_channel_id', null);
+            MySQL.editColumnInGuilds(interaction.guild.id, 'welcome_message', null);
+            MySQL.editColumnInGuilds(interaction.guild.id, 'image_url', null);
+
+            const disabledEmbed = embeds.get('featureDisabled')(interaction);
+            await interaction.reply({ embeds: [disabledEmbed], ephemeral: true });
         }
     }
 }

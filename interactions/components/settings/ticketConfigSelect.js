@@ -1,4 +1,5 @@
 const { PermissionFlagsBits, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ChannelSelectMenuBuilder, RoleSelectMenuBuilder } = require("discord.js");
+const MySQL = require("../../../models/mysql");
 
 module.exports = {
   data: { name: "ticketConfigSelect" },
@@ -46,6 +47,13 @@ module.exports = {
 
             const msg = '🔍 Select, or Search for roles';
             await interaction.reply({ content: msg, components: [actionRow1], ephemeral: true });
+        }
+
+        if (value === 'disable') {
+            MySQL.deleteRow('tickets', 'guild_id', interaction.guild.id);
+
+            const disabledEmbed = embeds.get('featureDisabled')(interaction);
+            await interaction.reply({ embeds: [disabledEmbed], ephemeral: true });
         }
     }
 }

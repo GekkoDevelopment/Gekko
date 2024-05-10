@@ -182,6 +182,12 @@ module.exports = {
                 emoji: emojis.gekko,
                 description: 'Set a Welcome Channel',
                 value: 'welcomeChannel'
+            },
+            {
+                label: 'Disable Feature',
+                emoji: emojis.warning,
+                description: 'Disable this feature entirely',
+                value: 'disable'
             }];
             const settingsOptions = [
                 {
@@ -290,6 +296,12 @@ module.exports = {
                     emoji: emojis.gekko,
                     description: 'Setup NSFW features',
                     value: 'nsfw'  
+                },
+                {
+                    label: 'Disable Feature',
+                    emoji: emojis.warning,
+                    description: 'Disable this feature entirely',
+                    value: 'disable'
                 }];
             
             const settingsSelectMenu = new StringSelectMenuBuilder()
@@ -299,13 +311,26 @@ module.exports = {
             
             const actionRow1 = new ActionRowBuilder().addComponents(settingsSelectMenu);
 
-            const joinRoleSelect = new RoleSelectMenuBuilder()
-            .setCustomId('joinRoleSelect')
-            .setMinValues(1)
-            .setMaxValues(25)
-            .setPlaceholder('✧˚ · . Select or Search for Roles');
+            const joinConfigOptions = [
+                {
+                    label: 'Join Roles',
+                    emoji: emojis.gekko,
+                    description: 'Set/Edit your join roles',
+                    value: 'joinRoles'
+                },
+                {
+                    label: 'Disable Feature',
+                    emoji: emojis.warning,
+                    description: 'Disable this feature entirely',
+                    value: 'disable'
+                }];
+            
+            const joinConfigSelect = new StringSelectMenuBuilder()
+            .setCustomId('joinConfigSelect')
+            .setOptions(joinConfigOptions)
+            .setPlaceholder('✧˚ · . Edit your join role settings');
 
-            const actionRow2 = new ActionRowBuilder().addComponents(joinRoleSelect);
+            const actionRow2 = new ActionRowBuilder().addComponents(joinConfigSelect);
 
             const joinRolesEmbed = embeds.get('memberJoinSettings')(interaction, {guildJoinRoles});
             await interaction.message.edit({ embeds: [joinRolesEmbed], components: [actionRow1, actionRow2] });
@@ -404,6 +429,12 @@ module.exports = {
                     emoji: emojis.gekko,
                     description: 'Set/Edit your support roles',
                     value: 'supportRoles'
+                },
+                {
+                    label: 'Disable Feature',
+                    emoji: emojis.warning,
+                    description: 'Disable this feature entirely',
+                    value: 'disable'
                 }];
             
             const ticketConfigSelect = new StringSelectMenuBuilder()
