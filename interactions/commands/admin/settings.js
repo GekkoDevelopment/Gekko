@@ -56,7 +56,7 @@ module.exports = {
             joinConfigValue = '**Enabled** - To disable, use the select menu below';
         }
 
-        if (!nsfwSettings) {
+        if (nsfwSettings === 'false') {
             nsfwConfigTitle = `${emojis.discordOff} NSFW Features`;
             nsfwConfigValue = '**Disabled** - To enable, use the select menu below';
         } else {
