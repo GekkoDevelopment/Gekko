@@ -18,6 +18,7 @@ module.exports = {
     const columns = [
       "guild_id VARCHAR(255) NOT NULL PRIMARY KEY",
       "welcome_channel_id VARCHAR(255) DEFAULT NULL",
+      "welcome_message LONGTEXT DEFAULT NULL",
       "image_url VARCHAR(255) DEFAULT NULL",
       "nsfw_enabled VARCHAR(255) DEFAULT 'false'",
       "guild_prefix VARCHAR(255) DEFAULT '!'",

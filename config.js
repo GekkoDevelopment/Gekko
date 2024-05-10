@@ -36,8 +36,8 @@ module.exports = {
     },
 
     assets: {
-        gekkoBanner: 'https://cdn.discordapp.com/attachments/1226564051488870450/1226587759502954576/card.png?ex=66254fde&is=6612dade&hm=a750c8299cf43e15b773976647ae045fc1c9e1c5cab1ec2b9b927f1e869e738e&', // Gekkō's main profile banner.
-        gekkoBanner2: 'https://media.discordapp.net/attachments/1226564051488870450/1230523310408732742/image.png?ex=6633a123&is=66212c23&hm=a6f540caea1c162780eee349bc3677fe5c1f258d75ca14e7667848a2293a5ccf&=&format=webp&quality=lossless', // The second banner for Gekkō without the text.
+        gekkoBanner: 'https://i.imgur.com/EZjebpm.png', // Gekkō's main profile banner.
+        gekkoBanner2: 'https://i.imgur.com/icOLzqm.png', // The second banner for Gekkō without the text.
         gekkoLogo: 'https://media.discordapp.net/attachments/1226564051488870450/1226564091913441391/image.png?ex=662539d3&is=6612c4d3&hm=1f5f942aadea918225099ca799aa1f54e40e44beef9d45b8de491e642c1b9db5&=&format=webp&quality=lossless&width=500&height=500', // Gekkō's main profile logo.
     },
 
@@ -66,6 +66,10 @@ module.exports = {
         discord: '<:discordemote:1230262224057274439>', // Discord Emoji (Literally Discord's logo.)
         gekko: '<:gekkoemote:1230261004395483367>', // Gekkō Discord Profile Picture
         arrowLeft: '<a:gekko_arrowLeft:1230484672715161680> ', // Arrow Pointing to the Left
-        arrowRight: '<a:gekko_arrowRight:1230484728130310227>' // Arrow Pointing to the Right
+        arrowRight: '<a:gekko_arrowRight:1230484728130310227>', // Arrow Pointing to the Right
+        gekkoStar: '<:gekkoStar:1238513900295819345>', // Gekko Star (Purple)
+        discordOn: '<:discordon:1238515456135135303>', // Slider on (green)
+        discordOff: '<:discordoff:1238515457384906883>' // Slider off (red)
+
     }
 }

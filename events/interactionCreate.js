@@ -8,7 +8,8 @@ module.exports = {
         interaction.isChatInputCommand() ||
         interaction.isButton() ||
         interaction.isModalSubmit() ||
-        interaction.isStringSelectMenu()
+        interaction.isStringSelectMenu() ||
+        interaction.isChannelSelectMenu()
       )
     )
       return;

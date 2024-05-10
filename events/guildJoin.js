@@ -26,7 +26,7 @@ module.exports = {
 
       let canvas;
 
-      if (imageUrl && imageUrl !== "null") {
+      if (imageUrl && imageUrl !== "null") {  
         canvas = createCanvas(1024, 450);
         let ctx = canvas.getContext("2d");
 
