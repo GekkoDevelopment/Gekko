@@ -25,33 +25,39 @@ module.exports = {
       .setStyle(ButtonStyle.Primary)
       .setCustomId("ticketCloseBtn");
 
+    const supportRole = await MySQL.getValueFromTableWithCondition('tickets', 'support_role_id', 'guild_id', interaction.guild.id);
+    const roleIdsArray = supportRole.split(",");
+    const ticketCategory = await MySQL.getValueFromTableWithCondition('tickets', 'ticket_category', 'guild_id', interaction.guild.id);
+
+    let permissionOverwrites = [
+      {
+        id: interaction.guild.id,
+        deny: [PermissionsBitField.Flags.ViewChannel],
+      },
+      {
+        id: interaction.user.id,
+        allow: [PermissionsBitField.Flags.ViewChannel],
+      },
+    ];
+    
+    for (const roleId of roleIdsArray) {
+      permissionOverwrites.push({
+        id: roleId,
+        allow: [PermissionsBitField.Flags.ViewChannel],
+      });
+    }
+    
     let channel = await interaction.guild.channels.create({
       name: `ticket-for-${interaction.user.username}`,
       type: ChannelType.GuildText,
-      parent: "1226502621431599114", // We can use MySql to store and retrieve data so that users can configure there own ticketing system.
-      permissionOverwrites: [
-        {
-          id: interaction.guild.id,
-          deny: [PermissionsBitField.Flags.ViewChannel],
-        },
-        {
-          id: interaction.user.id,
-          allow: [PermissionsBitField.Flags.ViewChannel],
-        },
-        {
-          id: "1226502588124496006", // Lead Devs
-          allow: [PermissionsBitField.Flags.ViewChannel],
-        },
-        {
-          id: "1226502589412016201", // Admins. Again, we can use a database to allow user configuation.
-          allow: [PermissionsBitField.Flags.ViewChannel],
-        },
-      ],
+      parent: ticketCategory,
+      permissionOverwrites: permissionOverwrites,
     });
 
     const guild = interaction.guild.id;
     const user = interaction.user.id;
     const row = new ActionRowBuilder().addComponents(closeBtn);
+    const formattedRoles = roleIdsArray.map((roleId) => `<@&${roleId}>`).join(", ");
 
     const data = {
       guild_id: guild,
@@ -63,7 +69,7 @@ module.exports = {
 
     delay(1000);
     await channel.send({
-      content: "@<&1226502589412016201> @<&1226502588124496006>",
+      content: formattedRoles,
       embeds: [embed],
       components: [row],
     });
