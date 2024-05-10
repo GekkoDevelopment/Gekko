@@ -310,5 +310,113 @@ module.exports = {
             const joinRolesEmbed = embeds.get('memberJoinSettings')(interaction, {guildJoinRoles});
             await interaction.message.edit({ embeds: [joinRolesEmbed], components: [actionRow1, actionRow2] });
         }
+
+        if (value === 'tickets') {
+            await interaction.deferUpdate();
+            let guildTicketChannel;
+            let guildTicketCategory;
+            let guildSupportRoles;
+
+            const ticketChannel = await MySQL.getValueFromTableWithCondition('tickets', 'ticket_channel_id', 'guild_id', interaction.guild.id);
+            const ticketCategory = await MySQL.getValueFromTableWithCondition('tickets', 'ticket_category', 'guild_id', interaction.guild.id);
+            const supportRole = await MySQL.getValueFromTableWithCondition('tickets', 'support_role_id', 'guild_id', interaction.guild.id);
+
+            if (!ticketChannel) {
+                guildTicketChannel = `${emojis.red} Not Set`;
+            } else {
+                guildTicketChannel = interaction.guild.channels.cache.get(ticketChannel);
+            }
+
+            if (!ticketCategory) {
+                guildTicketCategory = `${emojis.red} Not Set`;
+            } else {
+                guildTicketCategory = interaction.guild.channels.cache.get(ticketCategory);
+            }
+
+            if (!supportRole) {
+                guildSupportRoles = `${emojis.red} Not Set`;
+            } else {
+                const roleIdsArray = supportRole.split(",");
+                const formattedRoles = roleIdsArray.map((roleId) => `<@&${roleId}>`).join("\n");
+                guildSupportRoles = `${formattedRoles}`
+            }
+
+            const settingsOptions = [
+                {
+                    label: 'Welcome/Greetings',
+                    emoji: emojis.gekko,
+                    description: 'Welcome new users to your guild',
+                    value: 'welcome'
+                },
+                {
+                    label: 'Join Roles',
+                    emoji: emojis.gekko,
+                    description: 'Assign roles to new members',
+                    value: 'memberJoin'  
+                },
+                {
+                    label: 'Tickets',
+                    emoji: emojis.gekko,
+                    description: 'Setup tickets for you guild',
+                    value: 'tickets'  
+                },
+                {
+                    label: 'Audit Logging',
+                    emoji: emojis.gekko,
+                    description: 'Setup audit logging for you guild',
+                    value: 'logging'  
+                },
+                {
+                    label: 'Lockdown',
+                    emoji: emojis.gekko,
+                    description: 'Setup lockdown channels',
+                    value: 'lockdown'  
+                },
+                {
+                    label: 'NSFW Features',
+                    emoji: emojis.gekko,
+                    description: 'Setup NSFW features',
+                    value: 'nsfw'  
+                }];
+            
+            const settingsSelectMenu = new StringSelectMenuBuilder()
+            .setCustomId('settingsSelectMenu')
+            .setPlaceholder('✧˚ · . Choose a setting to configure')
+            .setOptions(settingsOptions);
+            
+            const actionRow1 = new ActionRowBuilder().addComponents(settingsSelectMenu);
+
+            const ticketConfigOptions = [
+                {
+                    label: 'Ticket Channel',
+                    emoji: emojis.gekko,
+                    description: 'Set/Edit your ticket channel',
+                    value: 'ticketChannel'
+                },
+                {
+                    label: 'Ticket Category',
+                    emoji: emojis.gekko,
+                    description: 'Set/Edit your ticket category',
+                    value: 'ticketCat'
+                },
+                {
+                    label: 'Support Roles',
+                    emoji: emojis.gekko,
+                    description: 'Set/Edit your support roles',
+                    value: 'supportRoles'
+                }];
+            
+            const ticketConfigSelect = new StringSelectMenuBuilder()
+            .setCustomId('ticketConfigSelect')
+            .setOptions(ticketConfigOptions)
+            .setPlaceholder('✧˚ · . Edit your ticket settings');
+
+            const actionRow2 = new ActionRowBuilder().addComponents(ticketConfigSelect);
+
+            const ticketEmbed = embeds.get('ticketSettings')(interaction, {guildTicketChannel, guildTicketCategory, guildSupportRoles});
+            await interaction.message.edit({ embeds: [ticketEmbed], components: [actionRow1, actionRow2] });
+
+        }
+
     }
 }

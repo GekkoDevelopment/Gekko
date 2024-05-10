@@ -4,15 +4,15 @@ const { emojis, assets } = require("../../../config");
 
 
 module.exports = {
-  data: { name: "joinRoleSelect" },
+  data: { name: "supportRoleSelect" },
   async execute(interaction) {
         const value = interaction.values;
-        await MySQL.editColumnInGuilds(interaction.guild.id, "join_role", value.toString());
+        await MySQL.bulkInsertOrUpdate('tickets', ['guild_id', 'support_role_id'], [[interaction.guild.id, value.toString()]]);
 
         const formattedRoles = value.map((roleId) => `<@&${roleId}>`).join("\n");
-        guildJoinRoles = `${formattedRoles}`
+        guildSupportRoles = `${formattedRoles}`
 
-        const successEmbed = embeds.get('joinRoleSuccess')(interaction, {guildJoinRoles});
+        const successEmbed = embeds.get('supportRoleSuccess')(interaction, {guildSupportRoles});
         await interaction.reply({ embeds: [successEmbed], ephemeral: true });
     }
 }

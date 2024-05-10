@@ -56,7 +56,7 @@ module.exports = {
     ];
 
     const ticketsColumns = [
-      "guild_id VARCHAR(255) NOT NULL DEFAULT '0'",
+      "guild_id VARCHAR(255) NOT NULL PRIMARY KEY",
       "ticket_channel_id VARCHAR(255) DEFAULT NULL",
       "ticket_category VARCHAR(255) DEFAULT NULL",
       "support_role_id VARCHAR(255) DEFAULT NULL",
