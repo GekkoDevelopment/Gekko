@@ -9,7 +9,8 @@ module.exports = {
         interaction.isButton() ||
         interaction.isModalSubmit() ||
         interaction.isStringSelectMenu() ||
-        interaction.isChannelSelectMenu()
+        interaction.isChannelSelectMenu() ||
+        interaction.isRoleSelectMenu()
       )
     )
       return;
