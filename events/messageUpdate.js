@@ -30,7 +30,7 @@ module.exports = {
     const embed = new EmbedBuilder()
       .setTitle(`${config.emojis.warning} Message Updated`)
       .setDescription(
-        `> **Channel:** ${newMessage.channel} (||${newMessage.channel.id}||) \n> **Message ID:** ${newMessage.id} \n> **Message Author:** <@${newMessage.author.id}`
+        `> **Channel:** ${newMessage.channel} (||${newMessage.channel.id}||) \n> **Message ID:** ${newMessage.id} \n> **Message Author:** <@${newMessage.author.id}>`
       )
       .addFields(
         {

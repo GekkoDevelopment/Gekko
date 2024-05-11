@@ -126,7 +126,10 @@ module.exports = {
         const actionRow1 = new ActionRowBuilder().addComponents(settingsSelectMenu);
 
         const settingsEmbed = embeds.get('userGuildSettings')(interaction, {welcomeConfigTitle, welcomeConfigValue, joinConfigTitle, joinConfigValue, nsfwConfigTitle, nsfwConfigValue, ticketConfigTitle, ticketConfigValue, lockdownConfigTitle, lockdownConfigValue, loggingConfigTitle, loggingConfigValue});
-        await interaction.reply({ embeds: [settingsEmbed], components: [actionRow1] });
+        const msg = await interaction.reply({ embeds: [settingsEmbed], components: [actionRow1] });
+        setTimeout(() => {
+            msg.edit({ content: `**${emojis.warning} You took too long to interact**`, components: [] });
+        }, 120000)
 
     }
 }
