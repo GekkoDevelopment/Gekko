@@ -1,4 +1,13 @@
 {
+  "name": "gekko",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gekko Development",
+  "license": "ISC",
   "dependencies": {
     "@discordjs/rest": "^2.0.0",
     "@napi-rs/canvas": "^0.1.52",
