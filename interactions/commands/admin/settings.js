@@ -26,7 +26,7 @@ module.exports = {
         let lockdownConfigTitle, lockdownConfigValue;
 
         const welcomeSettings = await MySQL.getColumnValuesWithGuildId(interaction.guild.id, 'welcome_channel_id');
-        const loggingSettings = await MySQL.getColumnValuesWithGuildId(interaction.guild.id, 'logging_channel');
+        const loggingSettings = await MySQL.getValueFromTableWithCondition('logging', 'guild_id', 'guild_id', interaction.guild.id);
         const joinSettings = await MySQL.getColumnValuesWithGuildId(interaction.guild.id, 'join_role');
         const nsfwSettings = await MySQL.getColumnValuesWithGuildId(interaction.guild.id, 'nsfw_enabled');
         const ticketSettings = await MySQL.getValueFromTableWithCondition('tickets', 'ticket_channel_id', 'guild_id', interaction.guild.id);

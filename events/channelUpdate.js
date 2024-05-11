@@ -10,28 +10,15 @@ const MySQL = require("../models/mysql");
 module.exports = {
   name: Events.ChannelUpdate,
   async execute(oldChannel, newChannel) {
-    const loggingType = await MySQL.getValueFromTableWithCondition(
-      "guilds",
-      "logging_type",
+    const logChannelId = await MySQL.getValueFromTableWithCondition(
+      "logging",
+      "audit_channel",
       "guild_id",
       newChannel.guild.id
     );
 
-    if (!loggingType) {
-      return;
-    } else if (loggingType === "all" || loggingType === "auditLogging") {
-      const logChannelId = await MySQL.getValueFromTableWithCondition(
-        "guilds",
-        "logging_channel",
-        "guild_id",
-        newChannel.guild.id
-      );
-      const logChannel = newChannel.guild.channels.cache.get(logChannelId);
-
-      if (!logChannel) {
-        console.log(`${logChannelId} not found.`);
-        return;
-      }
+    if (logChannelId) {
+      const logChannel = newChannel.guild.channels.cache.get(logChannelId);        
 
       ////// TEXT CHANNELS //////
       if (newChannel.type === 0) {
@@ -977,6 +964,8 @@ module.exports = {
           logChannel.send({ embeds: [embed] });
         }
       }
+    } else {
+      return;
     }
   },
 };
