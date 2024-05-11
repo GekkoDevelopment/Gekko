@@ -19,7 +19,6 @@
     "mysql": "^2.18.1",
     "node-fetch": "^2.7.0",
     "rotate-matrix": "^0.0.3",
-    "superagent": "^8.1.2",
-    "weather-js": "^2.0.0"
+    "superagent": "^8.1.2"
   }
 }
