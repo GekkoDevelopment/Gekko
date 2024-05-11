@@ -449,7 +449,155 @@ module.exports = {
         }
 
         if (value === 'logging') {
-            await interaction.reply({ content: 'Not ready just yet', ephemeral: true });
+            await interaction.deferUpdate();
+
+            await MySQL.bulkInsertOrUpdate('logging', ['guild_id'], [[interaction.guild.id]]);
+
+            let guildModLog, guildModChannel;
+            let guildTicketLog, guildTicketChannel;
+            let guildCommandLog, guildCommandChannel;
+            let guildMsgLog, guildMsgChannel;
+            let guildAuditLog, guildAuditChannel;
+
+            const moderationLog = await MySQL.getValueFromTableWithCondition('logging', 'moderation_log', 'guild_id', interaction.guild.id);
+            const moderationChannel = await MySQL.getValueFromTableWithCondition('logging', 'moderation_channel', 'guild_id', interaction.guild.id);
+            const ticketLog = await MySQL.getValueFromTableWithCondition('logging', 'ticket_log', 'guild_id', interaction.guild.id);
+            const ticketChannel = await MySQL.getValueFromTableWithCondition('logging', 'ticket_channel', 'guild_id', interaction.guild.id);
+            const commandsLog = await MySQL.getValueFromTableWithCondition('logging', 'commands_log', 'guild_id', interaction.guild.id);
+            const commandsChannel = await MySQL.getValueFromTableWithCondition('logging', 'commands_channel', 'guild_id', interaction.guild.id);
+            const messageLog = await MySQL.getValueFromTableWithCondition('logging', 'message_log', 'guild_id', interaction.guild.id);
+            const messageChannel = await MySQL.getValueFromTableWithCondition('logging', 'message_channel', 'guild_id', interaction.guild.id);
+            const auditLog = await MySQL.getValueFromTableWithCondition('logging', 'audit_log', 'guild_id', interaction.guild.id);
+            const auditChannel = await MySQL.getValueFromTableWithCondition('logging', 'audit_channel', 'guild_id', interaction.guild.id);
+
+            if (moderationLog === 'false' && !moderationChannel) {
+                guildModLog = `***Logging:*** ${emojis.red} Disabled`;
+                guildModChannel = `***Channel:*** ${emojis.red} None Set`;
+            } else {
+                guildModLog = `***Logging:*** ${emojis.green} Enabled`;
+                guildModChannel = `***Channel:*** <#${moderationChannel}>`;   
+            }
+
+            if (ticketLog === 'false' && !ticketChannel) {
+                guildTicketLog = `***Logging:*** ${emojis.red} Disabled`;
+                guildTicketChannel = `***Channel:*** ${emojis.red} None Set`;
+            } else {
+                guildTicketLog = `***Logging:*** ${emojis.green} Enabled`;
+                guildTicketChannel = `***Channel:*** <#${ticketChannel}>`;
+            }
+
+            if (commandsLog === 'false' && !commandsChannel) {
+                guildCommandLog =  `***Logging:*** ${emojis.red} Disabled`;
+                guildCommandChannel = `***Channel:*** ${emojis.red} None Set`;  
+            } else {
+                guildCommandLog =  `***Logging:*** ${emojis.green} Enabled`;
+                guildCommandChannel = `***Channel:*** <#${commandsChannel}>`;
+            }
+
+            if (messageLog === 'false' && !messageChannel) {
+                guildMsgLog = `***Logging:*** ${emojis.red} Disabled`;
+                guildMsgChannel = `***Channel:*** ${emojis.red} None Set`; 
+            } else {
+                guildMsgLog = `***Logging:*** ${emojis.green} Enabled`;
+                guildMsgChannel = `***Channel:*** <#${messageChannel}>`; 
+            }
+
+            if (auditLog === 'false' && !auditChannel) {
+                guildAuditLog = `***Logging:*** ${emojis.red} Disabled`;
+                guildAuditChannel = `***Channel:*** ${emojis.red} None Set`;
+            } else {
+                guildAuditLog = `***Logging:*** ${emojis.green} Enabled`;
+                guildAuditChannel = `***Channel:*** <#${auditChannel}>`;
+            }
+
+            const settingsOptions = [
+                {
+                    label: 'Welcome/Greetings',
+                    emoji: emojis.gekko,
+                    description: 'Welcome new users to your guild',
+                    value: 'welcome'
+                },
+                {
+                    label: 'Join Roles',
+                    emoji: emojis.gekko,
+                    description: 'Assign roles to new members',
+                    value: 'memberJoin'  
+                },
+                {
+                    label: 'Tickets',
+                    emoji: emojis.gekko,
+                    description: 'Setup tickets for you guild',
+                    value: 'tickets'  
+                },
+                {
+                    label: 'Audit Logging',
+                    emoji: emojis.gekko,
+                    description: 'Setup audit logging for you guild',
+                    value: 'logging'  
+                },
+                {
+                    label: 'Lockdown',
+                    emoji: emojis.gekko,
+                    description: 'Setup lockdown channels',
+                    value: 'lockdown'  
+                },
+                {
+                    label: 'NSFW Features',
+                    emoji: emojis.gekko,
+                    description: 'Setup NSFW features',
+                    value: 'nsfw'  
+                }];
+            
+            const settingsSelectMenu = new StringSelectMenuBuilder()
+            .setCustomId('settingsSelectMenu')
+            .setPlaceholder('✧˚ · . Choose a setting to configure')
+            .setOptions(settingsOptions);
+            
+            const actionRow1 = new ActionRowBuilder().addComponents(settingsSelectMenu);
+
+            const options = [
+                {
+                  label: "Moderation",
+                  emoji: emojis.gekko,
+                  value: "mod",
+                },
+                {
+                  label: "Ticketing",
+                  emoji: emojis.gekko,
+                  value: "ticket",
+                },
+                {
+                  label: "Commands",
+                  emoji: emojis.gekko,
+                  value: "command",
+                },
+                {
+                  label: "Messages",
+                  emoji: emojis.gekko,
+                  value: "message",
+                },
+                {
+                  label: "Audit Logs",
+                  emoji: emojis.gekko,
+                  value: "audit",
+                },  
+                {
+                    label: 'Disable Feature',
+                    emoji: emojis.warning,
+                    description: 'Disable this feature entirely',
+                    value: 'disable'
+                }];
+          
+              const logSelect = new StringSelectMenuBuilder()
+                .setCustomId("config_logging")
+                .setPlaceholder("✧˚ · . Edit your logging settings")
+                .addOptions(options);
+          
+              const actionRow2 = new ActionRowBuilder().addComponents(logSelect);
+
+            const loggingSettingsEmbed = embeds.get('loggingSettings')(interaction, {guildModLog, guildModChannel, guildTicketLog, guildTicketChannel, guildCommandLog, guildCommandChannel, guildMsgLog, guildMsgChannel, guildAuditLog, guildAuditChannel});
+            await interaction.message.edit({ embeds: [loggingSettingsEmbed], components: [actionRow1, actionRow2] })
+
         }
 
         if (value === 'lockdown') {
