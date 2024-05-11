@@ -82,7 +82,6 @@ module.exports = {
 
         const disabledEmbed = embeds.get("featureDisabled")(interaction);
         await interaction.reply({ embeds: [disabledEmbed], ephemeral: true });
-        interaction.editReply({ embeds: [logReplyAll] });
     }
   },
 };
