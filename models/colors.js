@@ -1,8 +1,8 @@
 module.exports = {
   // bot represents the main color for the discord bot.
-  bot: "#7B598D",
-  deepViolet: "#1E1F37",
-  beige: "#F1CBB8",
+  bot: "#7B598D", // Gekko's main color
+  deepViolet: "#1E1F37", // Deep Violet
+  beige: "#F1CBB8", // Beige color (this color is absolute garbage I have no idea why it's here guess I got bored and added it.)
   clay: "#5C657F",
   midnightBlue: "#191970",
   indigo: "#4B0082",

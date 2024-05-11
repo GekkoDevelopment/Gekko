@@ -40,7 +40,7 @@ module.exports = {
     const randomResponse =
       respones[Math.floor(Math.random() * respones.length)];
 
-    const restricted = MySQL.getValueFromTableWithCondition(
+    const restricted = MySQL.getValueFromTableWithCondition( // Check if the table is the guild is restricted by guild id.
       "guilds",
       "restricted_guild",
       "guild_id",
@@ -48,7 +48,9 @@ module.exports = {
     );
 
     if (restricted === "true") {
+      // Define the restricted guild embed.
       const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
+      // return with a access denied embed.
       return await interaction.reply({
         embeds: [permissionErrorEmbed],
         ephemeral: true,
