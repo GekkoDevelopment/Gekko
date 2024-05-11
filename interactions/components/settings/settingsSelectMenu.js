@@ -601,11 +601,90 @@ module.exports = {
         }
 
         if (value === 'lockdown') {
-            await interaction.reply({ content: 'Not ready just yet', ephemeral: true });
+            await interaction.deferUpdate();
+            let guildLockdownChannels;
+
+            const channelIds = await MySQL.getValueFromTableWithCondition('lockdown_config', 'channel_id', 'guild_id', interaction.guild.id);
+            if (!channelIds) {
+                guildLockdownChannels = `${emojis.red} Not Configured`;
+            } else {
+                const channelIdsArray = channelIds.split(",");
+                const formattedChannels = channelIdsArray.map((channelId) => `<#${channelId}>`).join("\n");
+                guildLockdownChannels = `${formattedChannels}`;
+            }
+
+            const settingsOptions = [
+                {
+                    label: 'Welcome/Greetings',
+                    emoji: emojis.gekko,
+                    description: 'Welcome new users to your guild',
+                    value: 'welcome'
+                },
+                {
+                    label: 'Join Roles',
+                    emoji: emojis.gekko,
+                    description: 'Assign roles to new members',
+                    value: 'memberJoin'  
+                },
+                {
+                    label: 'Tickets',
+                    emoji: emojis.gekko,
+                    description: 'Setup tickets for you guild',
+                    value: 'tickets'  
+                },
+                {
+                    label: 'Audit Logging',
+                    emoji: emojis.gekko,
+                    description: 'Setup audit logging for you guild',
+                    value: 'logging'  
+                },
+                {
+                    label: 'Lockdown',
+                    emoji: emojis.gekko,
+                    description: 'Setup lockdown channels',
+                    value: 'lockdown'  
+                },
+                {
+                    label: 'NSFW Features',
+                    emoji: emojis.gekko,
+                    description: 'Setup NSFW features',
+                    value: 'nsfw'  
+                }];
+            
+            const settingsSelectMenu = new StringSelectMenuBuilder()
+            .setCustomId('settingsSelectMenu')
+            .setPlaceholder('✧˚ · . Choose a setting to configure')
+            .setOptions(settingsOptions);
+            
+            const actionRow1 = new ActionRowBuilder().addComponents(settingsSelectMenu);
+
+            const lockdownOptions = [
+                {
+                    label: 'Lockdown Channels',
+                    emoji: emojis.gekko,
+                    description: 'Set/Edit your lockdown channels',
+                    value: 'lockdownChannel'
+                },
+                {
+                    label: 'Disable Feature',
+                    emoji: emojis.warning,
+                    description: 'Disable this feature entirely',
+                    value: 'disable'
+                }];
+
+            const lockdownConfigSelect = new StringSelectMenuBuilder()
+            .setCustomId('lockdownConfigSelect')
+            .setOptions(lockdownOptions)
+            .setPlaceholder('✧˚ · . Edit your lockdown settings');
+
+            const actionRow2 = new ActionRowBuilder().addComponents(lockdownConfigSelect);
+
+            const LockdownSettingsEmbed = embeds.get('lockdownSettings')(interaction, {guildLockdownChannels});
+            await interaction.message.edit({ embeds: [LockdownSettingsEmbed], components: [actionRow1, actionRow2] });
         }
 
         if (value === 'nsfw') {
-            await interaction.reply({ content: 'Not ready just yet', ephemeral: true });
+            await interaction.deferUpdate();
         }
 
     }
