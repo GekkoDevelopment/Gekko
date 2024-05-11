@@ -1,7 +1,8 @@
-const { PermissionFlagsBits, AttachmentBuilder, ChannelSelectMenuBuilder, StringSelectMenuBuilder, ActionRowBuilder, RoleSelectMenuBuilder } = require("discord.js");
+const { PermissionFlagsBits, AttachmentBuilder, ChannelSelectMenuBuilder, StringSelectMenuBuilder, ActionRowBuilder, RoleSelectMenuBuilder, EmbedBuilder } = require("discord.js");
 const MySQL = require("../../../models/mysql");
 const { emojis, assets } = require("../../../config");
 const { createCanvas, loadImage, GlobalFonts } = require("@napi-rs/canvas");
+const colors = require("../../../models/colors");
 
 GlobalFonts.registerFromPath("fonts/Bangers-Regular.ttf", "Bangers");
 
@@ -34,7 +35,7 @@ module.exports = {
             }
 
             if (welcomeMessage === null) {
-                guildWelcomeMessage = `${emojis.amber} [Default]: \nWelcome ${interaction.user} to **${interaction.guild.name}**`;
+                guildWelcomeMessage = `[Default]: \n**Welcome to the server, @${interaction.user.username}!**`;
             } else {
                 guildWelcomeMessage = welcomeMessage;
             }
@@ -685,6 +686,72 @@ module.exports = {
 
         if (value === 'nsfw') {
             await interaction.deferUpdate();
+            const nsfwEmbed = new EmbedBuilder()
+            .setTitle('🔞 So you want to configure NSFW?')
+            .setDescription('In order to configure our NSFW features, please run the `/allow-nsfw` command in an age restricted channel. \n\nIf you would like to disable NSFW features, you can use the select menu below')
+            .setColor(colors.deepPink);
+
+            const settingsOptions = [
+                {
+                    label: 'Welcome/Greetings',
+                    emoji: emojis.gekko,
+                    description: 'Welcome new users to your guild',
+                    value: 'welcome'
+                },
+                {
+                    label: 'Join Roles',
+                    emoji: emojis.gekko,
+                    description: 'Assign roles to new members',
+                    value: 'memberJoin'  
+                },
+                {
+                    label: 'Tickets',
+                    emoji: emojis.gekko,
+                    description: 'Setup tickets for you guild',
+                    value: 'tickets'  
+                },
+                {
+                    label: 'Audit Logging',
+                    emoji: emojis.gekko,
+                    description: 'Setup audit logging for you guild',
+                    value: 'logging'  
+                },
+                {
+                    label: 'Lockdown',
+                    emoji: emojis.gekko,
+                    description: 'Setup lockdown channels',
+                    value: 'lockdown'  
+                },
+                {
+                    label: 'NSFW Features',
+                    emoji: emojis.gekko,
+                    description: 'Setup NSFW features',
+                    value: 'nsfw'  
+                }];
+            
+            const settingsSelectMenu = new StringSelectMenuBuilder()
+            .setCustomId('settingsSelectMenu')
+            .setPlaceholder('✧˚ · . Choose a setting to configure')
+            .setOptions(settingsOptions);
+            
+            const actionRow1 = new ActionRowBuilder().addComponents(settingsSelectMenu);
+
+            const nsfwOptions = [
+                {
+                    label: 'Disable Feature',
+                    emoji: emojis.warning,
+                    description: 'Disable this feature entirely',
+                    value: 'disable'
+                }];
+
+            const nsfwConfigSelect = new StringSelectMenuBuilder()
+            .setCustomId('nsfwConfigSelect')
+            .setOptions(nsfwOptions)
+            .setPlaceholder('✧˚ · . Disable NSFW');
+
+            const actionRow2 = new ActionRowBuilder().addComponents(nsfwConfigSelect);
+
+            await interaction.message.edit({ embeds: [nsfwEmbed], components: [actionRow1, actionRow2] });
         }
 
     }

@@ -10,11 +10,9 @@ module.exports = {
         }
 
         const value = interaction.values[0];
-        console.log(value)
         if (value === 'lockdownChannel') {
             const lockdownChannelsSelect = new ChannelSelectMenuBuilder()
             .setCustomId('lockdownChannelsSelect')
-            .setChannelTypes('GuildText')
             .setMinValues(1)
             .setMaxValues(25)
             .setPlaceholder('✧˚ · . Select or Search for Roles');
