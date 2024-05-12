@@ -23,6 +23,8 @@ module.exports = {
       "nsfw_enabled VARCHAR(255) DEFAULT 'false'",
       "guild_prefix VARCHAR(255) DEFAULT '!'",
       "join_role VARCHAR(255) DEFAULT NULL",
+      "economy_enabled VARCHAR(255) DEFAULT 'false'",
+      "starting_amount VARCHAR(5) DEFAULT '1500'",
       "restricted_guild VARCHAR(255) DEFAULT 'false'", // When talking about "restricted guilds" this is referring to guilds that are blacklisted by the bot and the bot will not be used.
     ];
 
@@ -39,11 +41,9 @@ module.exports = {
 
     const economyColumns = [
       "guild_id VARCHAR(255) NOT NULL DEFAULT '0'",
-      "user_id VARCHAR(255) DEFAULT NULL",
+      "user_id VARCHAR(255) NOT NULL PRIMARY KEY",
       "cash_amount VARCHAR(255) DEFAULT '0'",
-      "bank_amount VARCHAR(255) DEFAULT '0'",
-      "starting_amount VARCHAR(5) DEFAULT '1500'",
-      "economy_enabled VARCHAR(255) DEFAULT 'false'"
+      "bank_amount VARCHAR(255) DEFAULT '0'"
     ];
 
     const mutedUsersColumns = [

@@ -9,10 +9,8 @@ module.exports = {
     async execute(interaction) {
         const toggleEconomy = interaction.options.getBoolean('toggle');
 
-        let economyEnabled = MySQL.hasTrueFalseValue('economy', 'economy_enabled');
+        let economyEnabled = MySQL.hasTrueFalseValue('guilds', 'economy_enabled');
         const restricted = MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', interaction.guild.id);
-        
-        MySQL.insertOrUpdateValue('economy', 'guild_id', interaction.guild.id);
 
         if (restricted === 'true') {
             const permissionErrorEmbed = embeds.get('guildRestricted')(interaction);
@@ -28,8 +26,7 @@ module.exports = {
         }
 
         if (toggleEconomy === true) {
-            MySQL.insertOrUpdateValue('economy', 'guild_id', interaction.guild.id);
-            MySQL.updateValueInTableWithCondition('economy', 'economy_enabled', 'true', 'guild_id', interaction.guild.id);
+            await MySQL.editColumnInGuilds(interaction.guild.id, 'economy_enabled', 'true')
 
             const embed = new EmbedBuilder()
             .setDescription('Economy enabled!')
@@ -37,7 +34,8 @@ module.exports = {
 
             await interaction.reply({ embeds: [embed], ephemeral: true });
         } else {
-            MySQL.updateValueInTableWithCondition('')
+            await MySQL.editColumnInGuilds(interaction.guild.id, 'economy_enabled', 'false')
+            // clear all economy data??
             
             const embed = new EmbedBuilder()
             .setDescription('Economy disabled!')

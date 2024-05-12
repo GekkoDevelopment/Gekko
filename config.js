@@ -69,7 +69,9 @@ module.exports = {
         arrowRight: '<a:gekko_arrowRight:1230484728130310227>', // Arrow Pointing to the Right
         gekkoStar: '<:gekkoStar:1238513900295819345>', // Gekko Star (Purple)
         discordOn: '<:discordon:1238515456135135303>', // Slider on (green)
-        discordOff: '<:discordoff:1238515457384906883>' // Slider off (red)
+        discordOff: '<:discordoff:1238515457384906883>', // Slider off (red)
+        gekkoCoin: '<a:gekkoBokcoin:1239197907773685862>', // Gekko BokCoin(animated)
+        gekkoBill: '<:gekkoBill:1239198493411643442>', // pink bill note
 
     }
 }
