@@ -3,6 +3,14 @@ const MySQL = require("../../../models/mysql");
 const colors = require("../../../models/colors");
 const config = require("../../../config");
 
+const cooldowns = new Map();
+
+function formatTime(milliseconds) {
+    const hours = Math.floor(milliseconds / (1000 * 60 * 60));
+    const minutes = Math.floor((milliseconds % (1000 * 60 * 60)) / (1000 * 60));
+    return `${hours}h ${minutes}m`;
+}
+
 module.exports = {
     data: new SlashCommandBuilder()
     .setName('explore').setDescription('Start an exploration to find rewards!'),
@@ -12,6 +20,26 @@ module.exports = {
             const econdisabledEmbed = embeds.get('economyDisabled')(interaction);
             await interaction.reply({ embeds: [econdisabledEmbed], ephemeral: true });
         }
+
+        if (cooldowns.has(interaction.user.id)) {
+            const expirationTime = cooldowns.get(interaction.user.id);
+            const currentTime = Date.now();
+            const remainingTime = expirationTime - currentTime;
+
+            if (remainingTime > 0) {
+                const cooldownEmbed = new EmbedBuilder()
+                .setTitle(`${config.emojis.warning} Economy Error`)
+                .setDescription(`You are on cooldown. Please wait ${formatTime(remainingTime)}.`)
+                .setColor('Red');
+
+                await interaction.reply({ embeds: [cooldownEmbed], ephemeral: true });
+                return;
+            }
+        }
+
+        const cooldownTime = 24 * 60 * 60 * 1000;
+        const expirationTime = Date.now() + cooldownTime;
+        cooldowns.set(interaction.user.id, expirationTime);
 
         const loadingMsg = new EmbedBuilder()
         .setTitle(`${config.emojis.gekkoStar} Exploration Started...`)
