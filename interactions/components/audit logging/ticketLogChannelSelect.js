@@ -1,7 +1,4 @@
-const {  } = require("discord.js");
 const MySQL = require("../../../models/mysql");
-const { emojis, assets } = require("../../../config");
-
 
 module.exports = {
   data: { name: "ticketLogChannelSelect" },

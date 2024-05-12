@@ -3,7 +3,6 @@ const fetch = require("node-fetch");
 const colors = require("../../../models/colors");
 const { emojis } = require("../../../config");
 const MySQL = require("../../../models/mysql");
-const delay = require("node:timers/promises").setTimeout;
 
 module.exports = {
   data: new SlashCommandBuilder()

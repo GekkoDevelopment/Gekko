@@ -1,5 +1,3 @@
-const {  } = require("discord.js");
-
 module.exports = {
   data: { name: "bugRejectBtn" },
   async execute(interaction) {

@@ -1,8 +1,7 @@
 const {
   Events,
   EmbedBuilder,
-  AuditLogEvent,
-  NewsChannel,
+  AuditLogEvent
 } = require("discord.js");
 const config = require("../config");
 const MySQL = require("../models/mysql");

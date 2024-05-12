@@ -1,6 +1,5 @@
 const { SlashCommandBuilder } = require("discord.js");
 const superagent = require("superagent");
-const colors = require("../../../models/colors");
 const MySQL = require("../../../models/mysql");
 const config = require("../../../config");
 

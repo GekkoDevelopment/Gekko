@@ -1,7 +1,3 @@
-const { EmbedBuilder } = require("discord.js");
-const config = require("../../../config");
-const colors = require("../../../models/colors");
-
 module.exports = {
   data: { name: "helpSelectMenu" },
   async execute(interaction) {

@@ -1,7 +1,6 @@
 const { PermissionFlagsBits, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ChannelSelectMenuBuilder } = require("discord.js");
 const MySQL = require("../../../models/mysql");
 
-
 module.exports = {
   data: { name: "welcomeConfigSelect" },
   async execute(interaction) {

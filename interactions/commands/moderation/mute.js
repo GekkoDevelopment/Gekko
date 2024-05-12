@@ -1,6 +1,5 @@
 const {
   SlashCommandBuilder,
-  EmbedBuilder,
   PermissionFlagsBits,
 } = require("discord.js");
 const MySQL = require("../../../models/mysql.js");

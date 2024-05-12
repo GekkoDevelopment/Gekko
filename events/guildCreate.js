@@ -1,4 +1,4 @@
-const { Events, EmbedBuilder, AttachmentBuilder } = require("discord.js");
+const { Events, EmbedBuilder } = require("discord.js");
 const MySQL = require("../models/mysql.js");
 const config = require("../config.js");
 

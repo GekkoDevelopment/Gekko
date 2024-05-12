@@ -1,4 +1,4 @@
-const { PermissionFlagsBits, AttachmentBuilder, ChannelSelectMenuBuilder, StringSelectMenuBuilder, ActionRowBuilder, RoleSelectMenuBuilder, EmbedBuilder } = require("discord.js");
+const { PermissionFlagsBits, AttachmentBuilder, StringSelectMenuBuilder, ActionRowBuilder, EmbedBuilder } = require("discord.js");
 const MySQL = require("../../../models/mysql");
 const { emojis, assets } = require("../../../config");
 const { createCanvas, loadImage, GlobalFonts } = require("@napi-rs/canvas");

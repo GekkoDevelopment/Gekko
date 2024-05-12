@@ -3,11 +3,8 @@ const {
   GatewayIntentBits,
   Collection,
   EmbedBuilder,
-  PermissionFlagsBits,
   StringSelectMenuBuilder,
   ActionRowBuilder,
-  ChannelType,
-  Embed,
   ButtonBuilder,
   ButtonStyle,
 } = require("discord.js");
