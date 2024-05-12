@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { githubApi } = require("../../../config");
+const config = require("../../../config");
 
 module.exports = {
   data: { name: "githubIssueBtn" },
@@ -11,8 +11,8 @@ module.exports = {
         fieldValueMap[field.name] = field.value;
     });
     
-    const apiUrl = githubApi.url;
-    const token = githubApi.token;
+    const apiUrl = config.githubApi.url;
+    const token = config.githubApi.token;
     const bugId = fieldValueMap['Bug ID'];
     const guildId = fieldValueMap['Guild ID:'];
     const reportee = fieldValueMap['Reportee'];

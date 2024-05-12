@@ -1,8 +1,8 @@
 const { PermissionFlagsBits, AttachmentBuilder, StringSelectMenuBuilder, ActionRowBuilder, EmbedBuilder } = require("discord.js");
-const MySQL = require("../../../models/mysql");
-const { emojis, assets } = require("../../../config");
 const { createCanvas, loadImage, GlobalFonts } = require("@napi-rs/canvas");
+const MySQL = require("../../../models/mysql");
 const colors = require("../../../models/colors");
+const config = require("../../../config");
 
 GlobalFonts.registerFromPath("fonts/Bangers-Regular.ttf", "Bangers");
 
@@ -29,7 +29,7 @@ module.exports = {
             const welcomeImage = await MySQL.getValueFromTableWithCondition('guilds', 'image_url', 'guild_id', interaction.guild.id);
 
             if (!welcomeChannel) {
-                guildWelcomeChannel = `${emojis.red} None Set`;
+                guildWelcomeChannel = `${config.emojis.red} None Set`;
             } else {
                 guildWelcomeChannel = `${interaction.guild.channels.cache.get(welcomeChannel)}`;
             }
@@ -46,7 +46,7 @@ module.exports = {
         
                 ctx.fillStyle = "#ffffff";
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
-                let img = await loadImage(assets.gekkoBanner2);
+                let img = await loadImage(config.assets.gekkoBanner2);
                 ctx.drawImage(
                 img,
                 canvas.width / 2 - img.width / 2,
@@ -100,7 +100,7 @@ module.exports = {
                 ctx.drawImage(img, 45, 90, 270, 270);
                 ctx.restore();
                 
-                guildWelcomeImage = `${emojis.amber} [Default]: \n[Default Gekkō Banner](${assets.gekkoBanner2})`;
+                guildWelcomeImage = `${config.emojis.amber} [Default]: \n[Default Gekkō Banner](${config.assets.gekkoBanner2})`;
 
             } else {
                 canvas = createCanvas(1024, 450);
@@ -168,62 +168,62 @@ module.exports = {
             const welcomeConfigOptions = [
             {
                 label: 'Welcome Message',
-                emoji: emojis.gekko,
+                emoji: config.emojis.gekko,
                 description: 'Set a custom Welcome Message',
                 value: 'welcomeMsg'
             },
             {
                 label: 'Welcome Image',
-                emoji: emojis.gekko,
+                emoji: config.emojis.gekko,
                 description: 'Set a custom Welcome Image',
                 value: 'welcomeImg'
             },
             {
                 label: 'Welcome Channel',
-                emoji: emojis.gekko,
+                emoji: config.emojis.gekko,
                 description: 'Set a Welcome Channel',
                 value: 'welcomeChannel'
             },
             {
                 label: 'Disable Feature',
-                emoji: emojis.warning,
+                emoji: config.emojis.warning,
                 description: 'Disable this feature entirely',
                 value: 'disable'
             }];
             const settingsOptions = [
                 {
                     label: 'Welcome/Greetings',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Welcome new users to your guild',
                     value: 'welcome'
                 },
                 {
                     label: 'Join Roles',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Assign roles to new members',
                     value: 'memberJoin'  
                 },
                 {
                     label: 'Tickets',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Setup tickets for you guild',
                     value: 'tickets'  
                 },
                 {
                     label: 'Audit Logging',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Setup audit logging for you guild',
                     value: 'logging'  
                 },
                 {
                     label: 'Lockdown',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Setup lockdown channels',
                     value: 'lockdown'  
                 },
                 {
                     label: 'NSFW Features',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Setup NSFW features',
                     value: 'nsfw'  
                 }];
@@ -254,7 +254,7 @@ module.exports = {
             const joinRoles = await MySQL.getValueFromTableWithCondition('guilds', 'join_role', 'guild_id', interaction.guild.id);
 
             if (!joinRoles) {
-                guildJoinRoles = `${emojis.red} None Set`
+                guildJoinRoles = `${config.emojis.red} None Set`
             } else {
                 const roleIdsArray = joinRoles.split(",");
                 const formattedRoles = roleIdsArray.map((roleId) => `<@&${roleId}>`).join("\n");
@@ -264,43 +264,43 @@ module.exports = {
             const settingsOptions = [
                 {
                     label: 'Welcome/Greetings',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Welcome new users to your guild',
                     value: 'welcome'
                 },
                 {
                     label: 'Join Roles',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Assign roles to new members',
                     value: 'memberJoin'  
                 },
                 {
                     label: 'Tickets',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Setup tickets for you guild',
                     value: 'tickets'  
                 },
                 {
                     label: 'Audit Logging',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Setup audit logging for you guild',
                     value: 'logging'  
                 },
                 {
                     label: 'Lockdown',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Setup lockdown channels',
                     value: 'lockdown'  
                 },
                 {
                     label: 'NSFW Features',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Setup NSFW features',
                     value: 'nsfw'  
                 },
                 {
                     label: 'Disable Feature',
-                    emoji: emojis.warning,
+                    emoji: config.emojis.warning,
                     description: 'Disable this feature entirely',
                     value: 'disable'
                 }];
@@ -315,13 +315,13 @@ module.exports = {
             const joinConfigOptions = [
                 {
                     label: 'Join Roles',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Set/Edit your join roles',
                     value: 'joinRoles'
                 },
                 {
                     label: 'Disable Feature',
-                    emoji: emojis.warning,
+                    emoji: config.emojis.warning,
                     description: 'Disable this feature entirely',
                     value: 'disable'
                 }];
@@ -348,19 +348,19 @@ module.exports = {
             const supportRole = await MySQL.getValueFromTableWithCondition('tickets', 'support_role_id', 'guild_id', interaction.guild.id);
 
             if (!ticketChannel) {
-                guildTicketChannel = `${emojis.red} Not Set`;
+                guildTicketChannel = `${config.emojis.red} Not Set`;
             } else {
                 guildTicketChannel = interaction.guild.channels.cache.get(ticketChannel);
             }
 
             if (!ticketCategory) {
-                guildTicketCategory = `${emojis.red} Not Set`;
+                guildTicketCategory = `${config.emojis.red} Not Set`;
             } else {
                 guildTicketCategory = interaction.guild.channels.cache.get(ticketCategory);
             }
 
             if (!supportRole) {
-                guildSupportRoles = `${emojis.red} Not Set`;
+                guildSupportRoles = `${config.emojis.red} Not Set`;
             } else {
                 const roleIdsArray = supportRole.split(",");
                 const formattedRoles = roleIdsArray.map((roleId) => `<@&${roleId}>`).join("\n");
@@ -370,37 +370,37 @@ module.exports = {
             const settingsOptions = [
                 {
                     label: 'Welcome/Greetings',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Welcome new users to your guild',
                     value: 'welcome'
                 },
                 {
                     label: 'Join Roles',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Assign roles to new members',
                     value: 'memberJoin'  
                 },
                 {
                     label: 'Tickets',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Setup tickets for you guild',
                     value: 'tickets'  
                 },
                 {
                     label: 'Audit Logging',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Setup audit logging for you guild',
                     value: 'logging'  
                 },
                 {
                     label: 'Lockdown',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Setup lockdown channels',
                     value: 'lockdown'  
                 },
                 {
                     label: 'NSFW Features',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Setup NSFW features',
                     value: 'nsfw'  
                 }];
@@ -415,25 +415,25 @@ module.exports = {
             const ticketConfigOptions = [
                 {
                     label: 'Ticket Channel',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Set/Edit your ticket channel',
                     value: 'ticketChannel'
                 },
                 {
                     label: 'Ticket Category',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Set/Edit your ticket category',
                     value: 'ticketCat'
                 },
                 {
                     label: 'Support Roles',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Set/Edit your support roles',
                     value: 'supportRoles'
                 },
                 {
                     label: 'Disable Feature',
-                    emoji: emojis.warning,
+                    emoji: config.emojis.warning,
                     description: 'Disable this feature entirely',
                     value: 'disable'
                 }];
@@ -472,79 +472,79 @@ module.exports = {
             const auditChannel = await MySQL.getValueFromTableWithCondition('logging', 'audit_channel', 'guild_id', interaction.guild.id);
 
             if (moderationLog === 'false' && !moderationChannel) {
-                guildModLog = `***Logging:*** ${emojis.red} Disabled`;
-                guildModChannel = `***Channel:*** ${emojis.red} None Set`;
+                guildModLog = `***Logging:*** ${config.emojis.red} Disabled`;
+                guildModChannel = `***Channel:*** ${config.emojis.red} None Set`;
             } else {
-                guildModLog = `***Logging:*** ${emojis.green} Enabled`;
+                guildModLog = `***Logging:*** ${config.emojis.green} Enabled`;
                 guildModChannel = `***Channel:*** <#${moderationChannel}>`;   
             }
 
             if (ticketLog === 'false' && !ticketChannel) {
-                guildTicketLog = `***Logging:*** ${emojis.red} Disabled`;
-                guildTicketChannel = `***Channel:*** ${emojis.red} None Set`;
+                guildTicketLog = `***Logging:*** ${config.emojis.red} Disabled`;
+                guildTicketChannel = `***Channel:*** ${config.emojis.red} None Set`;
             } else {
-                guildTicketLog = `***Logging:*** ${emojis.green} Enabled`;
+                guildTicketLog = `***Logging:*** ${config.emojis.green} Enabled`;
                 guildTicketChannel = `***Channel:*** <#${ticketChannel}>`;
             }
 
             if (commandsLog === 'false' && !commandsChannel) {
-                guildCommandLog =  `***Logging:*** ${emojis.red} Disabled`;
-                guildCommandChannel = `***Channel:*** ${emojis.red} None Set`;  
+                guildCommandLog =  `***Logging:*** ${config.emojis.red} Disabled`;
+                guildCommandChannel = `***Channel:*** ${config.emojis.red} None Set`;  
             } else {
-                guildCommandLog =  `***Logging:*** ${emojis.green} Enabled`;
+                guildCommandLog =  `***Logging:*** ${config.emojis.green} Enabled`;
                 guildCommandChannel = `***Channel:*** <#${commandsChannel}>`;
             }
 
             if (messageLog === 'false' && !messageChannel) {
-                guildMsgLog = `***Logging:*** ${emojis.red} Disabled`;
-                guildMsgChannel = `***Channel:*** ${emojis.red} None Set`; 
+                guildMsgLog = `***Logging:*** ${config.emojis.red} Disabled`;
+                guildMsgChannel = `***Channel:*** ${config.emojis.red} None Set`; 
             } else {
-                guildMsgLog = `***Logging:*** ${emojis.green} Enabled`;
+                guildMsgLog = `***Logging:*** ${config.emojis.green} Enabled`;
                 guildMsgChannel = `***Channel:*** <#${messageChannel}>`; 
             }
 
             if (auditLog === 'false' && !auditChannel) {
-                guildAuditLog = `***Logging:*** ${emojis.red} Disabled`;
-                guildAuditChannel = `***Channel:*** ${emojis.red} None Set`;
+                guildAuditLog = `***Logging:*** ${config.emojis.red} Disabled`;
+                guildAuditChannel = `***Channel:*** ${config.emojis.red} None Set`;
             } else {
-                guildAuditLog = `***Logging:*** ${emojis.green} Enabled`;
+                guildAuditLog = `***Logging:*** ${config.emojis.green} Enabled`;
                 guildAuditChannel = `***Channel:*** <#${auditChannel}>`;
             }
 
             const settingsOptions = [
                 {
                     label: 'Welcome/Greetings',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Welcome new users to your guild',
                     value: 'welcome'
                 },
                 {
                     label: 'Join Roles',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Assign roles to new members',
                     value: 'memberJoin'  
                 },
                 {
                     label: 'Tickets',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Setup tickets for you guild',
                     value: 'tickets'  
                 },
                 {
                     label: 'Audit Logging',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Setup audit logging for you guild',
                     value: 'logging'  
                 },
                 {
                     label: 'Lockdown',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Setup lockdown channels',
                     value: 'lockdown'  
                 },
                 {
                     label: 'NSFW Features',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Setup NSFW features',
                     value: 'nsfw'  
                 }];
@@ -559,32 +559,32 @@ module.exports = {
             const options = [
                 {
                   label: "Moderation",
-                  emoji: emojis.gekko,
+                  emoji: config.emojis.gekko,
                   value: "mod",
                 },
                 {
                   label: "Ticketing",
-                  emoji: emojis.gekko,
+                  emoji: config.emojis.gekko,
                   value: "ticket",
                 },
                 {
                   label: "Commands",
-                  emoji: emojis.gekko,
+                  emoji: config.emojis.gekko,
                   value: "command",
                 },
                 {
                   label: "Messages",
-                  emoji: emojis.gekko,
+                  emoji: config.emojis.gekko,
                   value: "message",
                 },
                 {
                   label: "Audit Logs",
-                  emoji: emojis.gekko,
+                  emoji: config.emojis.gekko,
                   value: "audit",
                 },  
                 {
                     label: 'Disable Feature',
-                    emoji: emojis.warning,
+                    emoji: config.emojis.warning,
                     description: 'Disable this feature entirely',
                     value: 'disable'
                 }];
@@ -607,7 +607,7 @@ module.exports = {
 
             const channelIds = await MySQL.getValueFromTableWithCondition('lockdown_config', 'channel_id', 'guild_id', interaction.guild.id);
             if (!channelIds) {
-                guildLockdownChannels = `${emojis.red} Not Configured`;
+                guildLockdownChannels = `${config.emojis.red} Not Configured`;
             } else {
                 const channelIdsArray = channelIds.split(",");
                 const formattedChannels = channelIdsArray.map((channelId) => `<#${channelId}>`).join("\n");
@@ -617,37 +617,37 @@ module.exports = {
             const settingsOptions = [
                 {
                     label: 'Welcome/Greetings',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Welcome new users to your guild',
                     value: 'welcome'
                 },
                 {
                     label: 'Join Roles',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Assign roles to new members',
                     value: 'memberJoin'  
                 },
                 {
                     label: 'Tickets',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Setup tickets for you guild',
                     value: 'tickets'  
                 },
                 {
                     label: 'Audit Logging',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Setup audit logging for you guild',
                     value: 'logging'  
                 },
                 {
                     label: 'Lockdown',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Setup lockdown channels',
                     value: 'lockdown'  
                 },
                 {
                     label: 'NSFW Features',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Setup NSFW features',
                     value: 'nsfw'  
                 }];
@@ -662,13 +662,13 @@ module.exports = {
             const lockdownOptions = [
                 {
                     label: 'Lockdown Channels',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Set/Edit your lockdown channels',
                     value: 'lockdownChannel'
                 },
                 {
                     label: 'Disable Feature',
-                    emoji: emojis.warning,
+                    emoji: config.emojis.warning,
                     description: 'Disable this feature entirely',
                     value: 'disable'
                 }];
@@ -694,37 +694,37 @@ module.exports = {
             const settingsOptions = [
                 {
                     label: 'Welcome/Greetings',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Welcome new users to your guild',
                     value: 'welcome'
                 },
                 {
                     label: 'Join Roles',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Assign roles to new members',
                     value: 'memberJoin'  
                 },
                 {
                     label: 'Tickets',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Setup tickets for you guild',
                     value: 'tickets'  
                 },
                 {
                     label: 'Audit Logging',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Setup audit logging for you guild',
                     value: 'logging'  
                 },
                 {
                     label: 'Lockdown',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Setup lockdown channels',
                     value: 'lockdown'  
                 },
                 {
                     label: 'NSFW Features',
-                    emoji: emojis.gekko,
+                    emoji: config.emojis.gekko,
                     description: 'Setup NSFW features',
                     value: 'nsfw'  
                 }];
@@ -739,7 +739,7 @@ module.exports = {
             const nsfwOptions = [
                 {
                     label: 'Disable Feature',
-                    emoji: emojis.warning,
+                    emoji: config.emojis.warning,
                     description: 'Disable this feature entirely',
                     value: 'disable'
                 }];
