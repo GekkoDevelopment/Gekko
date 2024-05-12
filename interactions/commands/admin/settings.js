@@ -83,37 +83,37 @@ module.exports = {
         const settingsOptions = [
             {
                 label: 'Welcome/Greetings',
-                emoji: emojis.gekko,
+                emoji: config.emojis.gekko,
                 description: 'Welcome new users to your guild',
                 value: 'welcome'
             },
             {
                 label: 'Join Roles',
-                emoji: emojis.gekko,
+                emoji: config.emojis.gekko,
                 description: 'Assign roles to new members',
                 value: 'memberJoin'  
             },
             {
                 label: 'Tickets',
-                emoji: emojis.gekko,
+                emoji: config.emojis.gekko,
                 description: 'Setup tickets for you guild',
                 value: 'tickets'  
             },
             {
                 label: 'Audit Logging',
-                emoji: emojis.gekko,
+                emoji: config.emojis.gekko,
                 description: 'Setup audit logging for you guild',
                 value: 'logging'  
             },
             {
                 label: 'Lockdown',
-                emoji: emojis.gekko,
+                emoji: config.emojis.gekko,
                 description: 'Setup lockdown channels',
                 value: 'lockdown'  
             },
             {
                 label: 'NSFW Features',
-                emoji: emojis.gekko,
+                emoji: config.emojis.gekko,
                 description: 'Setup NSFW features',
                 value: 'nsfw'  
             }];

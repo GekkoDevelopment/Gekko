@@ -73,6 +73,7 @@ module.exports = {
         gekkoCoin: '<a:heartCoin:1239200690039951501>', // Gekko BokCoin(animated)
         gekkoBill: '<:gekkoBill:1239198493411643442>', // pink bill note
         gekkoWalking: '<a:gekkoWalking:1239204341693415484>', //(animated walking)
+        gekkoCawfee: '<:kawfee:1239297709299597392>',
 
     }
 }

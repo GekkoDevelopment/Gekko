@@ -15,6 +15,21 @@ module.exports = {
     data: new SlashCommandBuilder()
     .setName('explore').setDescription('Start an exploration to find rewards!'),
     async execute(interaction) {
+        const restricted = MySQL.getValueFromTableWithCondition(
+            "guilds",
+            "restricted_guild",
+            "guild_id",
+            interaction.guild.id
+          );
+      
+        if (restricted === "true") {
+        const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
+        return await interaction.reply({
+            embeds: [permissionErrorEmbed],
+            ephemeral: true,
+        });
+        }
+
         const isEnabled = await MySQL.getValueFromTableWithCondition('guilds', 'economy_enabled', 'guild_id', interaction.guild.id);
         if (isEnabled === 'false') {
             const econdisabledEmbed = embeds.get('economyDisabled')(interaction);
