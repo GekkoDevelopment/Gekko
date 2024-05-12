@@ -6,6 +6,12 @@ const {
   PermissionFlagsBits,
 } = require("discord.js");
 const MySQL = require("../../../models/mysql.js");
+<<<<<<< HEAD
+const { emojis } = require("../../../config.js");
+const colors = require("../../../models/Colors.js");
+const { DiscordExtensions } = require('../../../models/DiscordExtensions.js');
+=======
+>>>>>>> 125f05a35e8e93c3969475de4fb8192164281d88
 
 module.exports = {
   data: new SlashCommandBuilder()

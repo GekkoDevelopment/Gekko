@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const MySQL = require('../../../models/mysql');
-const colors = require('../../../models/colors');
 
 module.exports = {
     data: new SlashCommandBuilder()
