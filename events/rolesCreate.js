@@ -1,6 +1,6 @@
 const { Events, EmbedBuilder, AuditLogEvent } = require("discord.js");
-const config = require("../config");
 const MySQL = require("../models/mysql");
+const config = require("../config");
 
 module.exports = {
   name: Events.GuildRoleCreate,
