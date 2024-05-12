@@ -40,8 +40,8 @@ module.exports = {
     ];
 
     const economyColumns = [
-      "guild_id VARCHAR(255) NOT NULL DEFAULT '0'",
       "user_id VARCHAR(255) NOT NULL PRIMARY KEY",
+      "guild_id VARCHAR(255) NOT NULL DEFAULT '0'",
       "cash_amount VARCHAR(255) DEFAULT '0'",
       "bank_amount VARCHAR(255) DEFAULT '0'"
     ];
