@@ -1,11 +1,11 @@
 const { EmbedBuilder } = require("discord.js");
-const { emojis } = require("../../config");
+const config = require("../../config");
 const colors = require("../../models/colors");
 
 module.exports = {
   embed: (interaction, data) =>
     new EmbedBuilder()
-    .setTitle(`${emojis.warning} Command Error:`)
+    .setTitle(`${config.emojis.warning} Command Error:`)
     .setDescription(" **NSFW** is already enabled in this guild.")
     .setFooter({
         text: "Gekkō",
