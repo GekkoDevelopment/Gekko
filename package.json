@@ -1,4 +1,13 @@
 {
+  "name": "gekko",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gekko Development",
+  "license": "ISC",
   "dependencies": {
     "@discordjs/rest": "^2.0.0",
     "@napi-rs/canvas": "^0.1.52",
@@ -10,7 +19,6 @@
     "mysql": "^2.18.1",
     "node-fetch": "^2.7.0",
     "rotate-matrix": "^0.0.3",
-    "superagent": "^8.1.2",
-    "weather-js": "^2.0.0"
+    "superagent": "^8.1.2"
   }
 }
