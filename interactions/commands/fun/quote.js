@@ -7,8 +7,8 @@ const {
   natureQuotes,
   humorQuotes,
 } = require("../../../models/quotes");
-const colors = require("../../../models/colors");
 const MySQL = require("../../../models/mysql");
+const colors = require("../../../models/colors");
 
 function getRandomQuote(quotes) {
   return quotes[Math.floor(Math.random() * quotes.length)];

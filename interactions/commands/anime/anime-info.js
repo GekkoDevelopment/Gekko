@@ -1,8 +1,8 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const MySQL = require("../../../models/mysql");
 const fetch = require("node-fetch");
 const colors = require("../../../models/colors");
-const { emojis } = require("../../../config");
-const MySQL = require("../../../models/mysql");
+const config = require("../../../config");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -53,29 +53,29 @@ module.exports = {
 
         let ratingEmoji;
         if (animeInfo.attributes.averageRating >= 70) {
-          ratingEmoji = emojis.ratingGreen;
+          ratingEmoji = config.emojis.ratingGreen;
         } else if (animeInfo.attributes.averageRating >= 40) {
-          ratingEmoji = emojis.ratingAmber;
+          ratingEmoji = config.emojis.ratingAmber;
         } else {
-          ratingEmoji = emojis.ratingRed;
+          ratingEmoji = config.emojis.ratingRed;
         }
 
         let statusEmoji;
         switch (animeInfo.attributes.status) {
           case "current":
-            statusEmoji = emojis.ratingGreen;
+            statusEmoji = config.emojis.ratingGreen;
             break;
           case "finished":
-            statusEmoji = emojis.ratingRed;
+            statusEmoji = config.emojis.ratingRed;
             break;
           case "tba":
-            statusEmoji = emojis.ratingNa;
+            statusEmoji = config.emojis.ratingNa;
             break;
           case "unreleased":
-            statusEmoji = emojis.ratingNa;
+            statusEmoji = config.emojis.ratingNa;
             break;
           case "upcoming":
-            statusEmoji = emojis.ratingAmber;
+            statusEmoji = config.emojis.ratingAmber;
             break;
           default:
             statusEmoji = "";
@@ -150,7 +150,7 @@ module.exports = {
         await interaction.reply({ embeds: [embed] });
       } else {
         const errorEmbed = new EmbedBuilder()
-          .setTitle(`${emojis.warning} Search Error:`)
+          .setTitle(`${config.emojis.warning} Search Error:`)
           .setColor("Red")
           .setDescription("No anime found with that name.")
           .setTimestamp()

@@ -6,9 +6,9 @@ const {
   ButtonBuilder,
   ButtonStyle,
 } = require("discord.js");
+const MySQL = require("../../../models/mysql");
 const config = require("../../../config.js");
 const colors = require("../../../models/colors.js");
-const MySQL = require("../../../models/mysql");
 
 module.exports = {
   data: new SlashCommandBuilder()

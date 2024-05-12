@@ -4,7 +4,7 @@ const {
   PermissionFlagsBits,
 } = require("discord.js");
 const MySQL = require("../../../models/mysql.js");
-const { emojis } = require("../../../config.js");
+const config = require("../../../config.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -40,7 +40,7 @@ module.exports = {
     MySQL.editColumnInGuilds(guildId, "guild_prefix", originalPrefix);
 
     const embed = new EmbedBuilder()
-      .setTitle(`${emojis.passed} Prefix successfully set`)
+      .setTitle(`${config.emojis.passed} Prefix successfully set`)
       .setDescription("The bot prefix has been set back to: `!`")
       .setColor("Green")
       .setFooter({

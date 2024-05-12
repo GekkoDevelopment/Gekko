@@ -3,8 +3,8 @@ const {
   PermissionFlagsBits,
   EmbedBuilder,
 } = require("discord.js");
-const colors = require("../../../models/colors.js");
 const MySQL = require("../../../models/mysql");
+const colors = require("../../../models/colors.js");
 
 module.exports = {
   data: new SlashCommandBuilder()

@@ -3,8 +3,8 @@ const {
   EmbedBuilder,
   PermissionFlagsBits,
 } = require("discord.js");
-const giveaways = new Map();
 const MySQL = require("../../../models/mysql");
+const giveaways = new Map();
 
 module.exports = {
   data: new SlashCommandBuilder()

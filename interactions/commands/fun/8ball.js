@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const color = require("../../../models/colors");
 const MySQL = require("../../../models/mysql");
+const color = require("../../../models/colors");
 
 let respones = [
   "It is certain.",

@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, PermissionFlagsBits, StringSelectMenuBuilder, ActionRowBuilder } = require("discord.js");
 const MySQL = require("../../../models/mysql.js");
-const { emojis } = require("../../../config.js");
+const config = require("../../../config.js");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -33,50 +33,50 @@ module.exports = {
         const lockdownSettings = await MySQL.getValueFromTableWithCondition('lockdown_config', 'channel_id', 'guild_id', interaction.guild.id);
 
         if (!welcomeSettings) {
-            welcomeConfigTitle = `${emojis.discordOff} Welcome Members`;
+            welcomeConfigTitle = `${config.emojis.discordOff} Welcome Members`;
             welcomeConfigValue = '**Disabled** - To enable, use the select menu below';
         } else {
-            welcomeConfigTitle = `${emojis.discordOn} Welcome Members`;
+            welcomeConfigTitle = `${config.emojis.discordOn} Welcome Members`;
             welcomeConfigValue = '**Enabled** - To disable, use the select menu below';
         }
 
         if (!loggingSettings) {
-            loggingConfigTitle = `${emojis.discordOff} Audit Logging`;
+            loggingConfigTitle = `${config.emojis.discordOff} Audit Logging`;
             loggingConfigValue = '**Disabled** - To enable, use the select menu below';
         } else {
-            loggingConfigTitle = `${emojis.discordOn} Audit Logging`;
+            loggingConfigTitle = `${config.emojis.discordOn} Audit Logging`;
             loggingConfigValue = '**Enabled** - To disable, use the select menu below';
         }
 
         if (!joinSettings) {
-            joinConfigTitle = `${emojis.discordOff} Join Roles`;
+            joinConfigTitle = `${config.emojis.discordOff} Join Roles`;
             joinConfigValue = '**Disabled** - To enable, use the select menu below';
         } else {
-            joinConfigTitle = `${emojis.discordOn} Join Roles`;
+            joinConfigTitle = `${config.emojis.discordOn} Join Roles`;
             joinConfigValue = '**Enabled** - To disable, use the select menu below';
         }
 
         if (nsfwSettings === 'false') {
-            nsfwConfigTitle = `${emojis.discordOff} NSFW Features`;
+            nsfwConfigTitle = `${config.emojis.discordOff} NSFW Features`;
             nsfwConfigValue = '**Disabled** - To enable, use the select menu below';
         } else {
-            nsfwConfigTitle = `${emojis.discordOn} NSFW Features`;
+            nsfwConfigTitle = `${config.emojis.discordOn} NSFW Features`;
             nsfwConfigValue = '**Enabled** - To disable, use the select menu below';
         }
 
         if (!ticketSettings) {
-            ticketConfigTitle = `${emojis.discordOff} Ticketing Feature`;
+            ticketConfigTitle = `${config.emojis.discordOff} Ticketing Feature`;
             ticketConfigValue = '**Disabled** - To enable, use the select menu below';
         } else {
-            ticketConfigTitle = `${emojis.discordOn} Ticketing Feature`;
+            ticketConfigTitle = `${config.emojis.discordOn} Ticketing Feature`;
             ticketConfigValue = '**Enabled** - To disable, use the select menu below';
         }
 
         if (!lockdownSettings) {
-            lockdownConfigTitle = `${emojis.discordOff} Lockdown Feature`;
+            lockdownConfigTitle = `${config.emojis.discordOff} Lockdown Feature`;
             lockdownConfigValue = '**Disabled** - To enable, use the select menu below';
         } else {
-            lockdownConfigTitle = `${emojis.discordOn} Lockdown Feature`;
+            lockdownConfigTitle = `${config.emojis.discordOn} Lockdown Feature`;
             lockdownConfigValue = '**Enabled** - To disable, use the select menu below';
         }
 
@@ -128,7 +128,7 @@ module.exports = {
         const settingsEmbed = embeds.get('userGuildSettings')(interaction, {welcomeConfigTitle, welcomeConfigValue, joinConfigTitle, joinConfigValue, nsfwConfigTitle, nsfwConfigValue, ticketConfigTitle, ticketConfigValue, lockdownConfigTitle, lockdownConfigValue, loggingConfigTitle, loggingConfigValue});
         const msg = await interaction.reply({ embeds: [settingsEmbed], components: [actionRow1] });
         setTimeout(() => {
-            msg.edit({ content: `**${emojis.warning} You took too long to interact**`, components: [] });
+            msg.edit({ content: `**${config.emojis.warning} You took too long to interact**`, components: [] });
         }, 120000)
 
     }
