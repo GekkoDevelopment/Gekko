@@ -6,7 +6,7 @@ module.exports = {
   name: Events.GuildDelete,
   async execute(guild) {
     const guildId = guild.id;
-    MySQL.deleteRow('guilds', 'guild_id', guildId); // needed to comment this in the MySQL.js file
+    MySQL.deleteRow('guilds', 'guild_id', guildId);
 
     const guildCreateEmbed = new EmbedBuilder()
       .setTitle("I was removed from a guild")

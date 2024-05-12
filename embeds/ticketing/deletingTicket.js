@@ -1,9 +1,9 @@
 const { EmbedBuilder } = require("discord.js");
-const { emojis } = require("../../config");
+const config = require("../../config");
 
 module.exports = {
   embed: (interaction, data) =>
     new EmbedBuilder()
-      .setDescription(`${emojis.warning} *Deleting Ticket...*`)
+      .setDescription(`${config.emojis.warning} *Deleting Ticket...*`)
       .setColor("Red"),
 };

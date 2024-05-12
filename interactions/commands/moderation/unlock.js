@@ -3,7 +3,7 @@ const {
   EmbedBuilder,
   PermissionFlagsBits,
 } = require("discord.js");
-const { emojis } = require("../../../config");
+const config = require("../../../config");
 const MySQL = require("../../../models/mysql");
 
 module.exports = {
@@ -54,7 +54,7 @@ module.exports = {
 
     try {
       const unlockedEmbed = new EmbedBuilder()
-        .setTitle(`${emojis.passed} Channel Unlocked`)
+        .setTitle(`${config.emojis.passed} Channel Unlocked`)
         .setDescription("This channel has been unlocked")
         .addFields({
           name: "Moderator:",
@@ -69,7 +69,7 @@ module.exports = {
         .setColor("Green");
 
       const successEmbed = new EmbedBuilder()
-        .setTitle(`${emojis.passed} Channel Unlocked`)
+        .setTitle(`${config.emojis.passed} Channel Unlocked`)
         .setDescription(`${channel} successfully unlocked.`)
         .setColor("Green")
         .setTimestamp()

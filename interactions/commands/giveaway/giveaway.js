@@ -1,12 +1,10 @@
 const {
   SlashCommandBuilder,
   EmbedBuilder,
-  Embed,
   PermissionFlagsBits,
 } = require("discord.js");
-const giveaways = new Map();
-const delay = require("node:timers/promises").setTimeout;
 const MySQL = require("../../../models/mysql");
+const giveaways = new Map();
 
 module.exports = {
   data: new SlashCommandBuilder()

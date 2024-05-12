@@ -3,8 +3,8 @@ const {
   EmbedBuilder,
   PermissionFlagsBits,
 } = require("discord.js");
-const { emojis } = require("../../../config");
 const MySQL = require("../../../models/mysql");
+const config = require("../../../config");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -61,7 +61,7 @@ module.exports = {
 
     try {
       const lockedEmbed = new EmbedBuilder()
-        .setTitle(`${emojis.warning} Channel Locked`)
+        .setTitle(`${config.emojis.warning} Channel Locked`)
         .setDescription("This channel has been temporarily locked down")
         .addFields(
           {
@@ -83,7 +83,7 @@ module.exports = {
         .setColor("Orange");
 
       const successEmbed = new EmbedBuilder()
-        .setTitle(`${emojis.passed} Channel Locked`)
+        .setTitle(`${config.emojis.passed} Channel Locked`)
         .setDescription(`${channel} successfully locked down.`)
         .setColor("Green")
         .setTimestamp()

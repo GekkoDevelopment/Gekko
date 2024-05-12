@@ -1,15 +1,17 @@
 const {
   SlashCommandBuilder,
-  EmbedBuilder,
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
   PermissionFlagsBits,
 } = require("discord.js");
 const MySQL = require("../../../models/mysql.js");
+<<<<<<< HEAD
 const { emojis } = require("../../../config.js");
 const colors = require("../../../models/Colors.js");
 const { DiscordExtensions } = require('../../../models/DiscordExtensions.js');
+=======
+>>>>>>> 125f05a35e8e93c3969475de4fb8192164281d88
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -58,21 +60,7 @@ module.exports = {
       !channel.nsfw &&
       !interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)
     ) {
-      const permissionErrorEmbed = new EmbedBuilder()
-        .setTitle(`${emojis.warning} Permissions Error: 50013`)
-        .addFields({
-          name: "Error Message:",
-          value:
-            "```\nYou lack permissions to perform that action, and you are not in a NSFW channel.```",
-          inline: true,
-        })
-        .setColor("Red")
-        .setTimestamp()
-        .setFooter({
-          text: "Gekkō Development",
-          iconURL: interaction.client.user.displayAvatarURL(),
-        });
-
+      const permissionErrorEmbed = embeds.get('permissionsError')(interaction);
       return await interaction.reply({
         embeds: [permissionErrorEmbed],
         ephemeral: true,
@@ -83,15 +71,7 @@ module.exports = {
       !channel.nsfw &&
       interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)
     ) {
-      const permissionErrorEmbed = new EmbedBuilder()
-        .setDescription("You are not in a NSFW channel to do this!")
-        .setColor("Red")
-        .setTimestamp()
-        .setFooter({
-          text: "Gekkō Development",
-          iconURL: interaction.client.user.displayAvatarURL(),
-        });
-
+      const permissionErrorEmbed = embeds.get('nsfwChannelError')(interaction);
       return await interaction.reply({
         embeds: [permissionErrorEmbed],
         ephemeral: true,
@@ -102,21 +82,7 @@ module.exports = {
       channel.nsfw &&
       !interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)
     ) {
-      const permissionErrorEmbed = new EmbedBuilder()
-        .setTitle(`${emojis.warning} Permissions Error: 50013`)
-        .addFields({
-          name: "Error Message:",
-          value:
-            "```\nYou lack permissions to perform that action, and you are not in a NSFW channel.```",
-          inline: true,
-        })
-        .setColor("Red")
-        .setTimestamp()
-        .setFooter({
-          text: "Gekkō Development",
-          iconURL: interaction.client.user.displayAvatarURL(),
-        });
-
+      const permissionErrorEmbed = embeds.get('permissionsError')(interaction);
       return await interaction.reply({
         embeds: [permissionErrorEmbed],
         ephemeral: true,
@@ -124,16 +90,7 @@ module.exports = {
     }
 
     if (isNsfw === "true") {
-      const permissionErrorEmbed = new EmbedBuilder()
-        .setTitle(`${emojis.warning} Command Error:`)
-        .setDescription(" **NSFW** is already enabled in this guild.")
-        .setFooter({
-          text: "Gekkō",
-          iconURL: interaction.client.user.displayAvatarURL(),
-        })
-        .setTimestamp()
-        .setColor(colors.deepPink);
-
+      const permissionErrorEmbed = embeds.get('nsfwEnabledError')(interaction);
       return await interaction.reply({
         embeds: [permissionErrorEmbed],
         ephemeral: true,

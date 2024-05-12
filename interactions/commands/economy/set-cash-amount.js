@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const MySQL = require("../../../models/mysql");
+const config = require("../../../config");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -17,13 +18,15 @@ module.exports = {
     const startingAmount = interaction.options.getInteger("amount");
     const guildId = interaction.member.guild.id;
 
-    const loggingChannel = MySQL.getColumnValuesWithGuildId(
+    /*const loggingChannel = MySQL.getColumnValuesWithGuildId(
       guildId,
       "logging_channel"
     );
-    const channel = interaction.guilds.roles.cache.get(
+    const channel = interaction.guild.channels.cache.get(
       loggingChannel.toString()
-    );
+    );*/
+
+    // Need to set up economy logging for audit log settings.
 
     const restricted = MySQL.getValueFromTableWithCondition(
       "guilds",
@@ -41,7 +44,7 @@ module.exports = {
     }
 
     MySQL.updateValueInTableWithCondition(
-      "economy",
+      "guilds",
       "starting_amount",
       startingAmount,
       "guild_id",

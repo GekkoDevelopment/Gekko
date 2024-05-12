@@ -1,8 +1,8 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const MySQL = require("../../../models/mysql");
 const fetch = require("node-fetch");
 const colors = require("../../../models/colors");
-const { emojis } = require("../../../config");
-const MySQL = require("../../../models/mysql");
+const config = require("../../../config");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -59,7 +59,7 @@ module.exports = {
         await interaction.reply({ embeds: [embed] });
       } else {
         const errorEmbed = new EmbedBuilder()
-          .setTitle(`${emojis.warning} Search Error:`)
+          .setTitle(`${config.emojis.warning} Search Error:`)
           .setColor("Red")
           .setDescription("No character found with that name.")
           .setTimestamp()

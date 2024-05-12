@@ -18,12 +18,13 @@ module.exports = {
     const columns = [
       "guild_id VARCHAR(255) NOT NULL PRIMARY KEY",
       "welcome_channel_id VARCHAR(255) DEFAULT NULL",
+      "welcome_message LONGTEXT DEFAULT NULL",
       "image_url VARCHAR(255) DEFAULT NULL",
       "nsfw_enabled VARCHAR(255) DEFAULT 'false'",
       "guild_prefix VARCHAR(255) DEFAULT '!'",
       "join_role VARCHAR(255) DEFAULT NULL",
-      "logging_channel VARCHAR(255) DEFAULT NULL",
-      "logging_type VARCHAR(255) DEFAULT NULL",
+      "economy_enabled VARCHAR(255) DEFAULT 'false'",
+      "starting_amount VARCHAR(5) DEFAULT '1500'",
       "restricted_guild VARCHAR(255) DEFAULT 'false'", // When talking about "restricted guilds" this is referring to guilds that are blacklisted by the bot and the bot will not be used.
     ];
 
@@ -39,12 +40,10 @@ module.exports = {
     ];
 
     const economyColumns = [
+      "user_id VARCHAR(255) NOT NULL PRIMARY KEY",
       "guild_id VARCHAR(255) NOT NULL DEFAULT '0'",
-      "user_id VARCHAR(255) DEFAULT NULL",
       "cash_amount VARCHAR(255) DEFAULT '0'",
-      "bank_amount VARCHAR(255) DEFAULT '0'",
-      "starting_amount VARCHAR(5) DEFAULT '1500'",
-      "economy_enabled VARCHAR(255) DEFAULT 'false'"
+      "bank_amount VARCHAR(255) DEFAULT '0'"
     ];
 
     const mutedUsersColumns = [
@@ -55,11 +54,25 @@ module.exports = {
     ];
 
     const ticketsColumns = [
-      "guild_id VARCHAR(255) NOT NULL DEFAULT '0'",
+      "guild_id VARCHAR(255) NOT NULL PRIMARY KEY",
       "ticket_channel_id VARCHAR(255) DEFAULT NULL",
       "ticket_category VARCHAR(255) DEFAULT NULL",
       "support_role_id VARCHAR(255) DEFAULT NULL",
     ];
+
+    const loggingColumns = [
+      "guild_id VARCHAR(255) NOT NULL PRIMARY KEY",
+      "moderation_log VARCHAR(255) DEFAULT 'false'",
+      "moderation_channel VARCHAR(255) DEFAULT NULL",
+      "ticket_log VARCHAR(255) DEFAULT 'false'",
+      "ticket_channel VARCHAR(255) DEFAULT NULL",
+      "commands_log VARCHAR(255) DEFAULT 'false'",
+      "commands_Channel VARCHAR(255) DEFAULT NULL",
+      "message_log VARCHAR(255) DEFAULT 'false'",
+      "message_channel VARCHAR(255) DEFAULT NULL",
+      "audit_log VARCHAR(255) DEFAULT 'false'",
+      "audit_channel VARCHAR(255) DEFAULT NULL",
+    ]
 
     MySQL.createTable("guilds", columns);
     MySQL.createTable("economy", economyColumns);
@@ -67,5 +80,6 @@ module.exports = {
     MySQL.createTable("tickets", ticketsColumns);
     MySQL.createTable("ticket_data", ticketDataColumns);
     MySQL.createTable("lockdown_config", lockdownColumns);
+    MySQL.createTable("logging", loggingColumns);
   },
 };

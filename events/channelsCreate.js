@@ -1,32 +1,19 @@
 const { Events, EmbedBuilder, AuditLogEvent } = require("discord.js");
-const config = require("../config");
 const MySQL = require("../models/mysql");
+const config = require("../config");
 
 module.exports = {
   name: Events.ChannelCreate,
   async execute(channel) {
-    const loggingType = await MySQL.getValueFromTableWithCondition(
-      "guilds",
-      "logging_type",
+    const logChannelId = await MySQL.getValueFromTableWithCondition(
+      "logging",
+      "audit_channel",
       "guild_id",
       channel.guild.id
     );
 
-    if (!loggingType) {
-      return;
-    } else if (loggingType === "all" || loggingType === "auditLogging") {
-      const logChannelId = await MySQL.getValueFromTableWithCondition(
-        "guilds",
-        "logging_channel",
-        "guild_id",
-        channel.guild.id
-      );
+    if (logChannelId) {
       const logChannel = channel.guild.channels.cache.get(logChannelId);
-
-      if (!logChannel) {
-        console.log(`${logChannelId} not found.`);
-        return;
-      }
 
       if (channel.type === 0) {
         const fetchedLogs = await channel.guild.fetchAuditLogs({
@@ -182,6 +169,8 @@ module.exports = {
 
         logChannel.send({ embeds: [embed] });
       }
+    } else {
+      return;
     }
   },
 };

@@ -3,19 +3,17 @@ const {
   GatewayIntentBits,
   Collection,
   EmbedBuilder,
-  PermissionFlagsBits,
   StringSelectMenuBuilder,
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
 } = require("discord.js");
 const fs = require("node:fs");
+const MySQL = require("./models/mysql.js");
 const path = require("node:path");
 const delay = require("node:timers/promises").setTimeout;
 const config = require("./config.js");
-const color = require("./models/Colors.js");
-const colors = require("./models/Colors.js");
-const MySQL = require("./models/mysql.js");
+const colors = require("./models/colors.js");
 
 const client = new Client({
   intents: [Object.keys(GatewayIntentBits)],
@@ -64,7 +62,7 @@ client.on("messageCreate", async (message) => {
 
     const logEmbed = new EmbedBuilder()
       .setTitle("Gekkō Restart")
-      .setColor(`${color.bot}`)
+      .setColor(`${colors.bot}`)
       .addFields(
         {
           name: "Restarter",
@@ -104,7 +102,7 @@ client.on("messageCreate", async (message) => {
 
     const logEmbed = new EmbedBuilder()
       .setTitle("Gekkō Stats Log")
-      .setColor(color.bot)
+      .setColor(colors.bot)
       .setThumbnail(message.author.displayAvatarURL())
       .addFields(
         {
@@ -122,7 +120,7 @@ client.on("messageCreate", async (message) => {
     const statEmbed = new EmbedBuilder()
       .setTitle("Gekkō Bot Stats")
       .setThumbnail(client.user.displayAvatarURL())
-      .setColor(color.bot)
+      .setColor(colors.bot)
       .addFields(
         {
           name: "Server Amount",
@@ -520,7 +518,7 @@ client.on("messageCreate", async (message) => {
         name: `${client.user.username} Development`,
         iconURL: client.user.displayAvatarURL(),
       })
-      .setColor(color.bot)
+      .setColor(colors.bot)
       .setTitle("Welcome to Gekkō!")
       .setDescription(
         "```\nIntroducing Gekkō, your new Discord companion! 🌟 Packed with utility commands for easy server management, fun minigames for entertainment, and a touch of anime magic, Gekkō brings joy and efficiency to your Discord server. ✨ Gekkō really does elevate your Discord experience! 🎉```"

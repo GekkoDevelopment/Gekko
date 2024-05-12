@@ -5,7 +5,6 @@ const {
 } = require("discord.js");
 const MySQL = require("../../../models/mysql.js");
 const config = require("../../../config.js");
-const colors = require("../../../models/colors.js");
 
 module.exports = {
   data: new SlashCommandBuilder()

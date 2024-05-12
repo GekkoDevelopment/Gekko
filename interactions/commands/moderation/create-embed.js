@@ -1,5 +1,4 @@
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const config = require("../../../config.js");
 const MySQL = require("../../../models/mysql");
 
 module.exports = {

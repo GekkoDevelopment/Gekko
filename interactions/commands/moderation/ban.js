@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
-const color = require("../../../models/colors.js");
 const MySQL = require("../../../models/mysql.js");
+const color = require("../../../models/colors.js");
 
 module.exports = {
   data: new SlashCommandBuilder()

@@ -1,52 +1,48 @@
 const { Events, EmbedBuilder, AuditLogEvent } = require("discord.js");
-const config = require("../config");
 const MySQL = require("../models/mysql");
+const config = require("../config");
 
 module.exports = {
   name: Events.GuildEmojiDelete,
   async execute(emoji) {
     const logChannelId = await MySQL.getValueFromTableWithCondition(
-      "guilds",
-      "logging_channel",
+      "logging",
+      "audit_channel",
       "guild_id",
       emoji.guild.id
     );
 
-    if (!logChannelId) return; // I removed brackets that aren't needed, so now it's just a return.
+    if (logChannelId) {
+      const logChannel = emoji.guild.channels.cache.get(logChannelId);
 
-    const logChannel = emoji.guild.channels.cache.get(logChannelId);
-    if (!logChannel) {
-      console.log(`${logChannelId} not found.`);
-      return;
-    }
-
-    const fetchedLogs = await emoji.guild.fetchAuditLogs({
-      type: AuditLogEvent.EmojiDelete,
-      limit: 1,
-    });
-
-    const firstEntry = fetchedLogs.entries.first();
-    if (!firstEntry || !firstEntry.executor) return; // I removed brackets that aren't needed, so now it's just a return.
-
-    const executor = firstEntry.executor;
-
-    const embed = new EmbedBuilder()
-      .setTitle(`${config.emojis.warning} Emoji Created`)
-      .setDescription(
-        `> **Emoji Name:** ${emoji.name} \n> **Emoji ID:** ${
-          emoji.id
-        } \n> **Animated:** ${
-          emoji.animated ? "Yes" : "No"
-        } \n> **Deleted by:** <@${executor.id}>`
-      )
-      .setColor("Red")
-      .setTimestamp()
-      .setFooter({
-        text: "Gekkō",
-        iconURL: emoji.client.user.displayAvatarURL(),
+      const fetchedLogs = await emoji.guild.fetchAuditLogs({
+        type: AuditLogEvent.EmojiDelete,
+        limit: 1,
       });
 
-    logChannel.send({ embeds: [embed] });
-    console.log(emoji);
+      const firstEntry = fetchedLogs.entries.first();
+      if (!firstEntry || !firstEntry.executor) return; // I removed brackets that aren't needed, so now it's just a return.
+
+      const executor = firstEntry.executor;
+
+      const embed = new EmbedBuilder()
+        .setTitle(`${config.emojis.warning} Emoji Created`)
+        .setDescription(
+          `> **Emoji Name:** ${emoji.name} \n> **Emoji ID:** ${
+            emoji.id
+          } \n> **Animated:** ${
+            emoji.animated ? "Yes" : "No"
+          } \n> **Deleted by:** <@${executor.id}>`
+        )
+        .setColor("Red")
+        .setTimestamp()
+        .setFooter({
+          text: "Gekkō",
+          iconURL: emoji.client.user.displayAvatarURL(),
+        });
+      logChannel.send({ embeds: [embed] });
+    } else {
+      return;
+    }
   },
 };

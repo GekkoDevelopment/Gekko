@@ -1,4 +1,4 @@
-const { Events, EmbedBuilder, AttachmentBuilder } = require("discord.js");
+const { Events, EmbedBuilder } = require("discord.js");
 const MySQL = require("../models/mysql.js");
 const config = require("../config.js");
 
@@ -7,7 +7,6 @@ module.exports = {
   async execute(guild) {
     const guildId = guild.id;
 
-    // I had to update this or else it won't work. This code sucks but if it works it works.
     MySQL.valueExistsInGuildsColumn(guildId, 'guild_id', guildId).then(
       (exists) => {
         if (exists) {
