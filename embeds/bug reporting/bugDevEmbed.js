@@ -1,5 +1,4 @@
 const { EmbedBuilder } = require("discord.js");
-const colors = require("../../models/colors");
 const config = require("../../config");
 
 module.exports = {

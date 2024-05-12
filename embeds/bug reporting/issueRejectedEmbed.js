@@ -1,10 +1,10 @@
 const { EmbedBuilder } = require("discord.js");
-const { emojis } = require("../../config");
+const config = require("../../config");
 
 module.exports = {
   embed: (interaction, data, message) =>
     new EmbedBuilder()
-      .setTitle(`${emojis.failed} Bug Report Rejected`)
+      .setTitle(`${config.emojis.failed} Bug Report Rejected`)
       .setDescription(`**Bug ${data.bugId} was rejected**`)
       .setColor("Red")
       .setTimestamp()
