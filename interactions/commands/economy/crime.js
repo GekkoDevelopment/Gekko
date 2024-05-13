@@ -50,35 +50,58 @@ module.exports = {
         const expirationTime = Date.now() + cooldownTime;
         cooldowns.set(interaction.user.id, expirationTime);
 
-        const isSuccess = Math.random() < 0.5;
+        const isSuccess = Math.random() < 0.5; //50% chance of fail & pass
         if (isSuccess) {
             const earnedHearts = Math.floor(Math.random() * (170 - 20 + 1)) + 20;
             const prevHeartsBal = await MySQL.getValueFromTableWithCondition('economy', 'cash_amount', 'user_id', interaction.user.id);
-            const newHeartsBal = parseInt(prevHeartsBal) + earnedHearts;
-    
-            await MySQL.bulkInsertOrUpdate('economy', ['user_id', 'cash_amount'], [[interaction.user.id, newHeartsBal]]);
+            
+            if (prevHeartsBal === null) {
+                const newHeartsBal = earnedHearts;
+                await MySQL.bulkInsertOrUpdate('economy', ['user_id', 'guild_id', 'cash_amount'], [[interaction.user.id, interaction.guild.id, newHeartsBal]]);
 
-            const crimeEmbed = new EmbedBuilder()
-            .setTitle(`${interaction.user.username} just commited a crime! (►__◄)`)
-            .setDescription(`${interaction.user} earned ${config.emojis.gekkoCoin} \`${earnedHearts}\``)
-            .setColor(colors.bot)
+                const crimeEmbed = new EmbedBuilder()
+                .setTitle(`${interaction.user.username} just commited a crime! (►__◄)`)
+                .setDescription(`${interaction.user} earned ${config.emojis.gekkoCoin} \`${earnedHearts}\``)
+                .setColor(colors.bot)
+        
+                await interaction.reply({ embeds: [crimeEmbed] });
+            } else {
+                const newHeartsBal = parseInt(prevHeartsBal) + earnedHearts;
     
-            await interaction.reply({ embeds: [crimeEmbed] });
-
+                await MySQL.bulkInsertOrUpdate('economy', ['user_id', 'cash_amount'], [[interaction.user.id, newHeartsBal]]);
+    
+                const crimeEmbed = new EmbedBuilder()
+                .setTitle(`${interaction.user.username} just commited a crime! (►__◄)`)
+                .setDescription(`${interaction.user} earned ${config.emojis.gekkoCoin} \`${earnedHearts}\``)
+                .setColor(colors.bot)
+        
+                await interaction.reply({ embeds: [crimeEmbed] });
+            }
         } else {
             const earnedHearts = Math.floor(Math.random() * (170 - 20 + 1)) + 20;
             const prevHeartsBal = await MySQL.getValueFromTableWithCondition('economy', 'cash_amount', 'user_id', interaction.user.id);
-            const newHeartsBal = parseInt(prevHeartsBal) - earnedHearts;
-    
-            await MySQL.bulkInsertOrUpdate('economy', ['user_id', 'cash_amount'], [[interaction.user.id, newHeartsBal]]);
 
-            const crimeEmbed = new EmbedBuilder()
-            .setTitle(`${config.emojis.gekkoPolice} The police are about! \n${interaction.user.username} just commited a crime and was caught...`)
-            .setDescription(`${interaction.user} was fined, and paid ${config.emojis.gekkoCoin} \`${earnedHearts}\``)
-            .setColor(colors.bot)
+            if (prevHeartsBal === null) {
+                const newHeartsBal = 0 - earnedHearts;
+                await MySQL.bulkInsertOrUpdate('economy', ['user_id', 'guild_id', 'cash_amount'], [[interaction.user.id, interaction.guild.id, newHeartsBal]]);
     
-            await interaction.reply({ embeds: [crimeEmbed] });
-            
+                const crimeEmbed = new EmbedBuilder()
+                .setTitle(`${config.emojis.gekkoPolice} The police are about! \n${interaction.user.username} just commited a crime and was caught...`)
+                .setDescription(`${interaction.user} was fined, and paid ${config.emojis.gekkoCoin} \`${earnedHearts}\``)
+                .setColor(colors.bot)
+        
+                await interaction.reply({ embeds: [crimeEmbed] });
+            } else {
+                const newHeartsBal = parseInt(prevHeartsBal) - earnedHearts;
+                await MySQL.bulkInsertOrUpdate('economy', ['user_id', 'cash_amount'], [[interaction.user.id, newHeartsBal]]);
+    
+                const crimeEmbed = new EmbedBuilder()
+                .setTitle(`${config.emojis.gekkoPolice} The police are about! \n${interaction.user.username} just commited a crime and was caught...`)
+                .setDescription(`${interaction.user} was fined, and paid ${config.emojis.gekkoCoin} \`${earnedHearts}\``)
+                .setColor(colors.bot)
+        
+                await interaction.reply({ embeds: [crimeEmbed] });
+            }   
         }
     }
 }

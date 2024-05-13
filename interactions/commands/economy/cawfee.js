@@ -71,16 +71,28 @@ module.exports = {
 
         const earnedHearts = Math.floor(Math.random() * (50 - 5 + 1)) + 5;
         const prevHeartsBal = await MySQL.getValueFromTableWithCondition('economy', 'cash_amount', 'user_id', interaction.user.id);
-        const newHeartsBal = parseInt(prevHeartsBal) + earnedHearts;
 
-        await MySQL.bulkInsertOrUpdate('economy', ['user_id', 'cash_amount'], [[interaction.user.id, newHeartsBal]]);
+        if (prevHeartsBal === null){
+            const newHeartsBal = earnedHearts;   
+            await MySQL.bulkInsertOrUpdate('economy', ['user_id', 'guild_id', 'cash_amount'], [[interaction.user.id, interaction.guild.id, newHeartsBal]]);
 
-        const cawfeeEmbed = new EmbedBuilder()
-        .setTitle(`${config.emojis.gekkoCawfee} Cawfee time!! \n${interaction.user.username} gave ${user.username} a cawfee!`)
-        .setDescription(`${interaction.user} earned ${config.emojis.gekkoCoin} \`${earnedHearts}\` \n*You can actually treat our Dev\'s to a coffee via [BuyMeACoffee](https://buymeacoffee.com/)*`)
-        .setColor(colors.bot)
+            const cawfeeEmbed = new EmbedBuilder()
+            .setTitle(`${config.emojis.gekkoCawfee} Cawfee time!! \n${interaction.user.username} gave ${user.username} a cawfee!`)
+            .setDescription(`${interaction.user} earned ${config.emojis.gekkoCoin} \`${earnedHearts}\` \n*You can actually treat our Dev\'s to a coffee via [BuyMeACoffee](https://buymeacoffee.com/)*`)
+            .setColor(colors.bot)
+      
+            await interaction.reply({ embeds: [cawfeeEmbed] });
+        } else {
+            const newHeartsBal = parseInt(prevHeartsBal) + earnedHearts;
+            await MySQL.bulkInsertOrUpdate('economy', ['user_id', 'cash_amount'], [[interaction.user.id, newHeartsBal]]);
 
-        await interaction.reply({ embeds: [cawfeeEmbed] });
+            const cawfeeEmbed = new EmbedBuilder()
+            .setTitle(`${config.emojis.gekkoCawfee} Cawfee time!! \n${interaction.user.username} gave ${user.username} a cawfee!`)
+            .setDescription(`${interaction.user} earned ${config.emojis.gekkoCoin} \`${earnedHearts}\` \n*You can actually treat our Dev\'s to a coffee via [BuyMeACoffee](https://buymeacoffee.com/)*`)
+            .setColor(colors.bot)
+      
+            await interaction.reply({ embeds: [cawfeeEmbed] });
+        }
 
     }
 }
