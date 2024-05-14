@@ -35,7 +35,7 @@ module.exports = {
         inline: false,
         }
     )
-    .setColor("Red")
+    .setColor('Red')
     .setFooter({
         text: "Gekkō",
         iconURL: interaction.client.user.displayAvatarURL(),
