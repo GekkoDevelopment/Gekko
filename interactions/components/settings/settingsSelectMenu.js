@@ -1,8 +1,8 @@
-const { PermissionFlagsBits, AttachmentBuilder, StringSelectMenuBuilder, ActionRowBuilder, EmbedBuilder } = require("discord.js");
-const { createCanvas, loadImage, GlobalFonts } = require("@napi-rs/canvas");
-const MySQL = require("../../../models/mysql");
-const colors = require("../../../models/colors");
-const config = require("../../../config");
+import { PermissionFlagsBits, AttachmentBuilder, StringSelectMenuBuilder, ActionRowBuilder, EmbedBuilder } from 'discord.js';
+import { createCanvas, loadImage, GlobalFonts } from '@napi-rs/canvas';
+import MySQL from '../../../models/mysql';
+import colors from '../../../models/colors';
+import config from '../../../config';
 
 GlobalFonts.registerFromPath("fonts/Bangers-Regular.ttf", "Bangers");
 

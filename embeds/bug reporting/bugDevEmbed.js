@@ -1,5 +1,5 @@
-const { EmbedBuilder } = require("discord.js");
-const config = require("../../config");
+import { EmbedBuilder } from 'discord.js';
+import config from '../../config';
 
 module.exports = {
   embed: (interaction, data, message) =>
@@ -35,7 +35,7 @@ module.exports = {
         inline: false,
         }
     )
-    .setColor("Red")
+    .setColor('Red')
     .setFooter({
         text: "Gekkō",
         iconURL: interaction.client.user.displayAvatarURL(),

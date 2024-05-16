@@ -27,7 +27,13 @@ module.exports = {
 
     apiKeys: {
         tenorApi: 'AIzaSyCC6haPOEqn-p5I8oJdyyIjJAXkYQGWJcQ', // The API key used for our random gif command.
-        chessAPI: 'lip_fWKAMXrBVDeuZfsG8W6P' // The API key that interacts with our chess command. (You can make the key from here: https://lichess.org/account/oauth/token)
+        chessAPI: 'lip_fWKAMXrBVDeuZfsG8W6P', // The API key that interacts with our chess command. (You can make the key from here: https://lichess.org/account/oauth/token)
+        openaiApi: 'sk-proj-iC8CktZjIrbCBJkvz4qST3BlbkFJ7gzft4wJTvjjTxSax3I6', // The API key used for OpenAI
+    },
+
+    gameApis: {
+        battleNetClientId: '60e8db2fe4ba4c6095a96824a6732dbb',
+        battleNetClientSecret: 'hHExTwyOFFT9CNpbhUSXNXVcTGKd3XZg'
     },
 
     githubApi: {
@@ -72,9 +78,9 @@ module.exports = {
         discordOff: '<:discordoff:1238515457384906883>', // Slider off (red)
         gekkoCoin: '<a:heartCoin:1239200690039951501>', // Gekko BokCoin(animated)
         gekkoBill: '<:gekkoBill:1239198493411643442>', // pink bill note
-        gekkoWalking: '<a:gekkoWalking:1239204341693415484>', //(animated walking)
-        gekkoCawfee: '<:kawfee:1239297709299597392>',
-        gekkoPolice: '<:gekkoPolice:1239371511878520852>',
+        gekkoWalking: '<a:gekkoWalking:1239204341693415484>', // (animated walking)
+        gekkoCawfee: '<:kawfee:1239297709299597392>', // Cawfee
+        gekkoPolice: '<:gekkoPolice:1239371511878520852>', // Police (stop right there.)
 
     }
 }

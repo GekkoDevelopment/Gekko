@@ -1,4 +1,4 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 
 module.exports = {
   data: { name: "confirm_nsfw_1" },

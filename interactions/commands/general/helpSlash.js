@@ -1,14 +1,7 @@
-const {
-  SlashCommandBuilder,
-  StringSelectMenuBuilder,
-  ActionRowBuilder,
-  EmbedBuilder,
-  ButtonBuilder,
-  ButtonStyle,
-} = require("discord.js");
-const MySQL = require("../../../models/mysql");
-const config = require("../../../config.js");
-const colors = require("../../../models/colors.js");
+import { SlashCommandBuilder, StringSelectMenuBuilder, ActionRowBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle,} from 'discord.js';
+import MySQL from '../../../models/mysql.js';
+import config from '../../../config.js';
+import colors from '../../../models/colors.js';
 
 module.exports = {
   data: new SlashCommandBuilder()

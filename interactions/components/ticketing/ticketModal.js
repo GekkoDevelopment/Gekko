@@ -1,11 +1,5 @@
-const {
-  ButtonBuilder,
-  ButtonStyle,
-  ActionRowBuilder,
-  ChannelType,
-  PermissionsBitField,
-} = require("discord.js");
-const MySQL = require("../../../models/mysql");
+import { ButtonBuilder, ButtonStyle, ActionRowBuilder, ChannelType, PermissionFlagsBits } from 'discord.js';
+import MySQL from '../../../models/mysql';
 const delay = require("node:timers/promises").setTimeout;
 
 module.exports = {

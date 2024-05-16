@@ -1,7 +1,7 @@
-const { SlashCommandBuilder } = require("discord.js");
-const MySQL = require("../../../models/mysql");
+import { SlashCommandBuilder } from "discord.js";
+import MySQL from "../../../models/mysql";
+import config from "../../../config";
 const superagent = require("superagent");
-const config = require("../../../config");
 
 module.exports = {
   data: new SlashCommandBuilder()

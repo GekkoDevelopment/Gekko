@@ -1,6 +1,6 @@
-const { Events, AttachmentBuilder } = require("discord.js");
+import { Events } from 'discord.js';
+import MySQL from '../models/mysql'
 const { createCanvas, loadImage, GlobalFonts } = require("@napi-rs/canvas");
-const MySQL = require("../models/mysql.js");
 GlobalFonts.registerFromPath("fonts/Bangers-Regular.ttf", "Bangers");
 
 module.exports = {

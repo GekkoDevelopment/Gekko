@@ -1,7 +1,7 @@
-const { SlashCommandBuilder } = require("discord.js");
-const { Wordle } = require("discord-gamecord");
-const MySQL = require("../../../models/mysql");
-const colors = require("../../../models/colors");
+import { SlashCommandBuilder } from 'discord.js';
+import { Wordle } from 'discord-gamecord';
+import MySQL from '../../../models/mysql';
+import colors from '../../../models/colors';
 
 module.exports = {
   data: new SlashCommandBuilder()

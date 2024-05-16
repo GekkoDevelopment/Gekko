@@ -1,19 +1,9 @@
-const {
-  Client,
-  GatewayIntentBits,
-  Collection,
-  EmbedBuilder,
-  StringSelectMenuBuilder,
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle,
-} = require("discord.js");
-const fs = require("node:fs");
-const MySQL = require("./models/mysql.js");
-const path = require("node:path");
+import { Client, GatewayIntentBits, Collection, EmbedBuilder, StringSelectMenuBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
+import MySQL from './models/mysql.js';
+import path from 'node:path';
+import config from './config.js';
+import colors from './models/colors.js';
 const delay = require("node:timers/promises").setTimeout;
-const config = require("./config.js");
-const colors = require("./models/colors.js");
 
 const client = new Client({
   intents: [Object.keys(GatewayIntentBits)],

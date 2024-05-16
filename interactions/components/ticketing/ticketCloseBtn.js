@@ -1,5 +1,5 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
-const MySQL = require("../../../models/mysql");
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
+import MySQL from '../../../models/mysql';
 
 module.exports = {
   data: { name: "ticketCloseBtn" },

@@ -1,6 +1,6 @@
-const { Events, EmbedBuilder } = require("discord.js");
-const MySQL = require("../models/mysql.js");
-const config = require("../config.js");
+import { Events, EmbedBuilder } from 'discord.js';
+import MySQL from '../models/mysql'
+import config from '../config';
 
 module.exports = {
   name: Events.GuildCreate,

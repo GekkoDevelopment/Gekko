@@ -13,11 +13,13 @@
     "@napi-rs/canvas": "^0.1.52",
     "array-shuffle": "^3.0.0",
     "axios": "^1.6.8",
+    "blizzard.js": "^4.5.0",
     "discord-gamecord": "^4.4.2",
-    "discord.js": "^14.12.1",
+    "discord.js": "^14.15.2",
     "interval-promise": "^1.4.0",
     "mysql": "^2.18.1",
     "node-fetch": "^2.7.0",
+    "openai": "^4.47.0",
     "rotate-matrix": "^0.0.3",
     "superagent": "^8.1.2"
   }

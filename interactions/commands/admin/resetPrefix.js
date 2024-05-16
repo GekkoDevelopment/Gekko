@@ -1,10 +1,6 @@
-const {
-  SlashCommandBuilder,
-  EmbedBuilder,
-  PermissionFlagsBits,
-} = require("discord.js");
-const MySQL = require("../../../models/mysql.js");
-const config = require("../../../config.js");
+import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from "discord.js";
+import MySQL from "../../../models/mysql.js";
+import config from "../../../config.js";
 
 module.exports = {
   data: new SlashCommandBuilder()

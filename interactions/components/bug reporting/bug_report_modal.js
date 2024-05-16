@@ -1,5 +1,5 @@
-const { ButtonStyle, ActionRowBuilder, ButtonBuilder } = require("discord.js");
-const config = require("../../../config");
+import { ButtonStyle, ButtonBuilder, ActionRowBuilder } from 'discord.js';
+import config from '../../../config';
   
 function generateBugID() {
     const characters =
