@@ -4,7 +4,8 @@
   "description": "",
   "main": "bot.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --experimental-specifier-resolution=node bot.js"
   },
   "author": "Gekko Development",
   "license": "ISC",
@@ -22,5 +23,6 @@
     "openai": "^4.47.0",
     "rotate-matrix": "^0.0.3",
     "superagent": "^8.1.2"
-  }
+  },
+  "type": "module"
 }
