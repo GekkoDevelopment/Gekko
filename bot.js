@@ -13,7 +13,7 @@ const client = new Client({
   allowedMentions: { parse: ["users", "roles", "everyone"], repliedUser: true },
 });
 
-client.embeds = require("./embeds");
+client.embeds = await import("./embeds/index.js");
 
 client.interactions = {
   commands: new Collection(),
