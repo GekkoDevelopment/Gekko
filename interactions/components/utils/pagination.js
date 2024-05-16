@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } from 'discord.js';
-import emoji from '../../../models/emoji';
+import emoji from '../../../models/emoji.js';
 
 export default async(interaction, pages, time = 30000) => {
     try {
