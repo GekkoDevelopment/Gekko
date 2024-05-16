@@ -40,7 +40,7 @@ export class DiscordExtensions {
         interaction.deferReply();
 
         if (restricted === 'true') {
-            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
+            return await interaction.editReply({ embeds: [permissionErrorEmbed], ephemeral: true });
         }
 
         return;

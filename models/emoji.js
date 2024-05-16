@@ -41,4 +41,9 @@ module.exports = {
   "!": "❗",
   "?": "❓",
   warning: "⚠️",
+  leftArrow: '⬅️',
+  rightArrow: '➡️',
+  backArrow: '🔙',
+  fastReverse: '⏪',
+  fastForward: '⏩'
 };
