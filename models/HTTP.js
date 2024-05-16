@@ -64,20 +64,22 @@ export class HTTP {
      * @param {string} url - The URL from which data is to be fetched.
      * @param {Object<string, string>} headers - Custom headers for the request.
      * @param {string} accessToken - The access token for authorization.
+     * @param {string} [contentType='application/json'] - The content type of the request body. Defaults to 'application/json' if not provided.
      * @return {Promise<void>} A Promise that resolves once data is fetched and logged.
      */
-    static async fetchData(url, headers, accessToken) {
+    static async fetchData(url, headers, accessToken, contentType = "application/json") {
         const url = url;
         const headers = {
-            'Content-Type:': 'application/json',
+            'Content-Type:': contentType,
             'Authorization': `Bearer ${accessToken}`
         };
 
         try {
+            // Get the data from a data using a GET request
             const data = await this.performHttpGetRequest(url, headers);
-            console.log('Response: ', data);
+            console.log('Response: ', data); // Log response data
         } catch (error) {
-            console.error('Error: ', error);
+            console.error('Error: ', error); // Log a console error.
         }
     }
 
