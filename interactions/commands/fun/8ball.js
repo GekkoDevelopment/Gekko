@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
-import MySQL from "../../../models/mysql";
-import color from "../../../models/colors";
+import MySQL from "../../../models/mysql.js";
+import color from "../../../models/colors.js";
 
 let respones = [
   "It is certain.",

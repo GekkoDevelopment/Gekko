@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
-import MySQL from '../../../models/mysql';
+import MySQL from '../../../models/mysql.js';
 const giveaways = new Map();
 
 export default {

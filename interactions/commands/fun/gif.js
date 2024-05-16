@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
-import MySQL from "../../../models/mysql";
-import config from "../../../config";
+import MySQL from "../../../models/mysql.js";
+import config from "../../../config.js";
 const superagent = require("superagent");
 
 export default {

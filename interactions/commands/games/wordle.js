@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js';
 import { Wordle } from 'discord-gamecord';
-import MySQL from '../../../models/mysql';
-import colors from '../../../models/colors';
+import MySQL from '../../../models/mysql.js';
+import colors from '../../../models/colors.js';
 
 export default {
   data: new SlashCommandBuilder()

@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from 'discord.js';
 import { GuessThePokemon } from 'discord-gamecord';
-import MySQL from '../../../models/mysql';
+import MySQL from '../../../models/mysql.js';
 
 export default {
   data: new SlashCommandBuilder()

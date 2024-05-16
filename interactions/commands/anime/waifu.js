@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from 'discord.js';
 import fetch from 'node-fetch';
-import colors from '../../../models/colors';
+import colors from '../../../models/colors.js';
 
 export default {
   data: new SlashCommandBuilder()

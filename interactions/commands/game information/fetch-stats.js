@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import MySQL from '../../../models/mysql';
+import MySQL from '../../../models/mysql.js';
 const blizzard = require('blizzard.js');
-import { gameApis } from '../../../config';
+import { gameApis } from '../../../config.js';
 import { HTTP } from '../../../models/HTTP';
 
 export default {

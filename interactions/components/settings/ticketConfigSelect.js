@@ -1,5 +1,5 @@
 import { PermissionFlagsBits, ActionRowBuilder, ChannelSelectMenuBuilder, RoleSelectMenuBuilder } from 'discord.js';
-import MySQL from '../../../models/mysql';
+import MySQL from '../../../models/mysql.js';
 
 export default {
   data: { name: "ticketConfigSelect" },

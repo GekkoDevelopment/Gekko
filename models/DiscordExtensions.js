@@ -2,8 +2,6 @@ import delay from 'node:timers/promises';
 import { GuildBan } from 'discord.js';
 import MySQL from './mysql.js';
 
-embeds = await import("../embeds/index.js");
-
 export default class DiscordExtensions {
     
     /**

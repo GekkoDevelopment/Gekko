@@ -1,5 +1,5 @@
 import { Events, EmbedBuilder, AuditLogEvent } from 'discord.js';
-import MySQL from '../models/mysql'
+import MySQL from '../models/mysql.js'
 import config from '../config';
 
 export default {

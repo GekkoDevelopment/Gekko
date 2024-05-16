@@ -1,5 +1,5 @@
 import { ButtonStyle, ButtonBuilder, ActionRowBuilder } from 'discord.js';
-import config from '../../../config';
+import config from '../../../config.js';
   
 function generateBugID() {
     const characters =

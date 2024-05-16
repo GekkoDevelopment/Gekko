@@ -1,5 +1,5 @@
 import { ButtonBuilder, ButtonStyle, ActionRowBuilder, ChannelType, PermissionFlagsBits } from 'discord.js';
-import MySQL from '../../../models/mysql';
+import MySQL from '../../../models/mysql.js';
 const delay = require("node:timers/promises").setTimeout;
 
 export default {

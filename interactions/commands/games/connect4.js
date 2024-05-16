@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from 'discord.js';
 import Connect4 from "discord-gamecord/src/Connect4";
-import MySQL from '../../../models/mysql';
+import MySQL from '../../../models/mysql.js';
 
 export default {
   data: new SlashCommandBuilder()

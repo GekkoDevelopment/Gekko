@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import MySQL from '../../../models/mysql';
+import MySQL from '../../../models/mysql.js';
 import { Http } from '../../../models/HTTP';
 
 export default {

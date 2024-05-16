@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonStyle, ButtonBuilder } from 'discord.js';
-import MySQL from '../../../models/mysql';
-import colors from '../../../models/colors';
-import config from '../../../config';
+import MySQL from '../../../models/mysql.js';
+import colors from '../../../models/colors.js';
+import config from '../../../config.js';
 
 const cooldowns = new Map();
 

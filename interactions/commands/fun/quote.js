@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import { motivationalQuotes, mindfulnessQuotes, philosophyQuotes, romanceQuotes, natureQuotes, humorQuotes } from "../../../models/quotes";
-import MySQL from "../../../models/mysql";
+import MySQL from "../../../models/mysql.js";
 
 function getRandomQuote(quotes) {
   return quotes[Math.floor(Math.random() * quotes.length)];

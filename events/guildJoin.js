@@ -1,5 +1,5 @@
 import { Events } from 'discord.js';
-import MySQL from '../models/mysql'
+import MySQL from '../models/mysql.js'
 const { createCanvas, loadImage, GlobalFonts } = require("@napi-rs/canvas");
 GlobalFonts.registerFromPath("fonts/Bangers-Regular.ttf", "Bangers");
 

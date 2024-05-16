@@ -1,6 +1,6 @@
 const { Events, AttachmentBuilder } = require("discord.js");
 const { createCanvas, loadImage, GlobalFonts } = require("@napi-rs/canvas");
-const MySQL = require("../models/mysql.js");
+const MySQL = require("../models/mysql.js.js");
 GlobalFonts.registerFromPath('fonts/SigmarOne-Regular.ttf', "bangers");
 
 module.exports = {

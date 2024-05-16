@@ -1,6 +1,6 @@
 import { EmbedBuilder } from 'discord.js';
-import config from '../../config';
-import colors from '../../models/colors';
+import config from '../../config.js';
+import colors from '../../models/colors.js';
 
 export default {
   embed: (interaction, data, message) =>

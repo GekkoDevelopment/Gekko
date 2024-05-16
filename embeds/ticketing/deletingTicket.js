@@ -1,5 +1,5 @@
 import { EmbedBuilder } from 'discord.js';
-import config from '../../config';
+import config from '../../config.js';
 
 export default {
   embed: (interaction, data) =>
