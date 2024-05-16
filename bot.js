@@ -3,7 +3,7 @@ import MySQL from './models/mysql.js';
 import path from 'node:path';
 import config from './config.js';
 import colors from './models/colors.js';
-const delay = require("node:timers/promises").setTimeout;
+import DiscordExtensions from './models/DiscordExtensions.js';
 
 const client = new Client({
   intents: [Object.keys(GatewayIntentBits)],
@@ -67,7 +67,7 @@ client.on("messageCreate", async (message) => {
       );
 
     logChannel.send({ embeds: [logEmbed] });
-    delay(); // delay by 100ms
+    DiscordExtensions.Delay(100); // delay by 100ms
     process.exit(); // kill the bot and wait for pterodactyl to boot it.
   }
 
