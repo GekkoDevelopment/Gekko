@@ -1,6 +1,6 @@
-const { Events, EmbedBuilder } = require("discord.js");
-const MySQL = require("../models/mysql");
-const config = require("../config");
+import { Events } from 'discord.js';
+import MySQL from '../models/mysql'
+import config from '../config';
 
 module.exports = {
   name: Events.MessageUpdate,
@@ -11,7 +11,7 @@ module.exports = {
       "guild_id",
       newMessage.guild.id
     );
-    
+
     if (!logChannelId) {
       logChannelId = await MySQL.getValueFromTableWithCondition(
         "logging",

@@ -1,6 +1,6 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const MySQL = require('../../../models/mysql');
-const fetch = require('node-fetch');
+import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+import MySQL from '../../../models/mysql';
+import { Http } from '../../../models/HTTP';
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -12,6 +12,5 @@ module.exports = {
             const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
             return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true,});
         }
-
     }
 }

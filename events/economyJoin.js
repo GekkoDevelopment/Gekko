@@ -1,5 +1,5 @@
-const { Events } = require("discord.js");
-const MySQL = require("../models/mysql.js");
+import { Events } from 'discord.js';
+import MySQL from '../models/mysql'
 
 module.exports = {
   name: Events.GuildMemberAdd,

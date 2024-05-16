@@ -1,6 +1,6 @@
-const { Events, EmbedBuilder, AuditLogEvent } = require("discord.js");
-const MySQL = require("../models/mysql");
-const config = require("../config");
+import { Events, EmbedBuilder, AuditLogEvent } from 'discord.js';
+import MySQL from '../models/mysql'
+import config from '../config';
 
 module.exports = {
   name: Events.GuildStickerUpdate,

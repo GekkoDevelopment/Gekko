@@ -1,5 +1,5 @@
-const { PermissionFlagsBits, ActionRowBuilder, RoleSelectMenuBuilder } = require("discord.js");
-const MySQL = require("../../../models/mysql");
+import { PermissionFlagsBits, ActionRowBuilder, RoleSelectMenuBuilder } from 'discord.js';
+import MySQL from '../../../models/mysql';
 
 module.exports = {
   data: { name: "joinConfigSelect" },

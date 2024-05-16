@@ -1,5 +1,5 @@
-const { Events } = require("discord.js");
-const MySQL = require("../models/mysql.js");
+import { Events } from 'discord.js';
+import MySQL from '../models/mysql'
 
 module.exports = {
   name: Events.ClientReady,
@@ -72,6 +72,13 @@ module.exports = {
       "message_channel VARCHAR(255) DEFAULT NULL",
       "audit_log VARCHAR(255) DEFAULT 'false'",
       "audit_channel VARCHAR(255) DEFAULT NULL",
+    ];
+
+    const punishmentColumn = [
+      "guild_id VARCHAR(255) NOT NULL PRIMARY KEY",
+      "user_id VARCHAR(255) DEFAULT NULL",
+      "punishment_id VARCHAR(255) DEFAULT NULL",
+      ""
     ]
 
     MySQL.createTable("guilds", columns);
@@ -81,5 +88,6 @@ module.exports = {
     MySQL.createTable("ticket_data", ticketDataColumns);
     MySQL.createTable("lockdown_config", lockdownColumns);
     MySQL.createTable("logging", loggingColumns);
+    MySQL.createTable("punishment_data", punishmentColumn);
   },
 };

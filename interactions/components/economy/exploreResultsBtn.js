@@ -1,7 +1,7 @@
-const { EmbedBuilder } = require("discord.js");
-const config = require("../../../config");
-const MySQL = require("../../../models/mysql");
-const colors = require("../../../models/colors");
+import { EmbedBuilder } from 'discord.js';
+import config from '../../../config';
+import MySQL from '../../../models/mysql';
+import colors from '../../../models/colors';
 
 module.exports = {
     data: { name: "exploreResultsBtn" },

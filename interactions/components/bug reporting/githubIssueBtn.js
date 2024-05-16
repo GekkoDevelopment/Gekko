@@ -1,5 +1,5 @@
-const axios = require("axios");
-const config = require("../../../config");
+import axios from 'axios';
+import config from '../../../config';
 
 module.exports = {
   data: { name: "githubIssueBtn" },

@@ -1,4 +1,4 @@
-const MySQL = require("../../../models/mysql");
+import MySQL from '../../../models/mysql';
 
 module.exports = {
   data: { name: "deny_nsfw_2" },

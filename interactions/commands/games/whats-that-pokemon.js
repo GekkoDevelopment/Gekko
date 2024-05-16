@@ -1,6 +1,6 @@
-const { SlashCommandBuilder } = require("discord.js");
-const { GuessThePokemon } = require("discord-gamecord");
-const MySQL = require("../../../models/mysql");
+import { SlashCommandBuilder } from 'discord.js';
+import { GuessThePokemon } from 'discord-gamecord';
+import MySQL from '../../../models/mysql';
 
 module.exports = {
   data: new SlashCommandBuilder()

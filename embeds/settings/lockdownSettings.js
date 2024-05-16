@@ -1,6 +1,6 @@
-const { EmbedBuilder } = require("discord.js");
-const config = require("../../config");
-const colors = require("../../models/colors");
+import { EmbedBuilder } from 'discord.js';
+import config from '../../config';
+import colors from '../../models/colors';
 
 module.exports = {
   embed: (interaction, data, message) => new EmbedBuilder()

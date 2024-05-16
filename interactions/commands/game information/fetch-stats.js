@@ -1,8 +1,8 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const MySQL = require('../../../models/mysql');
+import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+import MySQL from '../../../models/mysql';
 const blizzard = require('blizzard.js');
-const { gameApis } = require('../../../config');
-const { HTTP } = require('../../../models/HTTP');
+import { gameApis } from '../../../config';
+import { HTTP } from '../../../models/HTTP';
 
 module.exports = {
     data: new SlashCommandBuilder()

@@ -1,7 +1,7 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { OpenAI, } = require('openai');
-const MySQL = require('../../../models/mysql');
-const { apiKeys } = require('../../../config');
+import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+import OpenAI from 'openai';
+import MySQL from '../../../models/mysql';
+import { apiKeys } from '../../../config';
 
 const openAi = new OpenAI({ apiKey: apiKeys.openaiApi });
 

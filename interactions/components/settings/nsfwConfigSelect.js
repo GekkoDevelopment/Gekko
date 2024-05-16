@@ -1,5 +1,5 @@
-const { PermissionFlagsBits } = require("discord.js");
-const MySQL = require("../../../models/mysql");
+import { PermissionFlagsBits } from 'discord.js';
+import MySQL from '../../../models/mysql';
 
 module.exports = {
   data: { name: "nsfwConfigSelect" },
