@@ -1,5 +1,8 @@
 import { Client, GatewayIntentBits, Collection, EmbedBuilder, StringSelectMenuBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 import MySQL from './models/mysql.js';
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import os from 'node:os';
 import path from 'node:path';
 import config from './config.js';
 import colors from './models/colors.js';
@@ -561,45 +564,43 @@ client.on("messageCreate", async (message) => {
 
 //////////////////////////////////
 
-for (type of ["commands", "components"]) {
-  const foldersPath = path.join(__dirname, `interactions/${type}`);
-  const commandFolders = fs.readdirSync(foldersPath);
+const _dirname = `${os.platform() === 'win32' ? '.\\' : `${__dirname}`}`;
+const importFoldersPath = `${os.platform() === 'win32' ? 'file:\\' : ''}${__dirname}`
 
-  for (const folder of commandFolders) {
-    const commandsPath = path.join(foldersPath, folder);
-    const commandFiles = fs
-      .readdirSync(commandsPath)
-      .filter((file) => file.endsWith(".js"));
-
-    for (const file of commandFiles) {
-      const filePath = path.join(commandsPath, file);
-      const command = require(filePath);
-
-      if ("data" in command && "execute" in command) {
-        client.interactions[type].set(command.data.name, command);
-      } else {
-        console.log(
-          `[WARNING]: The command at ${filePath} is missing a required "data" or "execute" property.`
-        );
-      }
+for(let type of ['commands','components']){
+    const foldersPath = `${_dirname}/interactions/${type}`//;path.join(__dirname, `interactions/${type}`);
+    const commandFolders = fs.readdirSync(foldersPath);
+    
+    for (const folder of commandFolders) {
+        const commandsPath = `${foldersPath}/${folder}`;
+        const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+        
+        for (const file of commandFiles) {
+            const filePath = `${importFoldersPath}\\interactions\\${type}\\${folder}\\${file}`;
+            //const filePath = path.join(commandsPath, file);
+            const command = (await import(filePath))?.default;
+    
+            if ('data' in command && 'execute' in command) {
+                client.interactions[type].set(command.data.name, command);
+            } else {
+                console.log(`[WARNING]: The command at ${filePath} is missing a required "data" or "execute" property.`);
+            }
+        }
     }
-  }
 }
 
-const eventsPath = path.join(__dirname, "events");
-const eventFiles = fs
-  .readdirSync(eventsPath)
-  .filter((file) => file.endsWith(".js"));
+const eventsPath = `${_dirname}/events`;
+const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 
 for (const file of eventFiles) {
-  const filePath = path.join(eventsPath, file);
-  const event = require(filePath);
+    const filePath = `${importFoldersPath}\\events\\${file}`;
+    const event = (await import(filePath))?.default;
 
-  if (event.once) {
-    client.once(event.name, (...args) => event.execute(...args));
-  } else {
-    client.on(event.name, (...args) => event.execute(...args));
-  }
+    if (event.once) {
+        client.once(event.name, (...args) => event.execute(...args));
+    } else {
+        client.on(event.name, (...args) => event.execute(...args));
+    }
 }
 
 client.login(config.bot.token);
