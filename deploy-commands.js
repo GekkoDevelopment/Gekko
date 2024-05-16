@@ -24,7 +24,7 @@ for (const folder of commandFolders) {
     }
 }
 
-const rest = new REST({ version: '9' }).setToken(config.bot.token);
+const rest = new REST().setToken(config.bot.token);
 
 (async () => {
     try {
