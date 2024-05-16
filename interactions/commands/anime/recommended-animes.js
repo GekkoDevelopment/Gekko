@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } from 'discord.js';
-import { Http } from '../../../models/HTTP';
-import { DiscordExtensions } from '../../../models/DiscordExtensions';
-import pagination from '../../components/utils/pagination';
+import { Http } from '../../../models/HTTP.js';
+import { DiscordExtensions } from '../../../models/DiscordExtensions.js';
+import pagination from '../../components/utils/pagination.js';
 
 export default {
     data: new SlashCommandBuilder()

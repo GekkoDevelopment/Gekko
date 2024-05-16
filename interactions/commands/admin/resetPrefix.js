@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from "discord.js";
-import MySQL from "../../../models/mysql.js.js";
-import config from "../../../config.js.js";
+import MySQL from "../../../models/mysql.js";
+import config from "../../../config.js";
 
 export default {
   data: new SlashCommandBuilder()

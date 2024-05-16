@@ -1,5 +1,6 @@
 import { Client, GatewayIntentBits, Collection, EmbedBuilder, StringSelectMenuBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 import MySQL from './models/mysql.js';
+import fs from 'fs';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import os from 'node:os';
@@ -7,6 +8,8 @@ import path from 'node:path';
 import config from './config.js';
 import colors from './models/colors.js';
 import DiscordExtensions from './models/DiscordExtensions.js';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const client = new Client({
   intents: [Object.keys(GatewayIntentBits)],
