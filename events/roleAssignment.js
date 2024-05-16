@@ -1,7 +1,7 @@
 import { Events } from 'discord.js';
 import MySQL from '../models/mysql'
 
-module.exports = {
+export default {
   name: Events.GuildMemberAdd,
   async execute(member) {
     try {

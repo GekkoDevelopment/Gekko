@@ -1,7 +1,7 @@
 import { EmbedBuilder } from 'discord.js';
 import colors from '../../models/colors';
 
-module.exports = {
+export default {
   embed: (interaction, data, message) =>
     new EmbedBuilder()
     .setAuthor({

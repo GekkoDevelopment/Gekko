@@ -1,7 +1,7 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 import MySQL from '../../../models/mysql';
 
-module.exports = {
+export default {
   data: { name: "ticketCloseBtn" },
   async execute(interaction) {
     await interaction.deferUpdate();

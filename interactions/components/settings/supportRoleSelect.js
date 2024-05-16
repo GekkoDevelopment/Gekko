@@ -1,6 +1,6 @@
 import MySQL from '../../../models/mysql';
 
-module.exports = {
+export default {
   data: { name: "supportRoleSelect" },
   async execute(interaction) {
         const value = interaction.values;

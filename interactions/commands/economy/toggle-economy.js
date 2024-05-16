@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
 import MySQL from '../../../models/mysql';
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName('toggle-economy').setDescription('Toggle if you want the bot to have economy features.')
         .addBooleanOption(option => option.setName('toggle').setDescription('Toggle the economy features.').setRequired(true)), 

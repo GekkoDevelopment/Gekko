@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     Xbox: 'https://cdn.discordapp.com/attachments/1227355798691123231/1227358954011758675/1.png?ex=66281e19&is=6615a919&hm=2ddc9e36ea6b6a3f9f8e8b5bdbc78555e0733da9358880d3dd3ced8e731e66cb&',
     Dunlop: 'https://cdn.discordapp.com/attachments/1227355798691123231/1227358954259087482/2.png?ex=66281e19&is=6615a919&hm=f35d6d0588ae343388670a09326d6e65afb0b7267006ea47ada271cda27af4b4&',
     Wikipedia: 'https://cdn.discordapp.com/attachments/1227355798691123231/1227358954502230047/3.png?ex=66281e19&is=6615a919&hm=9ab202306eaf3922d411d28e95b92d02cd7953860d802ebce54983374c2d2a82&',

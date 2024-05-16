@@ -3,7 +3,7 @@ import config from '../../../config';
 import MySQL from '../../../models/mysql';
 import colors from '../../../models/colors';
 
-module.exports = {
+export default {
     data: { name: "exploreResultsBtn" },
     async execute(interaction) {
         const content = interaction.message.content.match(/<@!?(\d+)>/); 
@@ -36,6 +36,5 @@ module.exports = {
 
         await interaction.message.edit({ components: [] });
         await interaction.reply({ embeds: [resultsEmbed] });
-
     },
 };

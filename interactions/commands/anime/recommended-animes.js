@@ -3,7 +3,7 @@ import { Http } from '../../../models/HTTP';
 import { DiscordExtensions } from '../../../models/DiscordExtensions';
 import pagination from '../../components/utils/pagination';
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName('recommended-animes').setDescription('Gives you a list of recommended animes.'),
     async execute(interaction) {

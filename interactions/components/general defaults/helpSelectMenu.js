@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   data: { name: "helpSelectMenu" },
   async execute(interaction) {
     const value = interaction.values[0];

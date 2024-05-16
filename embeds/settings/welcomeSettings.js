@@ -2,7 +2,7 @@ import { EmbedBuilder } from 'discord.js';
 import config from '../../config';
 import colors from '../../models/colors';
 
-module.exports = {
+export default {
   embed: (interaction, data, message) => new EmbedBuilder()
   .setAuthor({ name: interaction.guild.name, iconURL: interaction.guild.iconURL({ dynamic: true }) })
   .setTitle(`${config.emojis.gekkoStar} Gekkō's Welcome Settings`)

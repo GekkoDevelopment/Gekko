@@ -1,6 +1,6 @@
 import MySQL from '../../../models/mysql';
 
-module.exports = {
+export default {
   data: { name: "ticketDeleteBtn" },
   async execute(interaction) {
     const deletionEmbed = embeds.get("deletingTicket")(interaction);

@@ -2,7 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonStyle, Butto
 import MySQL from '../../../models/mysql';
 import colors from '../../../models/colors';
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName('slots').setDescription('Play some slots and see if you can win a prize.')
         .addIntegerOption(option => option.setName('amount').setDescription('the amount of money you want to play with.')),

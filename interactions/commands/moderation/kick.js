@@ -2,7 +2,7 @@ import { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } from 'discord.
 import MySQL from '../../../models/mysql';
 import colors from '../../../models/colors';
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("kick")
     .setDescription("Kick a user from this server")

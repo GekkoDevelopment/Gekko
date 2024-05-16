@@ -3,7 +3,7 @@ import MySQL from "../../../models/mysql";
 import config from "../../../config";
 const superagent = require("superagent");
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("gif")
     .setDescription("Get a random GIF.")

@@ -2,7 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from "discord.
 import MySQL from "../../../models/mysql.js";
 import config from "../../../config.js";
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("reset-prefix")
     .setDescription('Reset the prefix back to the default which is "!"'),

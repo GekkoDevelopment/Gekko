@@ -3,7 +3,7 @@ import fetch from "node-fetch";
 import MySQL from "../../../models/mysql";
 import colors from "../../../models/colors";
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("meme")
     .setDescription("Get a random meme."),

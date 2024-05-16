@@ -6,7 +6,7 @@ import config from '../../../config';
 
 GlobalFonts.registerFromPath("fonts/Bangers-Regular.ttf", "Bangers");
 
-module.exports = {
+export default {
   data: { name: "settingsSelectMenu" },
   async execute(interaction) {
         if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {

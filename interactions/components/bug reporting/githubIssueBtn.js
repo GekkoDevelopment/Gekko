@@ -1,7 +1,7 @@
 import axios from 'axios';
 import config from '../../../config';
 
-module.exports = {
+export default {
   data: { name: "githubIssueBtn" },
   async execute(interaction) {
     const embed = interaction.message.embeds[0]; 

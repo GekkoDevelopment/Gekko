@@ -5,7 +5,7 @@ import { apiKeys } from '../../../config';
 
 const openAi = new OpenAI({ apiKey: apiKeys.openaiApi });
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName('chatgpt').setDescription('Ask ChatGPT a question.')
         .addStringOption(option => option.setName('question').setDescription('The question you are going to ask ChatGPT').setRequired(true)),

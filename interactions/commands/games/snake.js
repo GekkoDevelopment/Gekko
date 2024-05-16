@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from 'discord.js';
 import { Snake } from 'discord-gamecord';
 import MySQL from '../../../models/mysql';
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("snake")
     .setDescription("Start a game of Classic Snake"),

@@ -1,6 +1,6 @@
 import { ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder } from 'discord.js';
 
-module.exports = {
+export default {
   data: { name: "ticketCreateBtn" },
   async execute(interaction) {
     const modal = new ModalBuilder()

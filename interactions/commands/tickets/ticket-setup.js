@@ -2,7 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ActionRowBuilder, Per
 import MySQL from "../../../models/mysql";
 import colors from "../../../models/colors";
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("launch-tickets")
     .setDescription("Launch your ticketing configuration")

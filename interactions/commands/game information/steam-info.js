@@ -2,7 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle } from 'd
 import MySQL from '../../../models/mysql';
 import color from '../../../models/colors';
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName('steam-info').setDescription("Give you your or another user's steam info. (name, hex, etc.)")
         .addStringOption(option => option.setName('username').setDescription('The user you want to look up').setRequired(true)),

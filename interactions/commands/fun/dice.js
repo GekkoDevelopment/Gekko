@@ -3,7 +3,7 @@ import MySQL from "../../../models/mysql";
 import colors from "../../../models/colors";
 import config from "../../../config";
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("dice")
     .setDescription("Roll the dice."),

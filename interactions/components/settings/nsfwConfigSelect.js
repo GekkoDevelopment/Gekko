@@ -1,7 +1,7 @@
 import { PermissionFlagsBits } from 'discord.js';
 import MySQL from '../../../models/mysql';
 
-module.exports = {
+export default {
   data: { name: "nsfwConfigSelect" },
   async execute(interaction) {
         if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {

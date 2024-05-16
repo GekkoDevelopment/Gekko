@@ -1,7 +1,7 @@
-const { REST, Routes } = require('discord.js');
+import { REST, Routes } from 'discord.js';
+import config from './config.js';
 const rest = new REST().setToken(config.bot.token);
 
-import config from './config.js';
 // Global
 rest
   .put(Routes.applicationCommands(config.bot.clientId), { body: [] })

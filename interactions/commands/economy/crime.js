@@ -11,7 +11,7 @@ function formatTime(milliseconds) {
 
 const cooldowns = new Map();
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
     .setName('crime').setDescription('Commit a crime to earn earn Gekkō Hearts'),
     async execute(interaction) {

@@ -1,7 +1,7 @@
 const { PermissionFlagsBits, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ChannelSelectMenuBuilder } = require("discord.js");
 import MySQL from '../../../models/mysql';
 
-module.exports = {
+export default {
   data: { name: "welcomeConfigSelect" },
   async execute(interaction) {
         if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {

@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from 'discord.js';
 import fetch from 'node-fetch';
 import colors from '../../../models/colors';
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("waifu")
     .setDescription("Random waifu generator!")

@@ -2,7 +2,7 @@ import { Events, EmbedBuilder, AuditLogEvent } from 'discord.js';
 import MySQL from '../models/mysql'
 import config from '../config';
 
-module.exports = {
+export default {
   name: Events.GuildScheduledEventUpdate,
   async execute(oldEvent, newEvent) {
     const logChannelId = await MySQL.getValueFromTableWithCondition(

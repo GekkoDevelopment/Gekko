@@ -3,7 +3,7 @@ import MySQL from '../../../models/mysql';
 import fetch from 'node-fetch';
 import { Http } from '../../../models/HTTP';
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName('battlenet-status').setDescription("Check the status of Battle.NET"),
     async execute(interaction) {

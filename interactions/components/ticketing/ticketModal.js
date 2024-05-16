@@ -2,7 +2,7 @@ import { ButtonBuilder, ButtonStyle, ActionRowBuilder, ChannelType, PermissionFl
 import MySQL from '../../../models/mysql';
 const delay = require("node:timers/promises").setTimeout;
 
-module.exports = {
+export default {
   data: { name: "ticketModal" },
   async execute(interaction) {
     const topic = interaction.fields.getTextInputValue("topic");

@@ -3,7 +3,7 @@ import { TicTacToe } from 'discord-gamecord';
 import MySQL from '../../../models/mysql';
 import colors from '../../../models/colors';
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("tic-tac-toe")
     .setDescription("Play a game of TicTacToe")

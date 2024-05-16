@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   // bot represents the main color for the discord bot.
   bot: "#7B598D", // Gekko's main color
   deepViolet: "#1E1F37", // Deep Violet

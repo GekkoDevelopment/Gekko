@@ -1,10 +1,11 @@
-export const bot = {
+export default {
+    bot: {
         token: 'MTIyNjMzNDk1MjE3MDMyODEwNA.GwC0YA.hvRSSnzsJjS7baZBFFqy0hK41KcHfbgMRJvkkM', // The token to log into the bot | DO NOT CHANGE
         clientId: '1226334952170328104', // The client ID for the bot.
         secret: 't5iTXJ9e6Y_q7B8IVBbrW6U5DiwGEbRa' // The client secret ID for the bot.
-    };
+    },
 
-export const developer = { // This part of the config is only used for the bot developers.
+    developer: { // This part of the config is only used for the bot developers.
         dev1Id: '795059255073177630', // Kier
         dev2Id: '1016846998021873714', // RedMeansWar / Brandon
 
@@ -14,39 +15,39 @@ export const developer = { // This part of the config is only used for the bot d
         devTestLogChannel: '1226548220801450074', //  The channel in the main support discord where commands that contains logs and stuff.
 
         devBugReportsChannel: '1227662388409663609' // The channel that the bug reports go to.
-    };
+    },
 
-export const database = {
+    database: {
         host: '198.244.148.129', // The host IP for Gekkō's database.
         port: 3306, // The port for database uses to connect
         name: 's2_gekko', // The database name for Gekkō that stores all of the bot information
         username: 'u2_YcRpm2I6VN', // The username for Gekkō's Database
         password: '0A!=JiH6l+T!IMZKjJH5Z0@C' // The password for Gekkō's database.
-    };
+    },
 
-export const apiKeys = {
+    apiKeys: {
         tenorApi: 'AIzaSyCC6haPOEqn-p5I8oJdyyIjJAXkYQGWJcQ', // The API key used for our random gif command.
         chessAPI: 'lip_fWKAMXrBVDeuZfsG8W6P', // The API key that interacts with our chess command. (You can make the key from here: https://lichess.org/account/oauth/token)
         openaiApi: 'sk-proj-iC8CktZjIrbCBJkvz4qST3BlbkFJ7gzft4wJTvjjTxSax3I6', // The API key used for OpenAI
-    };
+    },
 
-export const gameApis = {
+    gameApis: {
         battleNetClientId: '60e8db2fe4ba4c6095a96824a6732dbb',
         battleNetClientSecret: 'hHExTwyOFFT9CNpbhUSXNXVcTGKd3XZg'
-    };
+    },
 
-export const githubApi = {
+    githubApi: {
         url: 'https://api.github.com/repos/GekkoDevelopment/Gekko/issues',
         token: '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'
-    };
+    },
 
-export const assets = {
+    assets: {
         gekkoBanner: 'https://i.imgur.com/EZjebpm.png', // Gekkō's main profile banner.
         gekkoBanner2: 'https://i.imgur.com/icOLzqm.png', // The second banner for Gekkō without the text.
         gekkoLogo: 'https://media.discordapp.net/attachments/1226564051488870450/1226564091913441391/image.png?ex=662539d3&is=6612c4d3&hm=1f5f942aadea918225099ca799aa1f54e40e44beef9d45b8de491e642c1b9db5&=&format=webp&quality=lossless&width=500&height=500', // Gekkō's main profile logo.
-    };
+    },
 
-export const emojis = {
+    emojis: {
         d1: '<:gekko_d1:1226997324560203906>', // One Dice Dot
         d2: '<:gekko_d2:1226997326237663293>', // Two Dice Dot
         d3: '<:gekko_d3:1226997327647080540>', // Three Dice Dot
@@ -81,5 +82,5 @@ export const emojis = {
         gekkoCawfee: '<:kawfee:1239297709299597392>', // Cawfee
         gekkoPolice: '<:gekkoPolice:1239371511878520852>', // Police (stop right there.)
 
-    };
-export default { bot, developer, database, apiKeys, gameApis, githubApi, assets, emojis };
+    }
+}

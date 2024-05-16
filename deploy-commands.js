@@ -1,7 +1,7 @@
-const { REST, Routes } = require('discord.js');
-const config = require('./config.js');
-const fs = require('fs');
-const path = require('path');
+import { REST, Routes } from 'discord.js';
+import config from './config.js';
+import fs from 'fs';
+import path from 'path';
 
 const commands = [];
 

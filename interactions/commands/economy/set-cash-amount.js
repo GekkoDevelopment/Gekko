@@ -2,7 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import MySQL from "../../../models/mysql";
 import config from "../../../config";
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("set-cash-amount")
     .setDescription("Set your starting cash amount for this server!")

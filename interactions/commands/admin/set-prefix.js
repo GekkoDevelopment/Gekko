@@ -2,7 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from 'discord.
 import MySQL from '../../../models/mysql';
 import config from '../../../config';
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("set-prefix")
     .setDescription("Changes the prefix for prefix based commands.")

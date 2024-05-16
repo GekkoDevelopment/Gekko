@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import MySQL from '../../../models/mysql';
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("create-embed")
     .setDescription("Create a custom embed!")

@@ -2,7 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import config from '../../../config';
 import MySQL from '../../../models/mysql';
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("warn")
     .setDescription("Warn a specific member.")

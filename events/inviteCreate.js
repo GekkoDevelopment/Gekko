@@ -2,7 +2,7 @@ import { Events } from 'discord.js';
 
 let inviteCreatedHandled = false;
 
-module.exports = {
+export default {
   name: Events.InviteCreate,
   async execute(invite) {
     if (inviteCreatedHandled) return;

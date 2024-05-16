@@ -1,6 +1,6 @@
 import MySQL from '../../../models/mysql';
 
-module.exports = {
+export default {
   data: { name: "confirm_nsfw_2" },
   async execute(interaction) {
     await interaction.deferUpdate();

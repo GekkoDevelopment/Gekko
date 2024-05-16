@@ -1,6 +1,6 @@
 import MySQL from '../../../models/mysql';
 
-module.exports = {
+export default {
   data: { name: "welcomeMsgModal" },
   async execute(interaction) {
         const welcomeMsg = interaction.fields.getTextInputValue('welcomeMsgInput');

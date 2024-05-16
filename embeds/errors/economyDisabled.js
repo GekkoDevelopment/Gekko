@@ -1,7 +1,7 @@
 import { EmbedBuilder } from 'discord.js';
 import config from '../../config';
 
-module.exports = {
+export default {
   embed: (interaction, data, message) =>
     new EmbedBuilder()
       .setTitle(`${config.emojis.warning} Economy Disabled`)
