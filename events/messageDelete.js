@@ -2,7 +2,7 @@ import { Events, EmbedBuilder } from 'discord.js';
 import MySQL from '../models/mysql'
 import config from '../config';
 
-module.exports = {
+export default {
   name: Events.MessageDelete,
   async execute(message) {
     let logChannelId = await MySQL.getValueFromTableWithCondition(

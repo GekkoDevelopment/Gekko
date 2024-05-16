@@ -2,7 +2,7 @@ import { EmbedBuilder } from 'discord.js';
 import config from '../../config';
 import colors from '../../models/colors';
 
-module.exports = {
+export default {
   embed: (interaction, data, message) =>
     new EmbedBuilder()
     .setTitle("Moderation Commands:")

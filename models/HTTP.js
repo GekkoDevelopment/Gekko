@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 
-export class Http {
+export default class Http {
     /**
      * Performs a HTTP GET Request.
      * @param {string} url - The URL to which the GET request is sent.

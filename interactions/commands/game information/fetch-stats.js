@@ -4,7 +4,7 @@ const blizzard = require('blizzard.js');
 import { gameApis } from '../../../config';
 import { HTTP } from '../../../models/HTTP';
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName('fetch-stats').setDescription("Give you your or another user's steam info. (name, hex, etc.)")
         .addStringOption(option => option.setName('game').setDescription('The user you want to look up').addChoices(

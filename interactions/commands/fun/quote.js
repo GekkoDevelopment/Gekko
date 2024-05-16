@@ -6,7 +6,7 @@ function getRandomQuote(quotes) {
   return quotes[Math.floor(Math.random() * quotes.length)];
 }
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("quote")
     .setDescription("Generate a random quote.")

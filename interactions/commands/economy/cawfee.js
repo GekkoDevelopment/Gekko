@@ -11,7 +11,7 @@ function formatTime(milliseconds) {
     return `${hours}h ${minutes}m`;
 }
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
     .setName('cawfee').setDescription('Give a user a Cawfee to earn Gekkō Hearts')
     .addUserOption(option => option.setName('user').setDescription('Select a user')),

@@ -2,7 +2,7 @@ import { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } from 'discord.
 import MySQL from '../../../models/mysql';
 import config from '../../../config';
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("give-role")
     .setDescription("Give a role to a user")

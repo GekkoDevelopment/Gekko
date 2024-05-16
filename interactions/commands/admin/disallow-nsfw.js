@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 import MySQL from '../../../models/mysql.js';
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("disallow-nsfw")
     .setDescription(

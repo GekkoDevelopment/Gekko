@@ -2,7 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import MySQL from '../../../models/mysql';
 import { Http } from '../../../models/HTTP';
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName('steam-status').setDescription("Check the status of Steam."),
     async execute(interaction) {

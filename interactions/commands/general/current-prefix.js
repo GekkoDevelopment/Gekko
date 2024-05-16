@@ -3,7 +3,7 @@ import MySQL from '../../../models/mysql.js';
 import color from '../../../models/colors.js';
 import config from '../../../config.js';
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("current-prefix")
     .setDescription("Tells you what the current bot prefix is."),

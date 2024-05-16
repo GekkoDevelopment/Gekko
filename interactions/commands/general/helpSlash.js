@@ -3,7 +3,7 @@ import MySQL from '../../../models/mysql.js';
 import config from '../../../config.js';
 import colors from '../../../models/colors.js';
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("help")
     .setDescription("View Gekkō's command library."),

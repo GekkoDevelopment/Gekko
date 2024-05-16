@@ -1,7 +1,7 @@
 import {  EmbedBuilder } from 'discord.js';
 import config from '../../config';
 
-module.exports = {
+export default {
   embed: (interaction, data) =>
     new EmbedBuilder()
       .setTitle(`${config.emojis.warning} Ticket Closed`)

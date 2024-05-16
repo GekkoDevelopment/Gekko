@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, ModalBuilder, ActionRowBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
 import MySQL from '../../../models/mysql';
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("bug-report")
     .setDescription("Submit a bug-report to the Gekko"),

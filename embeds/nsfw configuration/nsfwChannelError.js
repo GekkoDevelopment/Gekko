@@ -1,6 +1,6 @@
 import { EmbedBuilder } from 'discord.js';
 
-module.exports = {
+export default {
   embed: (interaction, data) =>
     new EmbedBuilder()
       .setDescription("You are not in a NSFW channel to do this!")

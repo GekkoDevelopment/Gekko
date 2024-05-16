@@ -1,6 +1,6 @@
 import MySQL from '../../../models/mysql';
 
-module.exports = {
+export default {
   data: { name: "welcomeChannelSelect" },
   async execute(interaction) {
         const value = interaction.values[0];

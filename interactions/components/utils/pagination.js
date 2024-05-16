@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } from 'discord.js';
 import emoji from '../../../models/emoji';
 
-module.exports = async(interaction, pages, time = 30000) => {
+export default async(interaction, pages, time = 30000) => {
     try {
         if (!interaction || !pages || !pages > 0) throw new Error('[GEKKO PAGINATION] Invalid args');
 

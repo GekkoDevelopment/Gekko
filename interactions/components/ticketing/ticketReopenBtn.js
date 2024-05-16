@@ -1,6 +1,6 @@
 import MySQL from '../../../models/mysql';
 
-module.exports = {
+export default {
   data: { name: "ticketReopenBtn" },
   async execute(interaction) {
     const userId = await MySQL.getValueFromTableWithCondition(

@@ -3,7 +3,7 @@ import MySQL from '../models/mysql'
 const { createCanvas, loadImage, GlobalFonts } = require("@napi-rs/canvas");
 GlobalFonts.registerFromPath("fonts/Bangers-Regular.ttf", "Bangers");
 
-module.exports = {
+export default {
   name: Events.GuildMemberAdd,
   async execute(member) {
     try {

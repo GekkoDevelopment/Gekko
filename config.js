@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     bot: {
         token: 'MTIyNjMzNDk1MjE3MDMyODEwNA.GwC0YA.hvRSSnzsJjS7baZBFFqy0hK41KcHfbgMRJvkkM', // The token to log into the bot | DO NOT CHANGE
         clientId: '1226334952170328104', // The client ID for the bot.

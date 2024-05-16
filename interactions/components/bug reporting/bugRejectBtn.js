@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   data: { name: "bugRejectBtn" },
   async execute(interaction) {
     const embed = interaction.message.embeds[0]; 

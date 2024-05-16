@@ -2,7 +2,7 @@ import { Events } from 'discord.js';
 import MySQL from '../models/mysql'
 import config from '../config';
 
-module.exports = {
+export default {
   name: Events.MessageUpdate,
   async execute(oldMessage, newMessage) {
     let logChannelId = await MySQL.getValueFromTableWithCondition(

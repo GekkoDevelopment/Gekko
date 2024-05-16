@@ -3,7 +3,7 @@ import MySQL from "../../../models/mysql";
 import fetch from "node-fetch";
 import colors from "../../../models/colors";
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("neko")
     .setDescription("Random neko generator!")

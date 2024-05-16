@@ -1,6 +1,6 @@
 import { Events } from 'discord.js';
 
-module.exports = {
+export default {
   name: Events.GuildMemberRemove,
   async execute(member) {},
 };

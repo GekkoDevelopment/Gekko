@@ -2,7 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, Permissi
 import { DiscordExtensions } from '../../../models/DiscordExtensions';
 import MySQL from '../../../models/mysql';
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
         .setName('case-lookup').setDescription("Look up a user's punishment history.")
         .addUserOption(option => option.setName('user').setDescription('The user to look up').setRequired(true)),

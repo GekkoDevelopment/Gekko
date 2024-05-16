@@ -2,7 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from 'discord.
 import MySQL from '../../../models/mysql';
 const giveaways = new Map();
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("giveaway")
     .setDescription("Start a givaway with prizes.")

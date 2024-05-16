@@ -3,7 +3,7 @@ import MySQL from '../../../models/mysql';
 import logos from '../../../models/logos';
 import colors from '../../../models/colors';
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("guess-the-logo")
     .setDescription("Play a round of Guess the logo!"),

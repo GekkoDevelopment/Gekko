@@ -2,7 +2,7 @@ import { Events, EmbedBuilder, AuditLogEvent } from 'discord.js';
 import MySQL from '../models/mysql'
 import config from '../config';
 
-module.exports = {
+export default {
   name: Events.GuildEmojiDelete,
   async execute(emoji) {
     const logChannelId = await MySQL.getValueFromTableWithCondition(

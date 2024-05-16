@@ -23,7 +23,7 @@ function generateBugID() {
     return bugID;
 }
 
-module.exports = {
+export default {
     data: { name: "bug_report_modal" },
     async execute(interaction) {
 

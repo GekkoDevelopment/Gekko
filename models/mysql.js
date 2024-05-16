@@ -9,7 +9,7 @@ let mysql = db.createConnection({
   port: config.database.port,
 });
 
-class MySQL {
+export default class MySQL {
   /**
    * Establishes connection to the MySQL database.
    */
@@ -534,5 +534,3 @@ class MySQL {
     await this.executeQuery(query, [value]);
   }
 }
-
-module.exports = MySQL;

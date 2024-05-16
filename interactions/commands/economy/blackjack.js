@@ -2,7 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonStyle, Butto
 import MySQL from '../../../models/mysql';
 import colors from '../../../models/colors';
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("blackjack")
     .setDescription("Start a game of blackjack.")

@@ -1,7 +1,7 @@
 import { PermissionFlagsBits, ActionRowBuilder, ChannelSelectMenuBuilder, RoleSelectMenuBuilder } from 'discord.js';
 import MySQL from '../../../models/mysql';
 
-module.exports = {
+export default {
   data: { name: "ticketConfigSelect" },
   async execute(interaction) {
         if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {

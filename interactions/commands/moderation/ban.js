@@ -2,7 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from 'discord.
 import MySQL from '../../../models/mysql';
 import color from '../../../models/colors';
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("ban")
     .setDescription("Ban a user from this server")

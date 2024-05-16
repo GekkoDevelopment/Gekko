@@ -1,6 +1,6 @@
 import MySQL from '../../../models/mysql';
 
-module.exports = {
+export default {
   data: { name: "welcomeImgModal" },
   async execute(interaction) {
         const welcomeImg = interaction.fields.getTextInputValue('welcomeImgInput');

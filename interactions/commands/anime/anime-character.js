@@ -4,7 +4,7 @@ import fetch from 'node-fetch';
 import colors from '../../../models/colors';
 import config from '../../../config';
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("anime-character")
     .setDescription("Look up information about a specific anime character.")

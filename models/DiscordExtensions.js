@@ -3,7 +3,7 @@ import { GuildBan } from 'discord.js';
 import MySQL from '../models/mysql'
 client.embeds = require('../embeds');
 
-export class DiscordExtensions {
+export default class DiscordExtensions {
     
     /**
      * Delay an action before moving on to the next piece of code.

@@ -1,7 +1,7 @@
 import { PermissionFlagsBits, ActionRowBuilder, ChannelSelectMenuBuilder } from 'discord.js';
 import MySQL from '../../../models/mysql';
 
-module.exports = {
+export default {
   data: { name: "lockdownConfigSelect" },
   async execute(interaction) {
         if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {

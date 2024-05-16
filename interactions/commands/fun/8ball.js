@@ -25,7 +25,7 @@ let respones = [
   "Very doubtful.",
 ];
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("8-ball")
     .setDescription("Ask the magic 8-Ball a question.")

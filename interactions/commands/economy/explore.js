@@ -11,7 +11,7 @@ function formatTime(milliseconds) {
     return `${hours}h ${minutes}m`;
 }
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
     .setName('explore').setDescription('Start an exploration to find rewards!'),
     async execute(interaction) {

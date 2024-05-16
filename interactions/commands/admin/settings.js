@@ -2,7 +2,7 @@ import { SlashCommandBuilder, PermissionFlagsBits, StringSelectMenuBuilder, Acti
 import MySQL from '../../../models/mysql.js';
 import config from '../../../config.js';
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
     .setName('settings').setDescription('Configure the bot for your guild'),
     async execute(interaction) {

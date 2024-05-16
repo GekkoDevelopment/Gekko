@@ -1,6 +1,6 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 
-module.exports = {
+export default {
   data: { name: "confirm_nsfw_1" },
   async execute(interaction) {
     await interaction.deferUpdate();

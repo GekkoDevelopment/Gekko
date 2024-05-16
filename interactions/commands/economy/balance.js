@@ -3,7 +3,7 @@ import MySQL from '../../../models/mysql';
 import colors from '../../../models/colors';
 
 
-module.exports = {
+export default {
     data: new SlashCommandBuilder()
     .setName('balance').setDescription('View yours, or someone else\'s Gekkō Balance')
     .addUserOption(option => option.setName('user').setDescription('Select a user')),

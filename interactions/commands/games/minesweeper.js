@@ -3,7 +3,7 @@ import { Minesweeper } from 'discord-gamecord';
 import MySQL from '../../../models/mysql';
 import colors from '../../../models/colors';
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("minesweeper")
     .setDescription("Play a game of Minesweeper"),

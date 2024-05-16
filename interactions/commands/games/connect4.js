@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from 'discord.js';
 import Connect4 from "discord-gamecord/src/Connect4";
 import MySQL from '../../../models/mysql';
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("connect-4")
     .setDescription("Start a game of Connect 4 Game")
