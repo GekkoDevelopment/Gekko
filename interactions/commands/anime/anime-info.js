@@ -3,6 +3,7 @@ import fetch from 'node-fetch';
 import colors from '../../../models/colors.js';
 import config from '../../../config.js';
 import DiscordExtensions from '../../../models/DiscordExtensions.js';
+import Http from '../../../models/HTTP.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -17,8 +18,11 @@ export default {
   async execute(interaction) {
     DiscordExtensions.checkIfRestricted(interaction);
 
+    await interaction.deferReply();
+
     try {
       const animeName = interaction.options.getString("anime");
+      /*
       let option = {
         url: `https://kitsu.io/api/edge/anime?filter[text]=${animeName}`,
         method: `GET`,
@@ -27,9 +31,13 @@ export default {
           Accept: "application/vnd.api+json",
         },
       };
-
-      const response = await fetch(option.url, option);
-      const data = await response.json();
+*/
+      const headers = {
+        "Content-Type": "application/vnd.api+json",
+        'Accept': "application/vnd.api+json",
+      }
+      const option = Http.performHttpGetRequest(`https://kitsu.io/api/edge/anime?filter[text]=${animeName}`, headers);
+      const data = await option.json();
 
       if (data.data && data.data.length > 0) {
         const animeInfo = data.data[0];
@@ -69,8 +77,7 @@ export default {
         }
 
         let nsfwCheck = animeInfo.attributes.nsfw;
-        let isNsfw =
-          nsfwCheck === false ? "✔️ Safe For Work" : "⚠️ Not Safe For Work";
+        let isNsfw = nsfwCheck === false ? "✔️ Safe For Work" : "⚠️ Not Safe For Work";
 
         const embed = new EmbedBuilder()
           .setTitle(`${animeInfo.attributes.canonicalTitle}`)
@@ -134,7 +141,7 @@ export default {
           embed.setImage(animeInfo.attributes.coverImage.original);
         }
 
-        await interaction.reply({ embeds: [embed] });
+        await interaction.editReply({ embeds: [embed] });
       } else {
         const errorEmbed = new EmbedBuilder()
           .setTitle(`${config.emojis.warning} Search Error:`)

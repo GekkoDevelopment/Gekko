@@ -9,5 +9,10 @@ export default {
     async execute(interaction) {
         DiscordExtensions.checkIfRestricted(interaction);
         
+        const headers = {
+            'Accept': 'application/vnd.api+json',
+            'Content-Type': 'application/vnd.api+json'
+        }
+
     }
 }

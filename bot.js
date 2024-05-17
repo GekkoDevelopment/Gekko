@@ -15,7 +15,7 @@ const client = new Client({
   allowedMentions: { parse: ["users", "roles", "everyone"], repliedUser: true },
 });
 
-client.embeds = await import("./embeds/index.js");
+client.embeds = await import('./embeds/index.js');
 
 client.interactions = {
   commands: new Collection(),

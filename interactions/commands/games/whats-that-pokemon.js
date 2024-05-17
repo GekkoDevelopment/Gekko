@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from 'discord.js';
 import { GuessThePokemon } from 'discord-gamecord';
-import DiscordExtensions from '../../../models/DiscordExtensions';
+import DiscordExtensions from '../../../models/DiscordExtensions.js';
 
 export default {
   data: new SlashCommandBuilder()

@@ -23,9 +23,11 @@ export default {
     
     const logChannel = newMessage.guild.channels.cache.get(logChannelId);
 
-    if (!logChannel || newMessage.author.id === '1241043340510625804' || oldMessage.author.id === '1241043340510625804') {
+    if (!logChannel) {
       return;
     }
+
+    if (newMessage.author.id === '1241043340510625804' || oldMessage.author.id === '1241043340510625804') return;
 
     const embed = new EmbedBuilder()
       .setTitle(`${config.emojis.warning} Message Updated`)

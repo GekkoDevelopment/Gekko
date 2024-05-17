@@ -27,6 +27,8 @@ export default {
       return;
     } 
 
+    if (newMessage.author.id === '1241043340510625804' || oldMessage.author.id === '1241043340510625804') return;
+    
     if (message.content) {
       const embed = new EmbedBuilder()
         .setTitle(`${config.emojis.warning} Message Deleted`)
