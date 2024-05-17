@@ -1,6 +1,6 @@
 import { Events } from 'discord.js';
 import MySQL from '../models/mysql.js'
-import config from '../config';
+import config from '../config.js';
 
 export default {
   name: Events.MessageUpdate,

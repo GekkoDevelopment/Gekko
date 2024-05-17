@@ -1,9 +1,9 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import OpenAI from 'openai';
 import MySQL from '../../../models/mysql.js';
-import apiKeys from '../../../config.js';
+import config from '../../../config.js';
 
-const openAi = new OpenAI({ apiKey: apiKeys.openaiApi });
+const openAi = new OpenAI({ apiKey: config.apiKeys.openaiApi });
 
 export default {
     data: new SlashCommandBuilder()

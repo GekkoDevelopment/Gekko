@@ -1,8 +1,8 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import MySQL from '../../../models/mysql.js';
-const blizzard = require('blizzard.js');
-import { gameApis } from '../../../config.js';
-import { HTTP } from '../../../models/HTTP';
+import blizzard from 'blizzard.js';
+import config from '../../../config.js';
+import Http from '../../../models/HTTP.js';
 
 export default {
     data: new SlashCommandBuilder()
@@ -19,6 +19,7 @@ export default {
     async execute(interaction) {
         const restricted = MySQL.getValueFromTableWithCondition("guilds", "restricted_guild", "guild_id", interaction.guild.id);
         const game = interaction.options.getString('game');
+        const gameApis = config.gameApis;
 
         const wow = await blizzard.wow.createInstance({ key: gameApis.battleNetClientId, secret: gameApis.battleNetClientSecret });
         const diablo = await blizzard.d3.createInstance({ key: gameApis.battleNetClientId, secret: gameApis.battleNetClientSecret });

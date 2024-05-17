@@ -1,12 +1,13 @@
 import { ButtonBuilder, ButtonStyle, ActionRowBuilder, ChannelType, PermissionFlagsBits } from 'discord.js';
 import MySQL from '../../../models/mysql.js';
-const delay = require("node:timers/promises").setTimeout;
+import timer from 'node:timers/promises';
 
 export default {
   data: { name: "ticketModal" },
   async execute(interaction) {
     const topic = interaction.fields.getTextInputValue("topic");
     const issue = interaction.fields.getTextInputValue("issue");
+    const delay = timer.setTimeout();
 
     const embed = embeds.get("memberCreatedTicket")(interaction, {
       topic,

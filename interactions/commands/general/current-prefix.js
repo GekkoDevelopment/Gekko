@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import MySQL from '../../../models/mysql.js.js';
-import color from '../../../models/colors.js.js';
-import config from '../../../config.js.js';
+import MySQL from '../../../models/mysql.js';
+import color from '../../../models/colors.js';
+import config from '../../../config.js';
 
 export default {
   data: new SlashCommandBuilder()

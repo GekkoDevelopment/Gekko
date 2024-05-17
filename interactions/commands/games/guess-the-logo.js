@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import MySQL from '../../../models/mysql.js';
-import logos from '../../../models/logos';
+import logos from '../../../models/logos.js';
 import colors from '../../../models/colors.js';
 
 export default {

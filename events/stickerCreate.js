@@ -1,6 +1,6 @@
 import { Events, EmbedBuilder, AuditLogEvent } from 'discord.js';
 import MySQL from '../models/mysql.js'
-import config from '../config';
+import config from '../config.js';
 
 export default {
   name: Events.GuildStickerCreate,

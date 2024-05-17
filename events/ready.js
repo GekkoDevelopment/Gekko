@@ -74,13 +74,14 @@ export default {
       "audit_channel VARCHAR(255) DEFAULT NULL",
     ];
 
+    /*
     const punishmentColumn = [
       "guild_id VARCHAR(255) NOT NULL PRIMARY KEY",
       "user_id VARCHAR(255) DEFAULT NULL",
       "punishment_id VARCHAR(255) DEFAULT NULL",
       ""
-    ]
-
+    ];
+    */
     MySQL.createTable("guilds", columns);
     MySQL.createTable("economy", economyColumns);
     MySQL.createTable("muted_users", mutedUsersColumns);
@@ -88,6 +89,6 @@ export default {
     MySQL.createTable("ticket_data", ticketDataColumns);
     MySQL.createTable("lockdown_config", lockdownColumns);
     MySQL.createTable("logging", loggingColumns);
-    MySQL.createTable("punishment_data", punishmentColumn);
+    // MySQL.createTable("punishment_data", punishmentColumn);
   },
 };

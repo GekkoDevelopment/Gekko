@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
-import { motivationalQuotes, mindfulnessQuotes, philosophyQuotes, romanceQuotes, natureQuotes, humorQuotes } from "../../../models/quotes";
+import quotes from "../../../models/quotes.js";
 import MySQL from "../../../models/mysql.js";
 
 function getRandomQuote(quotes) {
@@ -25,6 +25,13 @@ export default {
         )
     ),
   async execute(interaction) {
+    const motivational = quotes.motivationalQuotes.quotes;
+    const mindfulness = quotes.mindfulnessQuotes.quotes;
+    const philosophy = quotes.philosophyQuotes.quotes;
+    const romance = quotes.romanceQuotes.quotes;
+    const nature = quotes.natureQuotes.quotes;
+    const humor = quotes.humorQuotes.quotes;
+    
     const category = interaction.options.getString("quote-category");
 
     const restricted = MySQL.getValueFromTableWithCondition(
@@ -45,27 +52,27 @@ export default {
 
     switch (category) {
       case "motivational":
-        ({ quote, author } = getRandomQuote(motivationalQuotes.quotes));
+        ({ quote, author } = getRandomQuote(motivational));
         title = "ꨄ︎ Motivational Quotes! ꨄ︎";
         break;
       case "mindfulness":
-        ({ quote, author } = getRandomQuote(mindfulnessQuotes.quotes));
+        ({ quote, author } = getRandomQuote(mindfulness));
         title = "𓆩☻𓆪 Mindfulness Quotes! 𓆩☻𓆪";
         break;
       case "psychology":
-        ({ quote, author } = getRandomQuote(philosophyQuotes.quotes));
+        ({ quote, author } = getRandomQuote(philosophy));
         title = "❃ Philosophy Quotes! ❃";
         break;
       case "romance":
-        ({ quote, author } = getRandomQuote(romanceQuotes.quotes));
+        ({ quote, author } = getRandomQuote(romance));
         title = "❤ Romance Quotes! ❤";
         break;
       case "nature":
-        ({ quote, author } = getRandomQuote(natureQuotes.quotes));
+        ({ quote, author } = getRandomQuote(nature));
         title = "⍋ Nature Quotes! ⍋";
         break;
       case "humor":
-        ({ quote, author } = getRandomQuote(humorQuotes.quotes));
+        ({ quote, author } = getRandomQuote(humor));
         title = "★ Funny Quotes! ★";
         break;
       default:

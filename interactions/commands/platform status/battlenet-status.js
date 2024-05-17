@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import MySQL from '../../../models/mysql.js';
 import fetch from 'node-fetch';
-import { Http } from '../../../models/HTTP';
+import Http from '../../../models/HTTP.js';
 
 export default {
     data: new SlashCommandBuilder()

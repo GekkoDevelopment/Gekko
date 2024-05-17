@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, StringSelectMenuBuilder, ActionRowBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle,} from 'discord.js';
-import MySQL from '../../../models/mysql.js.js';
-import config from '../../../config.js.js';
-import colors from '../../../models/colors.js.js';
+import MySQL from '../../../models/mysql.js';
+import config from '../../../config.js';
+import colors from '../../../models/colors.js';
 
 export default {
   data: new SlashCommandBuilder()

@@ -68,15 +68,15 @@ export default class Http {
      * @return {Promise<void>} A Promise that resolves once data is fetched and logged.
      */
     static async fetchData(url, headers, accessToken, contentType = "application/json") {
-        const url = url;
-        const headers = {
+        const urlType = url;
+        const headersType = {
             'Content-Type:': contentType,
             'Authorization': `Bearer ${accessToken}`
         };
 
         try {
             // Get the data from a data using a GET request
-            const data = await this.performHttpGetRequest(url, headers);
+            const data = await this.performHttpGetRequest(urlType, headersType);
             console.log('Response: ', data); // Log response data
         } catch (error) {
             console.error('Error: ', error); // Log a console error.
