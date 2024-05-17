@@ -4,6 +4,7 @@ import colors from '../../../models/colors.js';
 import config from '../../../config.js';
 import DiscordExtensions from '../../../models/DiscordExtensions.js';
 import Http from '../../../models/HTTP.js';
+import embeds from '../../../embeds/index.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -165,7 +166,7 @@ export default {
         errorMessage,
         errorDescription,
       });
-      await interaction.reply({ embeds: [catchErrorEmbed], ephemeral: true });
+      await interaction.editReply({ embeds: [catchErrorEmbed], ephemeral: true });
     }
   },
 };
