@@ -42,4 +42,4 @@ givaway commands ||| Completed
 
 
 
-===== CHESS =====
+===== MISC =====
