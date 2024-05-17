@@ -34,23 +34,10 @@ export default class DiscordExtensions {
 
     static async checkIfRestricted(interaction) {
         const restricted = MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', interaction.guild.id);
-        const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
-        
-        interaction.deferReply();
 
-        if (restricted === 'true') {
-            return await interaction.editReply({ embeds: [permissionErrorEmbed], ephemeral: true });
-        }
-
-        return;
-    }
-
-    static async checkIfRestricted(message) {
-        const restricted = MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', message.guild.id);
-        const permissionErrorEmbed = embeds.get("guildRestricted")(message);
-        
-        if (restricted === 'true') {
-            return await message.channel.send({ embeds: [permissionErrorEmbed] });
+        if (restricted === "true") {
+            const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
+            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true,});
         }
 
         return;

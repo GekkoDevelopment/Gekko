@@ -1,4 +1,4 @@
-import { Events } from 'discord.js';
+import { Events, EmbedBuilder } from 'discord.js';
 import MySQL from '../models/mysql.js'
 import config from '../config.js';
 
@@ -23,7 +23,7 @@ export default {
     
     const logChannel = newMessage.guild.channels.cache.get(logChannelId);
 
-    if (!logChannel) {
+    if (!logChannel || newMessage.author.id === '1241043340510625804' || oldMessage.author.id === '1241043340510625804') {
       return;
     }
 
