@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
-import MySQL from '../../../models/mysql.js';
+import DiscordExtensions from '../../../models/DiscordExtensions.js';
 const giveaways = new Map();
 
 export default {
@@ -34,20 +34,7 @@ export default {
     const winnersCount = interaction.options.getInteger("winners");
     const duration = interaction.options.getInteger("duration");
 
-    const restricted = await MySQL.getValueFromTableWithCondition(
-      "guilds",
-      "restricted_guild",
-      "guild_id",
-      interaction.guild.id
-    );
-
-    if (restricted === "true") {
-      const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
-      return await interaction.reply({
-        embeds: [permissionErrorEmbed],
-        ephemeral: true,
-      });
-    }
+    DiscordExtensions.checkIfRestricted(interaction);
 
     if (
       !interaction.member.permissions.has(PermissionFlagsBits.ModerateMembers)

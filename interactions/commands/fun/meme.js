@@ -1,27 +1,14 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import fetch from "node-fetch";
-import MySQL from "../../../models/mysql.js";
 import colors from "../../../models/colors.js";
+import DiscordExtensions from "../../../models/DiscordExtensions.js";
 
 export default {
   data: new SlashCommandBuilder()
     .setName("meme")
     .setDescription("Get a random meme."),
   async execute(interaction) {
-    const restricted = MySQL.getValueFromTableWithCondition(
-      "guilds",
-      "restricted_guild",
-      "guild_id",
-      interaction.guild.id
-    );
-
-    if (restricted === "true") {
-      const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
-      return await interaction.reply({
-        embeds: [permissionErrorEmbed],
-        ephemeral: true,
-      });
-    }
+    DiscordExtensions.checkIfRestricted(interaction);
 
     async function meme() {
       try {

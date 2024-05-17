@@ -1,4 +1,5 @@
 import { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } from "discord.js";
+import DiscordExtensions from '../../../models/DiscordExtensions.js';
 import MySQL from "../../../models/mysql.js";
 
 export default {
@@ -9,20 +10,7 @@ export default {
     )
     .setNSFW(true),
   async execute(interaction) {
-    const restricted = MySQL.getValueFromTableWithCondition(
-      "guilds",
-      "restricted_guild",
-      "guild_id",
-      interaction.guild.id
-    );
-
-    if (restricted === "true") {
-      const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
-      return await interaction.reply({
-        embeds: [permissionErrorEmbed],
-        ephemeral: true,
-      });
-    }
+    DiscordExtensions.checkIfRestricted(interaction);
 
     const confirmButton1 = new ButtonBuilder()
       .setLabel("Yes")

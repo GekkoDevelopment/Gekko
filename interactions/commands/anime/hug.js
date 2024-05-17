@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import MySQL from '../../../models/mysql.js';
 import fetch from 'node-fetch';
 import colors from '../../../models/colors.js';
+import DiscordExtensions from '../../../models/DiscordExtensions.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -11,20 +11,7 @@ export default {
       option.setName("user").setDescription("choose a user").setRequired(true)
     ),
   async execute(interaction) {
-    const restricted = MySQL.getValueFromTableWithCondition(
-      "guilds",
-      "restricted_guild",
-      "guild_id",
-      interaction.guild.id
-    );
-
-    if (restricted === "true") {
-      const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
-      return await interaction.reply({
-        embeds: [permissionErrorEmbed],
-        ephemeral: true,
-      });
-    }
+    DiscordExtensions.checkIfRestricted(interaction);
 
     try {
       const user = interaction.options.getUser("user");

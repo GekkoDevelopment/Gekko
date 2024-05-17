@@ -8,6 +8,6 @@ export default {
         .setName('recommended-animes').setDescription('Gives you a list of recommended animes.'),
     async execute(interaction) {
         DiscordExtensions.checkIfRestricted(interaction);
-        interaction.reply('Test');
+        
     }
 }

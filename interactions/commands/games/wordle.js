@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js';
 import { Wordle } from 'discord-gamecord';
-import MySQL from '../../../models/mysql.js';
 import colors from '../../../models/colors.js';
+import DiscordExtensions from '../../../models/DiscordExtensions.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -22,20 +22,7 @@ export default {
       playerOnlyMessage: "Only {player} can use these buttons.",
     });
 
-    const restricted = MySQL.getValueFromTableWithCondition(
-      "guilds",
-      "restricted_guild",
-      "guild_id",
-      interaction.guild.id
-    );
-
-    if (restricted === "true") {
-      const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
-      return await interaction.reply({
-        embeds: [permissionErrorEmbed],
-        ephemeral: true,
-      });
-    }
+    DiscordExtensions.checkIfRestricted(interaction);
 
     Game.startGame();
     Game.on("gameOver", (result) => {});

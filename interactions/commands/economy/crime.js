@@ -2,6 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import MySQL from "../../../models/mysql.js";
 import colors from "../../../models/colors.js";
 import config from "../../../config.js";
+import DiscordExtensions from "../../../models/DiscordExtensions.js";
 
 function formatTime(milliseconds) {
     const hours = Math.floor(milliseconds / (1000 * 60 * 60));
@@ -15,20 +16,7 @@ export default {
     data: new SlashCommandBuilder()
     .setName('crime').setDescription('Commit a crime to earn earn Gekkō Hearts'),
     async execute(interaction) {
-        const restricted = MySQL.getValueFromTableWithCondition(
-            "guilds",
-            "restricted_guild",
-            "guild_id",
-            interaction.guild.id
-          );
-      
-        if (restricted === "true") {
-        const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
-        return await interaction.reply({
-            embeds: [permissionErrorEmbed],
-            ephemeral: true,
-        });
-        }
+        DiscordExtensions.checkIfRestricted(interaction);
 
         if (cooldowns.has(interaction.user.id)) {
             const expirationTime = cooldowns.get(interaction.user.id);

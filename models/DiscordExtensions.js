@@ -36,8 +36,8 @@ export default class DiscordExtensions {
         const restricted = MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', interaction.guild.id);
 
         if (restricted === "true") {
-            const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
-            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true,});
+            const restrictedEmbed = embeds.get("guildRestricted")(interaction);
+            return await interaction.reply({ embeds: [restrictedEmbed], ephemeral: true,});
         }
 
         return;

@@ -2,6 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import OpenAI from 'openai';
 import MySQL from '../../../models/mysql.js';
 import config from '../../../config.js';
+import DiscordExtensions from '../../../models/DiscordExtensions.js';
 
 const openAi = new OpenAI({ apiKey: config.apiKeys.openaiApi });
 
@@ -10,13 +11,8 @@ export default {
         .setName('chatgpt').setDescription('Ask ChatGPT a question.')
         .addStringOption(option => option.setName('question').setDescription('The question you are going to ask ChatGPT').setRequired(true)),
     async execute(interaction) {
-        const restricted = MySQL.getValueFromTableWithCondition("guilds", "restricted_guild", "guild_id", interaction.guild.id);
         const question = interaction.options.getString('question');
-
-        if (restricted === "true") {
-            const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
-            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true,});
-        }
+        DiscordExtensions.checkIfRestricted(interaction);
 
         await interaction.deferReply();
 

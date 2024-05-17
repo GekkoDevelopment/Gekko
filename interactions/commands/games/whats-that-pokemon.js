@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from 'discord.js';
 import { GuessThePokemon } from 'discord-gamecord';
-import MySQL from '../../../models/mysql.js';
+import DiscordExtensions from '../../../models/DiscordExtensions';
 
 export default {
   data: new SlashCommandBuilder()
@@ -20,20 +20,7 @@ export default {
       playerOnlyMessage: "Only {player} can use these buttons.",
     });
 
-    const restricted = MySQL.getValueFromTableWithCondition(
-      "guilds",
-      "restricted_guild",
-      "guild_id",
-      interaction.guild.id
-    );
-
-    if (restricted === "true") {
-      const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
-      return await interaction.reply({
-        embeds: [permissionErrorEmbed],
-        ephemeral: true,
-      });
-    }
+    DiscordExtensions.checkIfRestricted(interaction);
 
     game.startGame();
     game.on("gameOver", (result) => {});

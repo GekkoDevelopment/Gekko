@@ -1,26 +1,14 @@
 import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from "discord.js";
 import MySQL from "../../../models/mysql.js";
 import config from "../../../config.js";
+import DiscordExtensions from "../../../models/DiscordExtensions.js";
 
 export default {
   data: new SlashCommandBuilder()
     .setName("reset-prefix")
     .setDescription('Reset the prefix back to the default which is "!"'),
   async execute(interaction) {
-    const restricted = MySQL.getValueFromTableWithCondition(
-      "guilds",
-      "restricted_guild",
-      "guild_id",
-      interaction.guild.id
-    );
-
-    if (restricted === "true") {
-      const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
-      return await interaction.reply({
-        embeds: [permissionErrorEmbed],
-        ephemeral: true,
-      });
-    }
+    DiscordExtensions.checkIfRestricted(interaction);
 
     if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
       const permissionErrorEmbed = embeds.get('permissionsError')(interaction);

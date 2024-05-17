@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from "discord.js";
 import MySQL from "../../../models/mysql.js";
 import config from "../../../config.js";
 import superagent from 'superagent';
+import DiscordExtensions from "../../../models/DiscordExtensions.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -17,20 +18,7 @@ export default {
     await interaction.deferReply({ ephemeral: false });
     const { options } = interaction;
 
-    const restricted = MySQL.getValueFromTableWithCondition(
-      "guilds",
-      "restricted_guild",
-      "guild_id",
-      interaction.guild.id
-    );
-
-    if (restricted === "true") {
-      const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
-      return await interaction.reply({
-        embeds: [permissionErrorEmbed],
-        ephemeral: true,
-      });
-    }
+    DiscordExtensions.checkIfRestricted(interaction);
 
     const query = options.getString("term");
     const apiKey = config.apiKeys.tenorApi;

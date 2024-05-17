@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from 'discord.js';
 import MySQL from '../../../models/mysql.js';
+import DiscordExtensions from '../../../models/DiscordExtensions.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -17,20 +18,7 @@ export default {
         .setDescription("The reason to mute the user. (optional)")
     ),
   async execute(interaction) {
-    const restricted = MySQL.getValueFromTableWithCondition(
-      "guilds",
-      "restricted_guild",
-      "guild_id",
-      interaction.guild.id
-    );
-
-    if (restricted === "true") {
-      const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
-      return await interaction.reply({
-        embeds: [permissionErrorEmbed],
-        ephemeral: true,
-      });
-    }
+    DiscordExtensions.checkIfRestricted(interaction);
 
     await interaction.deferReply({ ephemeral: true });
 

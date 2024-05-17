@@ -1,6 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import config from '../../../config.js';
-import MySQL from '../../../models/mysql.js';
+import DiscordExtensions from '../../../models/DiscordExtensions.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -21,5 +20,7 @@ export default {
   async execute(interaction) {
     const user = interaction.options.getUser("user");
     const reason = interaction.options.getString("reason");
+
+    DiscordExtensions.checkIfRestricted(interaction);
   },
 };

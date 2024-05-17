@@ -2,12 +2,15 @@ import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import MySQL from "../../../models/mysql.js";
 import colors from "../../../models/colors.js";
 import config from "../../../config.js";
+import DiscordExtensions from "../../../models/DiscordExtensions.js";
 
 export default {
     data: new SlashCommandBuilder()
     .setName('hearts-exchange').setDescription('Exchange Gekkō Hearts for Bills'),
     async execute(interaction) {
         const currentHeartsBal = await MySQL.getValueFromTableWithCondition('economy', 'cash_amount', 'user_id', interaction.user.id);
+        DiscordExtensions.checkIfRestricted(interaction);
+        
         if (currentHeartsBal === null || currentHeartsBal < 100) {
             const balanceError = new EmbedBuilder()
             .setTitle(`${config.emojis.noted} There seems to be a transaction error...`)

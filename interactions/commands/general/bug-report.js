@@ -1,26 +1,13 @@
 import { SlashCommandBuilder, ModalBuilder, ActionRowBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
-import MySQL from '../../../models/mysql.js';
+import DiscordExtensions from '../../../models/DiscordExtensions.js';
 
 export default {
   data: new SlashCommandBuilder()
     .setName("bug-report")
     .setDescription("Submit a bug-report to the Gekko"),
   async execute(interaction) {
-    const restricted = MySQL.getValueFromTableWithCondition(
-      "guilds",
-      "restricted_guild",
-      "guild_id",
-      interaction.guild.id
-    );
-
-    if (restricted === "true") {
-      const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
-      return await interaction.reply({
-        embeds: [permissionErrorEmbed],
-        ephemeral: true,
-      });
-    }
-
+    DiscordExtensions.checkIfRestricted(interaction);
+    
     try {
       const bugModal = new ModalBuilder()
         .setCustomId("bug_report_modal")

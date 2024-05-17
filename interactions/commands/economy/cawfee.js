@@ -2,6 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import MySQL from '../../../models/mysql.js';
 import colors from '../../../models/colors.js';
 import config from '../../../config.js';
+import DiscordExtensions from '../../../models/DiscordExtensions.js';
 
 const cooldowns = new Map();
 
@@ -16,20 +17,7 @@ export default {
     .setName('cawfee').setDescription('Give a user a Cawfee to earn Gekkō Hearts')
     .addUserOption(option => option.setName('user').setDescription('Select a user')),
     async execute(interaction) {
-        const restricted = MySQL.getValueFromTableWithCondition(
-            "guilds",
-            "restricted_guild",
-            "guild_id",
-            interaction.guild.id
-          );
-      
-        if (restricted === "true") {
-        const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
-        return await interaction.reply({
-            embeds: [permissionErrorEmbed],
-            ephemeral: true,
-        });
-        }
+        DiscordExtensions.checkIfRestricted(interaction);
 
         if (cooldowns.has(interaction.user.id)) {
             const expirationTime = cooldowns.get(interaction.user.id);

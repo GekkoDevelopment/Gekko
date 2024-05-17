@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import MySQL from "../../../models/mysql.js";
 import color from "../../../models/colors.js";
+import DiscordExtensions from "../../../models/DiscordExtensions.js";
 
 let respones = [
   "It is certain.",
@@ -37,25 +38,9 @@ export default {
     ),
   async execute(interaction) {
     const question = interaction.options.getString("question");
-    const randomResponse =
-      respones[Math.floor(Math.random() * respones.length)];
+    const randomResponse = respones[Math.floor(Math.random() * respones.length)];
 
-    const restricted = MySQL.getValueFromTableWithCondition( // Check if the table is the guild is restricted by guild id.
-      "guilds",
-      "restricted_guild",
-      "guild_id",
-      interaction.guild.id
-    );
-
-    if (restricted === "true") {
-      // Define the restricted guild embed.
-      const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
-      // return with a access denied embed.
-      return await interaction.reply({
-        embeds: [permissionErrorEmbed],
-        ephemeral: true,
-      });
-    }
+    DiscordExtensions.checkIfRestricted(interaction);
 
     const embed = new EmbedBuilder()
       .setTitle("Magic 8-Ball")

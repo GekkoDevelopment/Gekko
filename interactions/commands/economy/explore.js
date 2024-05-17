@@ -2,6 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonStyle, Butto
 import MySQL from '../../../models/mysql.js';
 import colors from '../../../models/colors.js';
 import config from '../../../config.js';
+import DiscordExtensions from '../../../models/DiscordExtensions.js';
 
 const cooldowns = new Map();
 
@@ -15,20 +16,7 @@ export default {
     data: new SlashCommandBuilder()
     .setName('explore').setDescription('Start an exploration to find rewards!'),
     async execute(interaction) {
-        const restricted = MySQL.getValueFromTableWithCondition(
-            "guilds",
-            "restricted_guild",
-            "guild_id",
-            interaction.guild.id
-          );
-      
-        if (restricted === "true") {
-        const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
-        return await interaction.reply({
-            embeds: [permissionErrorEmbed],
-            ephemeral: true,
-        });
-        }
+        DiscordExtensions.checkIfRestricted(interaction);
 
         const isEnabled = await MySQL.getValueFromTableWithCondition('guilds', 'economy_enabled', 'guild_id', interaction.guild.id);
         if (isEnabled === 'false') {

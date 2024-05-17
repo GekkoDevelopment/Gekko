@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonStyle, ButtonBuilder, Embed } from 'discord.js';
 import MySQL from '../../../models/mysql.js';
 import colors from '../../../models/colors.js';
+import DiscordExtensions from '../../../models/DiscordExtensions.js';
 
 
 export default {
@@ -10,6 +11,7 @@ export default {
     async execute(interaction) {
         let user;
         const selectedUser = interaction.options.getUser('user');
+        DiscordExtensions.checkIfRestricted(interaction);
 
         if (selectedUser) {
             user = selectedUser;

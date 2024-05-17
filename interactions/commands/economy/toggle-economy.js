@@ -1,5 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
 import MySQL from '../../../models/mysql.js';
+import DiscordExtensions from '../../../models/DiscordExtensions.js';
 
 export default {
     data: new SlashCommandBuilder()
@@ -9,12 +10,7 @@ export default {
         const toggleEconomy = interaction.options.getBoolean('toggle');
 
         let economyEnabled = MySQL.hasTrueFalseValue('guilds', 'economy_enabled');
-        const restricted = MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', interaction.guild.id);
-
-        if (restricted === 'true') {
-            const permissionErrorEmbed = embeds.get('guildRestricted')(interaction);
-            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true });
-        }
+        DiscordExtensions.checkIfRestricted(interaction);
         
         if (!interaction.member.permissions.has(PermissionFlagsBits.ModerateMembers)) {
             const errorEmbed = new EmbedBuilder()

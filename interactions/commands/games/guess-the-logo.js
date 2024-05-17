@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import MySQL from '../../../models/mysql.js';
 import logos from '../../../models/logos.js';
 import colors from '../../../models/colors.js';
+import DiscordExtensions from '../../../models/DiscordExtensions.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -9,8 +9,7 @@ export default {
     .setDescription("Play a round of Guess the logo!"),
   async execute(interaction) {
     const companyNames = Object.keys(logos);
-    const randomCompanyName =
-      companyNames[Math.floor(Math.random() * companyNames.length)];
+    const randomCompanyName = companyNames[Math.floor(Math.random() * companyNames.length)];
     const randomLogoUrl = logos[randomCompanyName];
 
     const logoEmbed = new EmbedBuilder()
@@ -23,21 +22,7 @@ export default {
       .setColor(colors.bot);
 
     await interaction.reply({ embeds: [logoEmbed] });
-
-    const restricted = MySQL.getValueFromTableWithCondition(
-      "guilds",
-      "restricted_guild",
-      "guild_id",
-      interaction.guild.id
-    );
-
-    if (restricted === "true") {
-      const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
-      return await interaction.reply({
-        embeds: [permissionErrorEmbed],
-        ephemeral: true,
-      });
-    }
+    DiscordExtensions.checkIfRestricted(interaction);
 
     let guessCorrect = false;
     while (!guessCorrect) {

@@ -1,19 +1,15 @@
 import { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 import MySQL from '../../../models/mysql.js';
 import color from '../../../models/colors.js';
+import DiscordExtensions from '../../../models/DiscordExtensions.js';
 
 export default {
     data: new SlashCommandBuilder()
         .setName('steam-info').setDescription("Give you your or another user's steam info. (name, hex, etc.)")
         .addStringOption(option => option.setName('username').setDescription('The user you want to look up').setRequired(true)),
     async execute(interaction) {
-        const restricted = MySQL.getValueFromTableWithCondition("guilds", "restricted_guild", "guild_id", interaction.guild.id);
-
-        if (restricted === "true") {
-            const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
-            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true,});
-        }
-
+        DiscordExtensions.checkIfRestricted(interaction);
+        
         try {
             
             const username = interaction.options.getString('username');

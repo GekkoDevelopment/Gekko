@@ -1,8 +1,8 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import MySQL from '../../../models/mysql.js';
 import blizzard from 'blizzard.js';
 import config from '../../../config.js';
 import Http from '../../../models/HTTP.js';
+import DiscordExtensions from '../../../models/DiscordExtensions.js';
 
 export default {
     data: new SlashCommandBuilder()
@@ -17,7 +17,6 @@ export default {
             { name: "gameStarCraftII", value: "StarCraft 2" }
         ).setRequired(true)),
     async execute(interaction) {
-        const restricted = MySQL.getValueFromTableWithCondition("guilds", "restricted_guild", "guild_id", interaction.guild.id);
         const game = interaction.options.getString('game');
         const gameApis = config.gameApis;
 
@@ -26,11 +25,7 @@ export default {
         const overwatch = await blizzard.ow.createInstance({ key: gameApis.battleNetClientId, secret: gameApis.battleNetClientSecret });
         const starcraft = await blizzard.sc2.createInstance({ key: gameApis.battleNetClientId, secret: gameApis.battleNetClientSecret });
 
-        if (restricted === "true") {
-            const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
-            return await interaction.reply({ embeds: [permissionErrorEmbed], ephemeral: true,});
-        }
-
+        DiscordExtensions.checkIfRestricted(interaction);
         await interaction.deferReply();
 
         try {

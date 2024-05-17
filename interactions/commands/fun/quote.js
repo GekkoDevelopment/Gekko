@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import quotes from "../../../models/quotes.js";
-import MySQL from "../../../models/mysql.js";
+import DiscordExtensions from "../../../models/DiscordExtensions.js";
 
 function getRandomQuote(quotes) {
   return quotes[Math.floor(Math.random() * quotes.length)];
@@ -33,21 +33,8 @@ export default {
     const humor = quotes.humorQuotes.quotes;
     
     const category = interaction.options.getString("quote-category");
+    DiscordExtensions.checkIfRestricted(interaction);
 
-    const restricted = MySQL.getValueFromTableWithCondition(
-      "guilds",
-      "restricted_guild",
-      "guild_id",
-      interaction.guild.id
-    );
-
-    if (restricted === "true") {
-      const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
-      return await interaction.reply({
-        embeds: [permissionErrorEmbed],
-        ephemeral: true,
-      });
-    }
     let quote, author;
 
     switch (category) {

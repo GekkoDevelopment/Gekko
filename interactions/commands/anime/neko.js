@@ -1,7 +1,8 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
-import MySQL from "../../../models/mysql.js";
 import fetch from "node-fetch";
 import colors from "../../../models/colors.js";
+import MySQL from "../../../models/mysql.js";
+import DiscordExtensions from "../../../models/DiscordExtensions.js";
 
 export default {
   data: new SlashCommandBuilder()
@@ -24,24 +25,9 @@ export default {
       "guild_id",
       guildId
     );
+    
     const nsfwEnabled = await dbPromise;
-
-    const restricted = MySQL.getValueFromTableWithCondition(
-      "guilds",
-      "restricted_guild",
-      "guild_id",
-      interaction.guild.id
-    );
-
-    if (restricted === "true") {
-      await interaction.deferReply();
-
-      const permissionErrorEmbed = embeds.get("guildRestricted")(interaction);
-      return await interaction.editReply({
-        embeds: [permissionErrorEmbed],
-        ephemeral: true,
-      });
-    }
+    DiscordExtensions.checkIfRestricted(interaction);
 
     try {
       await interaction.deferReply();

@@ -1,6 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import MySQL from '../../../models/mysql.js';
-import config from '../../../config.js';
+import DiscordExtensions from '../../../models/DiscordExtensions.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -17,5 +16,7 @@ export default {
     .addStringOption((option) =>
       option.setName("reason").setDescription("The reason to softban the user.")
     ),
-  async execute(interaction) {},
+  async execute(interaction) {
+    DiscordExtensions.checkIfRestricted(interaction);
+  },
 };
