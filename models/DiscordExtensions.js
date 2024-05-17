@@ -1,6 +1,7 @@
 import delay from 'node:timers/promises';
-import { GuildBan } from 'discord.js';
+import emojiRegex from 'emoji-regex';
 import MySQL from './mysql.js';
+import { parseEmoji } from 'discord.js';
 
 export default class DiscordExtensions {
     
@@ -41,5 +42,29 @@ export default class DiscordExtensions {
         }
 
         return;
+    }
+
+    static async convertEmojiToDiscordFormat(message) {
+        const regex = emojiRegex();
+        let newMessage = message;
+        let match;
+
+        while (match = regex.exec(message)) {
+            const emoji = match[0];
+            const parsedEmoji = parseEmoji(emoji);
+
+            if (parsedEmoji && !parsedEmoji.id) {
+                const unicode = Array.from(emoji).map(char => `\\u{${char.codePointAt(0).toString(16)}}`).join('');
+                newMessage = newMessage.replace(emoji, unicode);
+            }
+        }
+
+        return newMessage;
+    }
+
+    static async unicodeToEmoji(message) {
+        return message.replace(/\\u\{([0-9a-fA-F]+)\}/g, (_, codePoint) => {
+            return String.fromCodePoint(parseInt(codePoint, 16));
+        });
     }
 }
