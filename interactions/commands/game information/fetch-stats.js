@@ -3,6 +3,9 @@ import blizzard from 'blizzard.js';
 import config from '../../../config.js';
 import Http from '../../../models/HTTP.js';
 import DiscordExtensions from '../../../models/DiscordExtensions.js';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export default {
     data: new SlashCommandBuilder()

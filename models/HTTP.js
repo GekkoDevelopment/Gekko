@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import DiscordExtensions from './DiscordExtensions.js';
 
 export default class Http {
     /**
@@ -9,49 +10,48 @@ export default class Http {
      */
     static async performHttpGetRequest(url, headers = {}) {
         try {
-            // Making the HTTP GET request with the specified URL and headers
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: headers
-            });
-    
-            // Parsing the response data as JSON
-            const data = await response.json();
-    
-            // Returning the parsed response data
-            return data;
+            const options = {
+                method: 'GET', // Set the HTTP method
+                headers: headers // Set the custom headers
+            };
+
+            // Making the fetch request with the specified URL and options.
+            const response = await fetch(url, options);
+
+            // Returning the response object.
+            return response;
         } catch (error) {
-            // Handling errors
-            console.error('Error:', error);
-            throw error; // Rethrow the error
+            // Log error
+            DiscordExtensions.logError(error);
+            throw error; // throw error
         }
     }
 
     /**
-     * Performs a HTTP POST Request.
+     * Performs an HTTP POST request to the specified URL.
      * @param {string} url - The URL to which the POST request is sent.
-     * @param {Object} [headers={}] - An object containing custom headers for the request. Defaults to an empty object if not provided. 
-     * @param {*} [body] - The data to be included in the request body. Defaults to `undefined` if not provided.
+     * @param {Object<string, string>} headers - Custom headers for the request.
+     * @param {*} body - The data to be included in the request body.
      * @param {string} [contentType='application/json'] - The content type of the request body. Defaults to 'application/json' if not provided.
-     * @returns {Promise<any>} - A Promise that resolves to the response data.
+     * @return {Promise<Response>} A Promise that resolves to the response object.
      */
     static async performHttpPostRequest(url, headers, body, contentType = 'application/json') {
         try {
-            // Making the HTTP POST request with the specified URL, headers, and body
-            const response = await fetch(url, {
-                method: 'POST',
+            // Constructing options object for the fetch request
+            const options = {
+                method: 'POST', // Set the HTTP method to POST
                 headers: {
                     ...headers, // Spread the provided headers
                     'Content-Type': contentType // Set the Content-Type header
                 },
-                body: body // Include the request body
-            });
-    
-            // Parsing the response data as JSON
-            const data = await response.json();
-    
-            // Returning the parsed response data
-            return data;
+                body: contentType === 'application/json' ? JSON.stringify(body) : body // Convert body to JSON string if contentType is application/json
+            };
+
+            // Making the fetch request with the specified URL and options
+            const response = await fetch(url, options);
+
+            // Returning the response object
+            return response;
         } catch (error) {
             // Handling errors
             console.error('Error:', error);

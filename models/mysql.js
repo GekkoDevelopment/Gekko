@@ -1,12 +1,15 @@
 import db from 'mysql';
 import config from '../config.js';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 let mysql = db.createConnection({
-  host: config.database.host,
-  user: config.database.username,
-  password: config.database.password,
-  database: config.database.name,
-  port: config.database.port,
+  host: process.env.DATABASE_HOST,
+  user: process.env.DATABASE_USERNAME,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE_NAME,
+  port: process.env.DATABASE_PORT,
 });
 
 export default class MySQL {

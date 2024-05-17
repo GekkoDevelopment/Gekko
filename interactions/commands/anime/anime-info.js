@@ -34,20 +34,21 @@ export default {
       };
 */
       const headers = {
-        "Content-Type": "application/vnd.api+json",
-        'Accept': "application/vnd.api+json",
+        'Content-Type': 'application/vnd.api+json',
+        Accept: 'application/vnd.api+json'
       }
-      const option = Http.performHttpGetRequest(`https://kitsu.io/api/edge/anime?filter[text]=${animeName}`, headers);
+
+      const option = await Http.performHttpGetRequest(`https://kitsu.io/api/edge/anime?filter[text]=${animeName}`, headers);
       const data = await option.json();
 
       if (data.data && data.data.length > 0) {
         const animeInfo = data.data[0];
-        let synopsis =
-          animeInfo.attributes.synopsis || "No synopsis available.";
-        synopsis =
-          synopsis.length > 300 ? synopsis.substring(0, 300) + "..." : synopsis;
+        
+        let synopsis = animeInfo.attributes.synopsis || "No synopsis available.";
+        synopsis = synopsis.length > 300 ? synopsis.substring(0, 300) + "..." : synopsis;
 
         let ratingEmoji;
+
         if (animeInfo.attributes.averageRating >= 70) {
           ratingEmoji = config.emojis.ratingGreen;
         } else if (animeInfo.attributes.averageRating >= 40) {
@@ -79,36 +80,26 @@ export default {
 
         let nsfwCheck = animeInfo.attributes.nsfw;
         let isNsfw = nsfwCheck === false ? "✔️ Safe For Work" : "⚠️ Not Safe For Work";
+        let isDubbed = animeInfo.attributes.dubs === 'undefined' ? 'Yes' : 'No';
 
         const embed = new EmbedBuilder()
           .setTitle(`${animeInfo.attributes.canonicalTitle}`)
-          .setFooter({
-            text: animeInfo.attributes.titles.en || "Could not translate name.",
-            iconURL: interaction.client.user.avatarURL(),
-          })
-          .setDescription(
-            `> ${synopsis}[[View More]](https://kitsu.io/anime/${animeInfo.id})`
-          )
-          .addFields(
-            {
+          .setFooter({ text: animeInfo.attributes.titles.en || "Could not translate name.", iconURL: interaction.client.user.avatarURL(),})
+          .setDescription(`> ${synopsis}[[View More]](https://kitsu.io/anime/${animeInfo.id})`)
+          .addFields
+          ({
               name: "Rating",
-              value:
-                `${ratingEmoji} ${animeInfo.attributes.averageRating}%` ||
-                "Not available",
+              value: `${ratingEmoji} ${animeInfo.attributes.averageRating}%` || "Not available",
               inline: true,
             },
             {
               name: "Status",
-              value:
-                `${statusEmoji} ${animeInfo.attributes.status}` ||
-                "Not available",
+              value: `${statusEmoji} ${animeInfo.attributes.status}` || "Not available",
               inline: true,
             },
             {
               name: "Episode Length",
-              value:
-                `📺 ${String(animeInfo.attributes.episodeLength)} minutes` ||
-                "Not available",
+              value: `📺 ${String(animeInfo.attributes.episodeLength)} minutes` || "Not available",
               inline: true,
             },
             {
@@ -130,15 +121,17 @@ export default {
               name: "End Date",
               value: `\`${animeInfo.attributes.endDate}\``,
               inline: true,
+            },
+            {
+              name: 'Dubbed',
+              value:  `\`${isDubbed}\``,
+              inline: true
             }
           )
           .setURL(`https://kitsu.io/anime/${animeInfo.id}`)
           .setColor(colors.bot);
 
-        if (
-          animeInfo.attributes.coverImage &&
-          animeInfo.attributes.coverImage.original
-        ) {
+        if (animeInfo.attributes.coverImage && animeInfo.attributes.coverImage.original) {
           embed.setImage(animeInfo.attributes.coverImage.original);
         }
 
@@ -149,10 +142,7 @@ export default {
           .setColor("Red")
           .setDescription("No anime found with that name.")
           .setTimestamp()
-          .setFooter({
-            text: "Gekkō Development",
-            iconURL: interaction.client.user.displayAvatarURL(),
-          });
+          .setFooter({ text: "Gekkō Development", iconURL: interaction.client.user.displayAvatarURL(),});
 
         await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
       }
@@ -162,10 +152,7 @@ export default {
       const errorMessage = relevantLine.replace(/^\s+at\s+/g, "");
       const errorDescription = error.message;
 
-      const catchErrorEmbed = embeds.get("tryCatchError")(interaction, {
-        errorMessage,
-        errorDescription,
-      });
+      const catchErrorEmbed = embeds.get("tryCatchError")(interaction, { errorMessage, errorDescription,});
       await interaction.editReply({ embeds: [catchErrorEmbed], ephemeral: true });
     }
   },

@@ -1,9 +1,5 @@
 export default {
-    bot: {
-        token: 'MTIyNjMzNDk1MjE3MDMyODEwNA.GwC0YA.hvRSSnzsJjS7baZBFFqy0hK41KcHfbgMRJvkkM', // The token to log into the bot | DO NOT CHANGE
-        clientId: '1226334952170328104', // The client ID for the bot.
-        secret: 't5iTXJ9e6Y_q7B8IVBbrW6U5DiwGEbRa' // The client secret ID for the bot.
-    },
+    bot: { clientId: '1226334952170328104' }, // The client ID for the bot.
 
     developer: { // This part of the config is only used for the bot developers.
         dev1Id: '795059255073177630', // Kier
@@ -15,25 +11,6 @@ export default {
         devTestLogChannel: '1226548220801450074', //  The channel in the main support discord where commands that contains logs and stuff.
 
         devBugReportsChannel: '1227662388409663609' // The channel that the bug reports go to.
-    },
-
-    database: {
-        host: '198.244.148.129', // The host IP for Gekkō's database.
-        port: 3306, // The port for database uses to connect
-        name: 's2_gekko', // The database name for Gekkō that stores all of the bot information
-        username: 'u2_YcRpm2I6VN', // The username for Gekkō's Database
-        password: '0A!=JiH6l+T!IMZKjJH5Z0@C' // The password for Gekkō's database.
-    },
-
-    apiKeys: {
-        tenorApi: 'AIzaSyCC6haPOEqn-p5I8oJdyyIjJAXkYQGWJcQ', // The API key used for our random gif command.
-        chessAPI: 'lip_fWKAMXrBVDeuZfsG8W6P', // The API key that interacts with our chess command. (You can make the key from here: https://lichess.org/account/oauth/token)
-        openaiApi: 'sk-proj-iC8CktZjIrbCBJkvz4qST3BlbkFJ7gzft4wJTvjjTxSax3I6', // The API key used for OpenAI
-    },
-
-    gameApis: {
-        battleNetClientId: '60e8db2fe4ba4c6095a96824a6732dbb',
-        battleNetClientSecret: 'hHExTwyOFFT9CNpbhUSXNXVcTGKd3XZg'
     },
 
     githubApi: {

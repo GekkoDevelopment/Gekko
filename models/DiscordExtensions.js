@@ -2,6 +2,7 @@ import delay from 'node:timers/promises';
 import emojiRegex from 'emoji-regex';
 import MySQL from './mysql.js';
 import { parseEmoji } from 'discord.js';
+import embeds from '../embeds/index.js';
 
 export default class DiscordExtensions {
     

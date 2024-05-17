@@ -1,10 +1,11 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import OpenAI from 'openai';
-import MySQL from '../../../models/mysql.js';
-import config from '../../../config.js';
 import DiscordExtensions from '../../../models/DiscordExtensions.js';
+import dotenv from 'dotenv';
 
-const openAi = new OpenAI({ apiKey: config.apiKeys.openaiApi });
+dotenv.config();
+
+const openAi = new OpenAI({ apiKey: process.env.OPENAI_API });
 
 export default {
     data: new SlashCommandBuilder()

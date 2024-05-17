@@ -1,13 +1,14 @@
-import { REST, Routes } from 'discord.js';
-import config from './config.js';
-import fs from 'fs';
+import { REST, Routes, Collection } from 'discord.js';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import os from 'os';
-import { Collection } from 'discord.js';
+import fs from 'fs';
+import dotenv from 'dotenv';
+import config from './config.js';
+
+dotenv.config();
 
 const commands = [];
-
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const _dirname = `${os.platform() === 'win32' ? '.\\' : `${__dirname}`}`;
@@ -76,7 +77,7 @@ for(let type of ['commands']){
     }
 }
 
-const rest = new REST({ version: '9' }).setToken(config.bot.token);
+const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
 
 (async () => {
     try {

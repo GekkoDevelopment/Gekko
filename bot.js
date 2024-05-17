@@ -3,11 +3,13 @@ import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import MySQL from './models/mysql.js';
 import fs from 'fs';
+import dotenv from 'dotenv';
 import os from 'node:os';
 import config from './config.js';
 import colors from './models/colors.js';
 import DiscordExtensions from './models/DiscordExtensions.js';
 
+dotenv.config();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const client = new Client({
@@ -605,4 +607,4 @@ for (const file of eventFiles) {
   }
 }
 
-client.login(config.bot.token);
+client.login(process.env.TOKEN);
