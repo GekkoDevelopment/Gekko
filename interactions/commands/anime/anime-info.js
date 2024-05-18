@@ -43,6 +43,8 @@ export default {
 
       if (data.data && data.data.length > 0) {
         const animeInfo = data.data[0];
+
+        console.log(animeInfo.attributes.dubs)
         
         let synopsis = animeInfo.attributes.synopsis || "No synopsis available.";
         synopsis = synopsis.length > 300 ? synopsis.substring(0, 300) + "..." : synopsis;
