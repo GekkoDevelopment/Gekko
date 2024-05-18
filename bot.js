@@ -49,12 +49,9 @@ client.on("messageCreate", async (message) => {
   if (command === "bot-restart") {
     if (guildId !== config.developer.devGuild) return; // return if the guild doesn't match the dev guild (support server)
 
-    message.channel.send(
-      "Gekkō is now restarting; this will take a few seconds..."
-    );
-    const logChannel = client.guilds.cache
-      .get(config.developer.devGuild)
-      .channels.cache.get(config.developer.devTestChannel);
+    message.channel.send("Gekkō is now restarting; this will take a few seconds...");
+
+    const logChannel = client.guilds.cache.get(config.developer.devGuild).channels.cache.get(config.developer.devTestChannel);
 
     const logEmbed = new EmbedBuilder()
       .setTitle("Gekkō Restart")

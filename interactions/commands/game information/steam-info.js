@@ -1,5 +1,4 @@
 import { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
-import MySQL from '../../../models/mysql.js';
 import color from '../../../models/colors.js';
 import DiscordExtensions from '../../../models/DiscordExtensions.js';
 import dotenv from 'dotenv';

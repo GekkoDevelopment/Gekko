@@ -58,6 +58,5 @@ export default {
         gekkoWalking: '<a:gekkoWalking:1239204341693415484>', // (animated walking)
         gekkoCawfee: '<:kawfee:1239297709299597392>', // Cawfee
         gekkoPolice: '<:gekkoPolice:1239371511878520852>', // Police (stop right there.)
-
     }
 }

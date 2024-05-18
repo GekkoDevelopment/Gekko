@@ -1,7 +1,9 @@
 import { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } from 'discord.js';
 import Http from '../../../models/HTTP.js';
 import DiscordExtensions from '../../../models/DiscordExtensions.js';
-// import pagination from '../../components/utils/pagination.js';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export default {
     data: new SlashCommandBuilder()
@@ -14,5 +16,7 @@ export default {
             'Content-Type': 'application/vnd.api+json'
         }
 
+        const option = await Http.performHttpGetRequest(`https://kitsu.io/api/edge/anime?filter[text]=${animeName}`, headers);
+        const data = await option.json();
     }
 }
