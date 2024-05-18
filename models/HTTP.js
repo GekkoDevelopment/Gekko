@@ -31,11 +31,11 @@ export default class Http {
      * Performs an HTTP POST request to the specified URL.
      * @param {string} url - The URL to which the POST request is sent.
      * @param {Object<string, string>} headers - Custom headers for the request.
-     * @param {*} [body] - The data to be included in the request body. Optional.
+     * @param {*} body - The data to be included in the request body.
      * @param {string} [contentType='application/json'] - The content type of the request body. Defaults to 'application/json' if not provided.
      * @return {Promise<Response>} A Promise that resolves to the response object.
      */
-    static async performHttpPostRequest(url, headers, contentType = 'application/json', body) {
+    static async performHttpPostRequest(url, headers, body, contentType = 'application/json') {
         try {
             // Constructing options object for the fetch request
             const options = {
@@ -43,13 +43,9 @@ export default class Http {
                 headers: {
                     ...headers, // Spread the provided headers
                     'Content-Type': contentType // Set the Content-Type header
-                }
+                },
+                body: contentType === 'application/json' ? JSON.stringify(body) : body // Convert body to JSON string if contentType is application/json
             };
-
-            // Only include the body if it is provided
-            if (body !== undefined) {
-                options.body = contentType === 'application/json' ? JSON.stringify(body) : body;
-            }
 
             // Making the fetch request with the specified URL and options
             const response = await fetch(url, options);
