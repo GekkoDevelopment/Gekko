@@ -1,4 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+import fetch from 'node-fetch';
 import colors from '../../../models/colors.js';
 import config from '../../../config.js';
 import DiscordExtensions from '../../../models/DiscordExtensions.js';
@@ -22,20 +23,19 @@ export default {
 
     try {
       const animeName = interaction.options.getString("anime");
-
+      /*
+      let option = {
+        url: `https://kitsu.io/api/edge/anime?filter[text]=${animeName}`,
+        method: `GET`,
+        headers: {
+          "Content-Type": "application/vnd.api+json",
+          Accept: "application/vnd.api+json",
+        },
+      };
+*/
       const headers = {
         'Content-Type': 'application/vnd.api+json',
         Accept: 'application/vnd.api+json'
-      }
-
-      const postHeaders = {
-        'grant_type': 'password',
-        'username': '<email|slug>',
-        'password': '<password>'
-      }
-
-      const requestBody = {
-        key: 'value'
       }
 
       const option = await Http.performHttpGetRequest(`https://kitsu.io/api/edge/anime?filter[text]=${animeName}`, headers);
@@ -80,12 +80,9 @@ export default {
             statusEmoji = "";
         }
 
-        const nsfwCheck = animeInfo.attributes.nsfw;
-        let isNsfw = nsfwCheck === true ? "✔️ Safe For Work" : "⚠️ Not Safe For Work";
-        let isDubbed = animeInfo.attributes.dubs === 'JP' ? 'Yes' : 'No';
-
-        console.log('Dubbed: ' + isDubbed);
-        console.log('Safe For Work: ' + nsfwCheck);
+        let nsfwCheck = animeInfo.attributes.nsfw;
+        let isNsfw = nsfwCheck === false ? "✔️ Safe For Work" : "⚠️ Not Safe For Work";
+        let isDubbed = animeInfo.attributes.dubs === 'undefined' ? 'Yes' : 'No';
 
         const embed = new EmbedBuilder()
           .setTitle(`${animeInfo.attributes.canonicalTitle}`)
@@ -128,21 +125,10 @@ export default {
               inline: true,
             },
             {
-              name: 'Show Type',
-              value: `\`${animeInfo.attributes.showType}\``
-            }
-              /*,
-            {
-              name: 'Seasons',
-              value:  `\`${animeInfo.attributes.seasons}\``,
-              inline: true
-            },
-            {
               name: 'Dubbed',
               value:  `\`${isDubbed}\``,
               inline: true
             }
-            */
           )
           .setURL(`https://kitsu.io/anime/${animeInfo.id}`)
           .setColor(colors.bot);
