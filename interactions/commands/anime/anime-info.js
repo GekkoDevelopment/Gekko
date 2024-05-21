@@ -37,13 +37,21 @@ export default {
         'Content-Type': 'application/vnd.api+json',
         Accept: 'application/vnd.api+json'
       }
-
+      //"first": "https://kitsu.io/api/edge/streaming-links?page%5Blimit%5D=10&page%5Boffset%5D=0",
+      //"url": "http://www.hulu.com/hacklegend-of-the-twilight",
+        
       const option = await Http.performHttpGetRequest(`https://kitsu.io/api/edge/anime?filter[text]=${animeName}`, headers);
+      const stmOption = await Http.performHttpGetRequest(`https://kitsu.io/api/edge/streaming-links?filter[dub]=${animeName}`, headers);
+
       const data = await option.json();
+      const stmData = await stmOption.json();
+
+      console.log(stmData);
 
       if (data.data && data.data.length > 0) {
         const animeInfo = data.data[0];
-        
+        const stmInfo = stmData.data;
+
         let synopsis = animeInfo.attributes.synopsis || "No synopsis available.";
         synopsis = synopsis.length > 300 ? synopsis.substring(0, 300) + "..." : synopsis;
 
@@ -80,7 +88,7 @@ export default {
 
         let nsfwCheck = animeInfo.attributes.nsfw;
         let isNsfw = nsfwCheck === false ? "✔️ Safe For Work" : "⚠️ Not Safe For Work";
-        let isDubbed = animeInfo.attributes.dubs === 'undefined' ? 'Yes' : 'No';
+        let isDubbed = stmInfo.attributes.dubs === 'undefined' ? 'Yes' : 'No';
 
         const embed = new EmbedBuilder()
           .setTitle(`${animeInfo.attributes.canonicalTitle}`)
