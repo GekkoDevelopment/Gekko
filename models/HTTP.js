@@ -8,7 +8,7 @@ export default class Http {
      * @param {Object} [headers={}] - An object containing custom headers for the request. Defaults to an empty object if not provided.
      * @returns {Promise<any>} A Promise that resolves to the response data.
      */
-    static async performHttpGetRequest(url, headers = {}) {
+    static async performGetRequest(url, headers = {}) {
         try {
             const options = {
                 method: 'GET', // Set the HTTP method
@@ -35,7 +35,7 @@ export default class Http {
      * @param {string} [contentType='application/json'] - The content type of the request body. Defaults to 'application/json' if not provided.
      * @return {Promise<Response>} A Promise that resolves to the response object.
      */
-    static async performHttpPostRequest(url, headers, body, contentType = 'application/json') {
+    static async performPostRequest(url, headers, body, contentType = 'application/json') {
         try {
             // Constructing options object for the fetch request
             const options = {
@@ -92,7 +92,7 @@ export default class Http {
      * @param {string} [contentType='application/json'] - The content type of the request body. Defaults to 'application/json' if not provided.
      * @returns {Promise<any>} A Promise that resolves to the response data.
      */
-    static async performHttpFetchRequest(url, method, headers = {}, body, contentType = 'application/json') {
+    static async performFetchRequest(url, method, headers = {}, body, contentType = 'application/json') {
         try {
             // Constructing options object for the fetch request
             const options = {
