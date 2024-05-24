@@ -100,4 +100,40 @@ export default class Http {
             throw error; // Rethrow the error
         }
     }
+
+    /**
+     * Performs an HTTP PUT request to the specified URL.
+     * @param {string} url - The URL to which the PUT request is sent.
+     * @param {Object<string, string>} headers - Custom headers for the request.
+     * @param {*} [data] - The data to be included in the request body. Optional.
+     * @param {string} [contentType='application/json'] - The content type of the request body. Defaults to 'application/json' if not provided.
+     * @return {Promise<Response>} A Promise that resolves to the response object.
+     */
+    static async performPutRequest(url, headers, data, contentType = 'application/json') {
+        try {
+            // Constructing options object for the fetch request
+            const options = {
+                method: 'PUT', // Set the HTTP method to PUT
+                headers: {
+                    ...headers, // Spread the provided headers
+                    'Content-Type': contentType // Set the Content-Type header
+                }
+            };
+
+            // Only include the body if data is provided
+            if (data !== undefined) {
+                options.body = contentType === 'application/json' ? JSON.stringify(data) : data;
+            }
+
+            // Making the fetch request with the specified URL and options
+            const response = await fetch(url, options);
+
+            // Returning the response object
+            return response;
+        } catch (error) {
+            // Handling errors
+            console.error('Error:', error);
+            throw error; // Rethrow the error
+        }
+    }
 }
