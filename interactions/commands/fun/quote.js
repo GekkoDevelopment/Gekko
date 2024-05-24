@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import quotes from "../../../models/quotes.js";
 import DiscordExtensions from "../../../models/DiscordExtensions.js";
+import embeds from '../../../embeds/index.js';
 
 function getRandomQuote(quotes) {
   return quotes[Math.floor(Math.random() * quotes.length)];

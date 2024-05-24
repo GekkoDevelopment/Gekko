@@ -2,6 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
 import MySQL from "../../../models/mysql.js";
 import color from "../../../models/colors.js";
 import DiscordExtensions from "../../../models/DiscordExtensions.js";
+import embeds from '../../../embeds/index.js';
 
 let respones = [
   "It is certain.",

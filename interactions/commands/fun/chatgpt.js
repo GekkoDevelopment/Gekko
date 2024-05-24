@@ -2,6 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import OpenAI from 'openai';
 import DiscordExtensions from '../../../models/DiscordExtensions.js';
 import dotenv from 'dotenv';
+import embeds from '../../../embeds/index.js';
 
 dotenv.config();
 

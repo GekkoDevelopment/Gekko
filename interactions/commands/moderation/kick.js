@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } from 'discord.js';
 import DiscordExtensions from '../../../models/DiscordExtensions.js';
 import colors from '../../../models/colors.js';
+import embeds from '../../../embeds/index.js';
 
 export default {
   data: new SlashCommandBuilder()

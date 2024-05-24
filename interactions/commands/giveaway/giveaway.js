@@ -1,5 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
 import DiscordExtensions from '../../../models/DiscordExtensions.js';
+import embeds from '../../../embeds/index.js';
+
 const giveaways = new Map();
 
 export default {

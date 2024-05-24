@@ -1,8 +1,9 @@
+import { parseEmoji } from 'discord.js';
 import delay from 'node:timers/promises';
 import emojiRegex from 'emoji-regex';
 import MySQL from './mysql.js';
-import { parseEmoji } from 'discord.js';
 import embeds from '../embeds/index.js';
+
 
 export default class DiscordExtensions {
     
@@ -34,6 +35,11 @@ export default class DiscordExtensions {
 
     }
 
+    /**
+     * Checks if a guild is restricted
+     * @param {*} interaction 
+     * @returns 
+     */
     static async checkIfRestricted(interaction) {
         const restricted = MySQL.getValueFromTableWithCondition('guilds', 'restricted_guild', 'guild_id', interaction.guild.id);
 
@@ -67,5 +73,15 @@ export default class DiscordExtensions {
         return message.replace(/\\u\{([0-9a-fA-F]+)\}/g, (_, codePoint) => {
             return String.fromCodePoint(parseInt(codePoint, 16));
         });
+    }
+
+    static async sendErrorEmbed(error, interaction) {
+        const stackLines = error.stack.split("\n");
+        const relevantLine = stackLines[1];
+        const errorMessage = relevantLine.replace(/^\s+at\s+/g, "");
+        const errorDescription = error.message;
+        const catchErrorEmbed = embeds.get("tryCatchError")(interaction, { errorMessage, errorDescription,});
+
+        await interaction.editReply({ embeds: [catchErrorEmbed], ephemeral: true });
     }
 }

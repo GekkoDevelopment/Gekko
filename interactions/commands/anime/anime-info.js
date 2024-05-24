@@ -18,28 +18,16 @@ export default {
     ),
   async execute(interaction) {
     DiscordExtensions.checkIfRestricted(interaction);
-
     await interaction.deferReply();
 
     try {
       const animeName = interaction.options.getString("anime");
-      /*
-      let option = {
-        url: `https://kitsu.io/api/edge/anime?filter[text]=${animeName}`,
-        method: `GET`,
-        headers: {
-          "Content-Type": "application/vnd.api+json",
-          Accept: "application/vnd.api+json",
-        },
-      };
-*/
+
       const headers = {
         'Content-Type': 'application/vnd.api+json',
         Accept: 'application/vnd.api+json'
       }
-      //"first": "https://kitsu.io/api/edge/streaming-links?page%5Blimit%5D=10&page%5Boffset%5D=0",
-      //"url": "http://www.hulu.com/hacklegend-of-the-twilight",
-        
+
       const option = await Http.performGetRequest(`https://kitsu.io/api/edge/anime?filter[text]=${animeName}`, headers);
       const stmOption = await Http.performGetRequest(`https://kitsu.io/api/edge/streaming-links?filter[dub]=${animeName}`, headers);
 

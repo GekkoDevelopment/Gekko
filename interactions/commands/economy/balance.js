@@ -2,7 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonStyle, Butto
 import MySQL from '../../../models/mysql.js';
 import colors from '../../../models/colors.js';
 import DiscordExtensions from '../../../models/DiscordExtensions.js';
-
+import embeds from '../../../embeds/index.js';
 
 export default {
     data: new SlashCommandBuilder()

@@ -28,7 +28,7 @@ export default class Http {
 
 
     /**
-     * Performs an HTTP fetch request to the specified URL.
+     * Performs an HTTP POST request to the specified URL.
      * @param {string} url - The URL to which the request is sent.
      * @param {string} method - The HTTP method (GET, POST, PUT, DELETE, etc.).
      * @param {Object<string, string>} [headers={}] - Custom headers for the request. Optional.
@@ -36,32 +36,24 @@ export default class Http {
      * @param {string} [contentType='application/json'] - The content type of the request body. Defaults to 'application/json' if not provided.
      * @return {Promise<Response>} A Promise that resolves to the response object.
      */
-    static async performPostRequest(url, headers, data, contentType = 'application/json') {
+    static async performPostRequest(url, headers = {}, body = {}) {
         try {
-            // Constructing options object for the fetch request
             const options = {
-                method: method, // Set the HTTP method
-                headers: {
-                    ...headers, // Spread the provided headers
-                    'Content-Type': contentType // Set the Content-Type header
-                },
-                data: contentType === 'application/json' ? JSON.stringify(data) : data // Convert body to JSON string if contentType is application/json
+                method: 'POST', // Set the HTTP method to POST
+                headers: headers,
+                body: JSON.stringify(body),
             };
 
-            // Only include the body if data is provided and method is not GET
-            if (data !== undefined && method !== 'GET') {
-                options.body = contentType === 'application/json' ? JSON.stringify(data) : data;
-            }
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-            // Making the fetch request with the specified URL and options
-            const response = await fetch(url, options);
-
-            // Returning the response object
+            const response = await fetch(url, { ...options, signal: controller.signal });
+            clearTimeout(timeoutId);
+            
             return response;
         } catch (error) {
-            // Handling errors
             console.error('Error:', error);
-            throw error; // Rethrow the error
+            throw error;
         }
     }
 
