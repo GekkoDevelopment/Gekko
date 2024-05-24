@@ -1,4 +1,6 @@
+# Misc Files For The Bot
 *.txt
+config.js
 
 # Logs
 logs
