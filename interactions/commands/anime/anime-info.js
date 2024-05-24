@@ -40,8 +40,8 @@ export default {
       //"first": "https://kitsu.io/api/edge/streaming-links?page%5Blimit%5D=10&page%5Boffset%5D=0",
       //"url": "http://www.hulu.com/hacklegend-of-the-twilight",
         
-      const option = await Http.performHttpGetRequest(`https://kitsu.io/api/edge/anime?filter[text]=${animeName}`, headers);
-      const stmOption = await Http.performHttpGetRequest(`https://kitsu.io/api/edge/streaming-links?filter[dub]=${animeName}`, headers);
+      const option = await Http.performGetRequest(`https://kitsu.io/api/edge/anime?filter[text]=${animeName}`, headers);
+      const stmOption = await Http.performGetRequest(`https://kitsu.io/api/edge/streaming-links?filter[dub]=${animeName}`, headers);
 
       const data = await option.json();
       const stmData = await stmOption.json();
