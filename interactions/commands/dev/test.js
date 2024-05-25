@@ -2,6 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder, ButtonStyle, ActionRowBuilder, Slash
 import Http from "../../../models/HTTP.js";
 import MySQL from "../../../models/mysql.js";
 import DiscordExtensions from "../../../models/DiscordExtensions.js";
+import Translation from "../../../models/Translation.js";
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -9,31 +10,122 @@ dotenv.config();
 export default {
     data: new SlashCommandBuilder()
         .setName('test').setDescription('Test a feature (used by dev for HTTP requests or MySQL testing)')
-        .addStringOption(option => option.setName('invite-link').setDescription('discord server link.')),
+        .addStringOption(option => option.setName('invite-link').setDescription('discord server link.'))
+        .addStringOption(option => option.setName('message').setDescription('message')),
     async execute(interaction) {
-        const inviteLink = interaction.options.getString('invite-link');
         await interaction.deferReply();
-
+      
         try {
-            await interaction.editReply('fetching.');
-            const url = 'https://kitsu.io/api/oauth/token';
+            const animeName = interaction.options.getString("invite-link");
+            const msg = interaction.options.getString('message');
 
             const headers = {
-                'Content-Type': 'application/vnd.api+json',
-                Accept: 'application/vnd.api+json'
-              }
-            
-            const body = {
-                grant_type: 'password',
-                username: '<email|slug>',
-                password: '<password>' // RFC3986 URl encoded string
+              'Content-Type': 'application/vnd.api+json',
+              Accept: 'application/vnd.api+json'
             }
+        
+            const option = await Http.performGetRequest(`https://kitsu.io/api/edge/anime?filter[text]=${animeName}`, headers);
+            const data = await option.json();
+        
+            const translated = await Translation.translate(msg);
+            console.log(translated);
 
-            const response = await Http.performPostRequest(url, headers, body);
-            const data = await response.json();
-
-            console.log(data);
-            
+            if (data.data && data.data.length > 0) {
+              const animeInfo = data.data[0];
+              // const stmInfo = stmData.data;
+        
+              let synopsis = animeInfo.attributes.synopsis || "No synopsis available.";
+              synopsis = synopsis.length > 300 ? synopsis.substring(0, 300) + "..." : synopsis;
+        
+              let ratingEmoji;
+        
+              if (animeInfo.attributes.averageRating >= 70) {
+                ratingEmoji = config.emojis.ratingGreen;
+              } else if (animeInfo.attributes.averageRating >= 40) {
+                ratingEmoji = config.emojis.ratingAmber;
+              } else {
+                ratingEmoji = config.emojis.ratingRed;
+              }
+        
+              let statusEmoji;
+              switch (animeInfo.attributes.status) {
+                case "current":
+                  statusEmoji = config.emojis.ratingGreen;
+                  break;
+                case "finished":
+                  statusEmoji = config.emojis.ratingRed;
+                  break;
+                case "tba":
+                  statusEmoji = config.emojis.ratingNa;
+                  break;
+                case "unreleased":
+                  statusEmoji = config.emojis.ratingNa;
+                  break;
+                case "upcoming":
+                  statusEmoji = config.emojis.ratingAmber;
+                  break;
+                default:
+                  statusEmoji = "";
+                }
+        
+              let nsfwCheck = animeInfo.attributes.nsfw;
+              let isNsfw = nsfwCheck === false ? "✔️ Safe For Work" : "⚠️ Not Safe For Work";
+              //let isDubbed = stmInfo.attributes.dubs === 'undefined' ? 'Yes' : 'No';
+        
+              const embed = new EmbedBuilder()
+                .setTitle(`${animeInfo.attributes.canonicalTitle}`)
+                .setFooter({ text: animeInfo.attributes.titles.en || "Could not translate name.", iconURL: interaction.client.user.avatarURL(),})
+                .setDescription(`> ${synopsis}[[View More]](https://kitsu.io/anime/${animeInfo.id})`)
+                .addFields
+                ({
+                    name: "Rating",
+                    value: `${ratingEmoji} ${animeInfo.attributes.averageRating}%` || "Not available",
+                    inline: true,
+                  },
+                  {
+                    name: "Status",
+                    value: `${statusEmoji} ${animeInfo.attributes.status}` || "Not available",
+                    inline: true,
+                  },
+                  {
+                    name: "Episode Length",
+                    value: `📺 ${String(animeInfo.attributes.episodeLength)} minutes` || "Not available",
+                    inline: true,
+                  },
+                  {
+                    name: "Is NSFW",
+                    value: `\`${isNsfw}\``,
+                    inline: true,
+                  },
+                  {
+                    name: "Age Rating",
+                    value: `\`${animeInfo.attributes.ageRating}\`` || "Not available",
+                    inline: true,
+                  },
+                  {
+                    name: "Start Date:",
+                    value: `\`${animeInfo.attributes.startDate}\``,
+                    inline: true,
+                  },
+                  {
+                    name: "End Date",
+                    value: `\`${animeInfo.attributes.endDate}\``,
+                    inline: true,
+                  },
+                  {
+                    name: 'Dubbed',
+                    value:  `\`${isDubbed}\``,
+                    inline: true
+                  })
+                .setURL(`https://kitsu.io/anime/${animeInfo.id}`)
+                .setColor(colors.bot);
+        
+              if (animeInfo.attributes.coverImage && animeInfo.attributes.coverImage.original) {
+                embed.setImage(animeInfo.attributes.coverImage.original);
+              }
+        
+              await interaction.editReply({ embeds: [embed] });
+            }
         } catch (error) {
             DiscordExtensions.sendErrorEmbed(error, interaction);
         }
