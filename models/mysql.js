@@ -1,5 +1,4 @@
 import db from 'mysql';
-import config from '../config.js';
 import dotenv from 'dotenv';
 
 dotenv.config();

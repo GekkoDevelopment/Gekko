@@ -1,5 +1,4 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import fetch from 'node-fetch';
 import colors from '../../../models/colors.js';
 import config from '../../../config.js';
 import DiscordExtensions from '../../../models/DiscordExtensions.js';
@@ -28,9 +27,17 @@ export default {
         Accept: 'application/vnd.api+json'
       }
 
-      const option = await Http.performGetRequest(`https://kitsu.io/api/edge/anime?filter[text]=${animeName}`, headers);
-      const stmOption = await Http.performGetRequest(`https://kitsu.io/api/edge/streaming-links?filter[dub]=${animeName}`, headers);
+      const postHeaders = {
+        'grant_type': 'password',
+        'username': '<email|slug>',
+        'password': '<password>'
+      }
 
+      const requestBody = {
+        key: 'value'
+      }
+
+      const option = await Http.performHttpGetRequest(`https://kitsu.io/api/edge/anime?filter[text]=${animeName}`, headers);
       const data = await option.json();
       const stmData = await stmOption.json();
 
@@ -38,8 +45,9 @@ export default {
 
       if (data.data && data.data.length > 0) {
         const animeInfo = data.data[0];
-        const stmInfo = stmData.data;
 
+        console.log(animeInfo.attributes.dubs)
+        
         let synopsis = animeInfo.attributes.synopsis || "No synopsis available.";
         synopsis = synopsis.length > 300 ? synopsis.substring(0, 300) + "..." : synopsis;
 
@@ -74,9 +82,12 @@ export default {
             statusEmoji = "";
         }
 
-        let nsfwCheck = animeInfo.attributes.nsfw;
-        let isNsfw = nsfwCheck === false ? "✔️ Safe For Work" : "⚠️ Not Safe For Work";
-        let isDubbed = stmInfo.attributes.dubs === 'undefined' ? 'Yes' : 'No';
+        const nsfwCheck = animeInfo.attributes.nsfw;
+        let isNsfw = nsfwCheck === true ? "✔️ Safe For Work" : "⚠️ Not Safe For Work";
+        let isDubbed = animeInfo.attributes.dubs === 'JP' ? 'Yes' : 'No';
+
+        console.log('Dubbed: ' + isDubbed);
+        console.log('Safe For Work: ' + nsfwCheck);
 
         const embed = new EmbedBuilder()
           .setTitle(`${animeInfo.attributes.canonicalTitle}`)
@@ -119,10 +130,21 @@ export default {
               inline: true,
             },
             {
+              name: 'Show Type',
+              value: `\`${animeInfo.attributes.showType}\``
+            }
+              /*,
+            {
+              name: 'Seasons',
+              value:  `\`${animeInfo.attributes.seasons}\``,
+              inline: true
+            },
+            {
               name: 'Dubbed',
               value:  `\`${isDubbed}\``,
               inline: true
             }
+            */
           )
           .setURL(`https://kitsu.io/anime/${animeInfo.id}`)
           .setColor(colors.bot);

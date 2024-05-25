@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, Collection, EmbedBuilder, StringSelectMenuBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, Routes, REST } from 'discord.js';
+import { Client, GatewayIntentBits, Collection, EmbedBuilder, StringSelectMenuBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import MySQL from './models/mysql.js';
