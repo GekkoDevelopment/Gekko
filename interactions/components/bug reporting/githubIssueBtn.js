@@ -1,5 +1,7 @@
 import axios from 'axios';
-import config from '../../../config.js';
+import embeds from '../../../embeds/index.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export default {
   data: { name: "githubIssueBtn" },
@@ -11,8 +13,8 @@ export default {
         fieldValueMap[field.name] = field.value;
     });
     
-    const apiUrl = config.githubApi.url;
-    const token = config.githubApi.token;
+    const apiUrl = process.env.GITHUB_URL;
+    const token = process.env.GITHUB_TOKEN;
     const bugId = fieldValueMap['Bug ID'];
     const guildId = fieldValueMap['Guild ID:'];
     const reportee = fieldValueMap['Reportee'];
