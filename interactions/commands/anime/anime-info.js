@@ -17,7 +17,6 @@ export default {
     ),
   async execute(interaction) {
     DiscordExtensions.checkIfRestricted(interaction);
-
     await interaction.deferReply();
 
     try {
@@ -40,6 +39,9 @@ export default {
 
       const option = await Http.performHttpGetRequest(`https://kitsu.io/api/edge/anime?filter[text]=${animeName}`, headers);
       const data = await option.json();
+      const stmData = await stmOption.json();
+
+      console.log(stmData);
 
       if (data.data && data.data.length > 0) {
         const animeInfo = data.data[0];

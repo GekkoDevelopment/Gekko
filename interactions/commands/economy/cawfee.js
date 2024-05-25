@@ -3,6 +3,7 @@ import MySQL from '../../../models/mysql.js';
 import colors from '../../../models/colors.js';
 import config from '../../../config.js';
 import DiscordExtensions from '../../../models/DiscordExtensions.js';
+import embeds from '../../../embeds/index.js';
 
 const cooldowns = new Map();
 

@@ -4,6 +4,7 @@ import config from '../../../config.js';
 import Http from '../../../models/HTTP.js';
 import DiscordExtensions from '../../../models/DiscordExtensions.js';
 import dotenv from 'dotenv';
+import embeds from '../../../embeds/index.js';
 
 dotenv.config();
 

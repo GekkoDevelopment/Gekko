@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } from 'discord.js';
 import Http from '../../../models/HTTP.js';
 import DiscordExtensions from '../../../models/DiscordExtensions.js';
+import embeds from '../../../embeds/index.js';
 // import pagination from '../../components/utils/pagination.js';
 
 export default {

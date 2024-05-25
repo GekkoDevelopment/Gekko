@@ -3,6 +3,7 @@ import MySQL from '../../../models/mysql.js';
 import color from '../../../models/colors.js';
 import DiscordExtensions from '../../../models/DiscordExtensions.js';
 import dotenv from 'dotenv';
+import embeds from '../../../embeds/index.js';
 
 dotenv.config();
 
