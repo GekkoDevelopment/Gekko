@@ -5,14 +5,18 @@ export default {
   name: Events.ClientReady,
   once: true,
   execute(client) {
-    MySQL.connectToDatabase();
-    console.log(
-      `✅ ${client.user.username} (${client.user.id}) is ready to use!`
-    );
-
-    client.user.setActivity({
-      name: "/gekko",
-    });
+    console.log('⚠️ Logging Into Client Token and ID...')
+    console.log('⚠️ Logging Into Gekko Bot MySQL...')
+    setTimeout(() => {
+      MySQL.connectToDatabase();
+      console.log(
+        `✅ ${client.user.username} (${client.user.id}) is ready to use!`
+      );
+  
+      client.user.setActivity({
+        name: "/gekko",
+      });
+    }, 2500)
 
     // most of these lines are database table columns, and rows.
     const columns = [
