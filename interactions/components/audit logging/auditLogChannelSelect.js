@@ -1,4 +1,5 @@
 import MySQL from "../../../models/mysql.js";
+import embeds from "../../../embeds/index.js";
 
 export default {
   data: { name: "auditLogChannelSelect" },

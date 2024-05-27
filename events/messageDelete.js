@@ -4,7 +4,7 @@ import config from '../config.js';
 
 export default {
   name: Events.MessageDelete,
-  async execute(newMessage) {
+  async execute(message) {
     let logChannelId = await MySQL.getValueFromTableWithCondition(
       "logging",
       "message_channel",
@@ -26,8 +26,6 @@ export default {
     if (!logChannel) {
       return;
     } 
-
-    if (newMessage.author.id === '1241043340510625804' || oldMessage.author.id === '1241043340510625804') return;
     
     if (message.content) {
       const embed = new EmbedBuilder()
@@ -51,25 +49,7 @@ export default {
       await logChannel.send({ embeds: [embed] });
     }
     if (!message.content) {
-      const embed = new EmbedBuilder()
-        .setTitle(`${config.emojis.warning} Message Deleted`)
-        .setDescription(
-          `> **Channel:** ${message.channel} (||${message.channel.id}||) \n> **Message ID:** ${message.id} \n> **Message Author:** <@${message.author.id}>`
-        )
-        .addFields(
-          {
-            name: "Embed Content:",
-            value: `\`\`\`Message was an Embed, we can't embed an embed within an embed.\`\`\``,
-          },
-        )
-        .setColor("Red")
-        .setTimestamp()
-        .setFooter({
-          text: "Gekkō",
-          iconURL: message.client.user.displayAvatarURL(),
-        });
-
-      await logChannel.send({ embeds: [embed] });
+      return;
     }
   },
 };

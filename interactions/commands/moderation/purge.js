@@ -1,6 +1,8 @@
 import { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } from 'discord.js';
 import DiscordExtensions from '../../../models/DiscordExtensions.js';
 import embeds from '../../../embeds/index.js';
+import MySQL from '../../../models/mysql.js';
+import { emojis } from '../../../config.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -16,6 +18,28 @@ export default {
     ),
   async execute(interaction) {
     DiscordExtensions.checkIfRestricted(interaction);
+    let logChannelId = await MySQL.getValueFromTableWithCondition(
+      "logging",
+      "message_channel",
+      "guild_id",
+      interaction.guild.id
+    );
+    
+    if (!logChannelId) {
+      logChannelId = await MySQL.getValueFromTableWithCondition(
+        "logging",
+        "audit_channel",
+        "guild_id",
+        interaction.guild.id
+      );
+    } else {
+      logChannelId = await MySQL.getValueFromTableWithCondition(
+        "logging",
+        "moderation_channel",
+        "guild_id",
+        interaction.guild.id 
+      )
+    }
 
     try {
       if (
@@ -99,6 +123,16 @@ export default {
             })
             .setColor("Green");
           await interaction.reply({ embeds: [successEmbed] });
+
+          const logChannel = interaction.guild.channels.cache.get(logChannelId);
+          const logChannelEmbed = new EmbedBuilder()
+          .setTitle(`${emojis.warning} Messages Purged`)
+          .setDescription(`> **Amount Purged:** ${messages.size}/${amount} \n> **Where:** <#${interaction.channel.id}> \n> **Purged by:** <@${interaction.user.id}>`)
+          .setColor('Red')
+          .setTimestamp()
+          .setFooter({ text: 'Maxine', iconURL: interaction.client.user.displayAvatarURL() });
+
+          await logChannel?.send({ embeds: [logChannelEmbed] }) ?? interaction.channel.send({embeds: [logChannelEmbed]});
 
           setTimeout(() => {
             interaction.deleteReply();

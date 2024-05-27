@@ -3,6 +3,7 @@ import { createCanvas, loadImage, GlobalFonts } from '@napi-rs/canvas';
 import MySQL from '../../../models/mysql.js';
 import colors from '../../../models/colors.js';
 import config from '../../../config.js';
+import embeds from '../../../embeds/index.js';
 
 GlobalFonts.registerFromPath("fonts/Bangers-Regular.ttf", "Bangers");
 

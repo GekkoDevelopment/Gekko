@@ -5,6 +5,10 @@ import config from '../config.js';
 export default {
   name: Events.MessageUpdate,
   async execute(oldMessage, newMessage) {
+    if (newMessage.author.bot) {
+      return;
+    };
+
     let logChannelId = await MySQL.getValueFromTableWithCondition(
       "logging",
       "message_channel",
