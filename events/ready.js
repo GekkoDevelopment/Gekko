@@ -7,8 +7,8 @@ export default {
   execute(client) {
     console.log('⚠️ Logging Into Client Token and ID...')
     console.log('⚠️ Logging Into Gekko Bot MySQL...')
+    MySQL.connectToDatabase();
     setTimeout(() => {
-      MySQL.connectToDatabase();
       console.log(
         `✅ ${client.user.username} (${client.user.id}) is ready to use!`
       );
