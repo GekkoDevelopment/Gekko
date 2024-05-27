@@ -36,7 +36,7 @@ export default class Http {
      * @param {string} [contentType='application/json'] - The content type of the request body. Defaults to 'application/json' if not provided.
      * @return {Promise<Response>} A Promise that resolves to the response object.
      */
-    static async performPostRequest(url, headers = {}, body = {}) {
+    static async performPostRequest(url, headers, body = {}) {
         try {
             const options = {
                 method: 'POST', // Set the HTTP method to POST
