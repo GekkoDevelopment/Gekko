@@ -10,14 +10,12 @@ dotenv.config();
 export default {
     data: new SlashCommandBuilder()
         .setName('test').setDescription('Test a feature (used by dev for HTTP requests or MySQL testing)')
-        .addStringOption(option => option.setName('invite-link').setDescription('discord server link.'))
         .addStringOption(option => option.setName('message').setDescription('message')),
     async execute(interaction) {
         await interaction.deferReply();
       
         try {
-            const animeName = interaction.options.getString("invite-link");
-            const msg = interaction.options.getString('message');
+            const animeName = interaction.options.getString("message");
 
             const headers = {
               'Content-Type': 'application/vnd.api+json',
