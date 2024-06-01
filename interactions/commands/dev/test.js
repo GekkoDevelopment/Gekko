@@ -2,7 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder, ButtonStyle, ActionRowBuilder, Slash
 import Http from "../../../models/HTTP.js";
 import MySQL from "../../../models/mysql.js";
 import DiscordExtensions from "../../../models/DiscordExtensions.js";
-import Translation from "../../../models/Translation.js";
+import translate from '../../components/utils/translate.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -68,6 +68,7 @@ export default {
         
               let nsfwCheck = animeInfo.attributes.nsfw;
               let isNsfw = nsfwCheck === false ? "✔️ Safe For Work" : "⚠️ Not Safe For Work";
+              
               //let isDubbed = stmInfo.attributes.dubs === 'undefined' ? 'Yes' : 'No';
         
               const embed = new EmbedBuilder()
