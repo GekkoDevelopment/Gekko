@@ -2,7 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder, ButtonStyle, ActionRowBuilder, Slash
 import Http from "../../../models/HTTP.js";
 import MySQL from "../../../models/mysql.js";
 import DiscordExtensions from "../../../models/DiscordExtensions.js";
-import translate from '../../components/utils/translate.js';
+//import translate from '../../components/utils/translate.js';
 import dotenv from 'dotenv';
 
 dotenv.config();

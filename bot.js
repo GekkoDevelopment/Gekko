@@ -13,15 +13,15 @@ dotenv.config();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const client = new Client({
-  intents: [Object.keys(GatewayIntentBits)],
-  allowedMentions: { parse: ["users", "roles", "everyone"], repliedUser: true },
+    intents: [Object.keys(GatewayIntentBits)],
+    allowedMentions: { parse: ['users', 'roles', 'everyone'], repliedUser: true }
 });
 
 client.embeds = await import('./embeds/index.js');
-
+console.log(__dirname);
 client.interactions = {
-  commands: new Collection(),
-  components: new Collection(),
+    commands: new Collection(),
+    components: new Collection()
 };
 
 const numericRegex = /&[0-9]+$/;
@@ -571,40 +571,38 @@ const _dirname = `${os.platform() === 'win32' ? '.\\' : `${__dirname}`}`;
 const importFoldersPath = `${os.platform() === 'win32' ? 'file:\\' : ''}${__dirname}`
 
 for(let type of ['commands','components']){
-  const foldersPath = `${_dirname}/interactions/${type}`//;path.join(__dirname, `interactions/${type}`);
-  const commandFolders = fs.readdirSync(foldersPath);
-
-  
-  for (const folder of commandFolders) {
-      const commandsPath = `${foldersPath}/${folder}`;
-      const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
-      
-      for (const file of commandFiles) {
-          const filePath = `${importFoldersPath}\\interactions\\${type}\\${folder}\\${file}`;
-          //const filePath = path.join(commandsPath, file);
-          const command = (await import(filePath))?.default;
-  
-          if ('data' in command && 'execute' in command) {
-              client.interactions[type].set(command.data.name, command);
-          } else {
-              console.log(`[WARNING]: The command at ${filePath} is missing a required "data" or "execute" property.`);
-          }
-      }
-  }
+    const foldersPath = `${_dirname}/interactions/${type}`//;path.join(__dirname, `interactions/${type}`);
+    const commandFolders = fs.readdirSync(foldersPath);
+    
+    for (const folder of commandFolders) {
+        const commandsPath = `${foldersPath}/${folder}`;
+        const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+        
+        for (const file of commandFiles) {
+            const filePath = `${importFoldersPath}\\interactions\\${type}\\${folder}\\${file}`;
+            //const filePath = path.join(commandsPath, file);
+            const command = (await import(filePath))?.default;
+            if (command && 'data' in command && 'execute' in command) {
+                client.interactions[type].set(command.data.name, command);
+            } else {
+                console.log(`[WARNING]: The command at ${filePath} is missing a required "data" or "execute" property.`);
+            }
+        }
+    }
 }
 
 const eventsPath = `${_dirname}/events`;
 const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 
 for (const file of eventFiles) {
-  const filePath = `${importFoldersPath}\\events\\${file}`;
-  const event = (await import(filePath))?.default;
+    const filePath = `${importFoldersPath}\\events\\${file}`;
+	const event = (await import(filePath))?.default;
 
-  if (event.once) {
-      client.once(event.name, (...args) => event.execute(...args));
-  } else {
-      client.on(event.name, (...args) => event.execute(...args));
-  }
+    if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args));
+    } else {
+		client.on(event.name, (...args) => event.execute(...args));
+	}
 }
 
 client.login(process.env.TOKEN);
