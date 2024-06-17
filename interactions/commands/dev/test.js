@@ -1,6 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder, ButtonStyle, ActionRowBuilder, SlashCommandMentionableOption } from "discord.js";
 import Http from "../../../models/HTTP.js";
-import MySQL from "../../../models/mysql.js";
 import DiscordExtensions from "../../../models/DiscordExtensions.js";
 //import translate from '../../components/utils/translate.js';
 import dotenv from 'dotenv';
@@ -23,17 +22,20 @@ export default {
             }
         
             const option = await Http.performGetRequest(`https://kitsu.io/api/edge/anime?filter[text]=${animeName}`, headers);
+            const option2 = await Http.performGetRequest(`https://kitsu.io/api/edge/anime?filter[text]=${animeName}`, headers);
+            
             const data = await option.json();
+            const data2 = await option2.json();
         
-            const translated = await Translation.translate(msg);
-            console.log(translated);
+            //const translated = await Translation.translate(msg);
+            // console.log(translated);
 
-            if (data.data && data.data.length > 0) {
+            if (data.data && data.data.length > 0 || data2.data && data.data.length > 0) {
               const animeInfo = data.data[0];
-              // const stmInfo = stmData.data;
+              const animeInfo2 = data2.data[1];
         
               let synopsis = animeInfo.attributes.synopsis || "No synopsis available.";
-              synopsis = synopsis.length > 300 ? synopsis.substring(0, 300) + "..." : synopsis;
+              synopsis = synopsis.length > 300 ? synopsis.substring(0, 300) + '...' : synopsis;
         
               let ratingEmoji;
         
@@ -63,17 +65,17 @@ export default {
                   statusEmoji = config.emojis.ratingAmber;
                   break;
                 default:
-                  statusEmoji = "";
+                  statusEmoji = '';
                 }
         
               let nsfwCheck = animeInfo.attributes.nsfw;
-              let isNsfw = nsfwCheck === false ? "✔️ Safe For Work" : "⚠️ Not Safe For Work";
+              let isNsfw = nsfwCheck === false ? '✔️ Safe For Work' : '⚠️ Not Safe For Work';
               
               //let isDubbed = stmInfo.attributes.dubs === 'undefined' ? 'Yes' : 'No';
         
               const embed = new EmbedBuilder()
                 .setTitle(`${animeInfo.attributes.canonicalTitle}`)
-                .setFooter({ text: animeInfo.attributes.titles.en || "Could not translate name.", iconURL: interaction.client.user.avatarURL(),})
+                .setFooter({ text: animeInfo.attributes.titles.en || 'Could not translate name.', iconURL: interaction.client.user.avatarURL(),})
                 .setDescription(`> ${synopsis}[[View More]](https://kitsu.io/anime/${animeInfo.id})`)
                 .addFields
                 ({
@@ -110,12 +112,12 @@ export default {
                     name: "End Date",
                     value: `\`${animeInfo.attributes.endDate}\``,
                     inline: true,
-                  },
+                  },/*
                   {
                     name: 'Dubbed',
                     value:  `\`${isDubbed}\``,
                     inline: true
-                  })
+                  }*/)
                 .setURL(`https://kitsu.io/anime/${animeInfo.id}`)
                 .setColor(colors.bot);
         

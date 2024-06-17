@@ -264,7 +264,7 @@ export default {
       },
       {
         quote: "The wound is at her heart.",
-        author: "Virgil Aeneis",
+        author: "Publius Vergilius Maro",
       },
       {
         quote:
