@@ -1,10 +1,11 @@
 import { Client, GatewayIntentBits, Collection, EmbedBuilder, StringSelectMenuBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { env } from 'node:process';
 import MySQL from './models/mysql.js';
 import fs from 'fs';
-import dotenv from 'dotenv';
 import os from 'node:os';
+import dotenv from 'dotenv';
 import config from './config.js';
 import colors from './models/colors.js';
 import DiscordExtensions from './models/DiscordExtensions.js';
@@ -605,4 +606,4 @@ for (const file of eventFiles) {
 	}
 }
 
-client.login(process.env.TOKEN);
+client.login('MTIyNjMzNDk1MjE3MDMyODEwNA.GcWrnK.s2qiB4HaFs0BTtm-sPOhd0-G46BAojFZdeZegE');

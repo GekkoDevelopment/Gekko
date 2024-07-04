@@ -26,7 +26,6 @@ export default class Http {
         }
     }
 
-
     /**
      * Performs an HTTP POST request to the specified URL.
      * @param {string} url - The URL to which the request is sent.

@@ -64,7 +64,7 @@ export default {
       const data = await response.json();
 
       const embed = new EmbedBuilder()
-        .setTitle("Waifu!")
+        .setTitle("Neko!")
         .setColor(colors.bot)
         .setImage(`${data.url}`);
 

@@ -4,11 +4,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 let mysql = db.createConnection({
-  host: process.env.DATABASE_HOST,
-  user: process.env.DATABASE_USERNAME,
-  password: process.env.DATABASE_PASSWORD,
-  database: process.env.DATABASE_NAME,
-  port: process.env.DATABASE_PORT,
+  host: '198.244.148.129',
+  user: 'u2_YcRpm2I6VN',
+  password: '0A!=JiH6l+T!IMZKjJH5Z0@C',
+  database: 's2_gekko',
+  port: '3306',
 });
 
 export default class MySQL {

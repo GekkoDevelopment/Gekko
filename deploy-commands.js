@@ -1,10 +1,9 @@
 import { REST, Routes, Collection } from 'discord.js';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { env } from 'node:process';
 import os from 'os';
 import fs from 'fs';
-import dotenv from 'dotenv';
-import config from './config.js';
 
 dotenv.config();
 
@@ -77,13 +76,13 @@ for(let type of ['commands']){
     }
 }
 
-const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
+const rest = new REST({ version: '9' }).setToken('MTIyNjMzNDk1MjE3MDMyODEwNA.GcWrnK.s2qiB4HaFs0BTtm-sPOhd0-G46BAojFZdeZegE');
 
 (async () => {
     try {
         console.log(`⚠️ Started refreshing ${commands.length} application (/) commands...`);
         const data = await rest.put(
-            Routes.applicationCommands(config.bot.clientId), 
+            Routes.applicationCommands(env.CLIENT_ID), 
             { body: commands }
         );
         console.log(`⚠️ Reloading Commands...`)

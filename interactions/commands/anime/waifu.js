@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import fetch from 'node-fetch';
 import colors from '../../../models/colors.js';
 import DiscordExtensions from '../../../models/DiscordExtensions.js';

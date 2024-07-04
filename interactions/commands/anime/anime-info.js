@@ -37,11 +37,8 @@ export default {
         key: 'value'
       }
 
-      const option = await Http.performHttpGetRequest(`https://kitsu.io/api/edge/anime?filter[text]=${animeName}`, headers);
+      const option = await Http.performGetRequest(`https://kitsu.io/api/edge/anime?filter[text]=${animeName}`, headers);
       const data = await option.json();
-      const stmData = await stmOption.json();
-
-      console.log(stmData);
 
       if (data.data && data.data.length > 0) {
         const animeInfo = data.data[0];
@@ -85,9 +82,11 @@ export default {
         const nsfwCheck = animeInfo.attributes.nsfw;
         let isNsfw = nsfwCheck === true ? "✔️ Safe For Work" : "⚠️ Not Safe For Work";
         let isDubbed = animeInfo.attributes.dubs === 'JP' ? 'Yes' : 'No';
+        let stillAiring = animeInfo.attributes.endDate === 'null' ? 'Still Airing' : animeInfo.attributes.endDate;
 
         console.log('Dubbed: ' + isDubbed);
         console.log('Safe For Work: ' + nsfwCheck);
+        console.log('Still airing:' + stillAiring);
 
         const embed = new EmbedBuilder()
           .setTitle(`${animeInfo.attributes.canonicalTitle}`)
@@ -126,7 +125,7 @@ export default {
             },
             {
               name: "End Date",
-              value: `\`${animeInfo.attributes.endDate}\``,
+              value: `\`${animeInfo.attributes.endDate}\`` || "Still Airing",
               inline: true,
             },
             {
