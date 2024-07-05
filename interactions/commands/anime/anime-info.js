@@ -27,16 +27,6 @@ export default {
         Accept: 'application/vnd.api+json'
       }
 
-      const postHeaders = {
-        'grant_type': 'password',
-        'username': '<email|slug>',
-        'password': '<password>'
-      }
-
-      const requestBody = {
-        key: 'value'
-      }
-
       const option = await Http.performGetRequest(`https://kitsu.io/api/edge/anime?filter[text]=${animeName}`, headers);
       const data = await option.json();
 
