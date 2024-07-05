@@ -1,4 +1,3 @@
-
 export const developer = { // This part of the config is only used for the bot developers.
     dev1Id: '795059255073177630', // Kier
     dev2Id: '1016846998021873714', // RedMeansWar / Brandon
@@ -53,4 +52,11 @@ export const emojis = {
     gekkoPolice: '<:gekkoPolice:1239371511878520852>', // Police (stop right there.)
 
 };
-export default { developer, assets, emojis };
+
+export const apis = {
+    kitsuToken: 'kistuToken',
+    kistuTokenCreatedAt: 0,
+    kistuTokenExpiresAt: 0,
+};
+
+export default { developer, assets, emojis, apis };

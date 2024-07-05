@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import qs from 'qs';
 
 export default class Http {
     /**
@@ -29,29 +30,44 @@ export default class Http {
     /**
      * Performs an HTTP POST request to the specified URL.
      * @param {string} url - The URL to which the request is sent.
-     * @param {string} method - The HTTP method (GET, POST, PUT, DELETE, etc.).
      * @param {Object<string, string>} [headers={}] - Custom headers for the request. Optional.
-     * @param {*} [data] - The data to be included in the request body. Optional.
+     * @param {*} [body] - The data to be included in the request body. Optional.
      * @param {string} [contentType='application/json'] - The content type of the request body. Defaults to 'application/json' if not provided.
      * @return {Promise<Response>} A Promise that resolves to the response object.
      */
-    static async performPostRequest(url, headers, body = {}) {
+    static async performPostRequest(url, headers = {}, body, contentType = 'application/json') {
         try {
             const options = {
                 method: 'POST', // Set the HTTP method to POST
-                headers: headers,
-                body: JSON.stringify(body),
+                headers: {
+                    ...headers, // Spread the provided headers
+                    'Content-Type': contentType // Set the Content-Type header
+                },
+                body: contentType === 'application/json' ? JSON.stringify(body) : qs.stringify(body) // Convert body to URL-encoded string if contentType is application/x-www-form-urlencoded
             };
 
+            if (body !== undefined) {
+                options.body = contentType === 'application/json' ? JSON.stringify(body) : qs.stringify(body);
+            }
+
+            // Adding a timeout to the fetch request to handle pending status
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 10000);
+            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 seconds timeout
 
             const response = await fetch(url, { ...options, signal: controller.signal });
-            clearTimeout(timeoutId);
-            
+            clearTimeout(timeoutId); // Clear the timeout if request completes
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
             return response;
         } catch (error) {
-            console.error('Error:', error);
+            if (error.name === 'AbortError') {
+                console.error('Request timed out');
+            } else {
+                console.error('Error:', error);
+            }
             throw error;
         }
     }

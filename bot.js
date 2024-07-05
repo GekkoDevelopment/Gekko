@@ -1,13 +1,13 @@
 import { Client, GatewayIntentBits, Collection, EmbedBuilder, StringSelectMenuBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { env } from 'node:process';
 import MySQL from './models/mysql.js';
 import fs from 'fs';
 import os from 'node:os';
 import dotenv from 'dotenv';
 import config from './config.js';
 import colors from './models/colors.js';
+import Http from './models/HTTP.js';
 import DiscordExtensions from './models/DiscordExtensions.js';
 
 dotenv.config();
@@ -26,6 +26,9 @@ client.interactions = {
 };
 
 const numericRegex = /&[0-9]+$/;
+const test = test;;
+
+scheduleTokenRefresh('https://kitsu.io/api/oauth/token', process.env.KITSU_REFRESH_TOKEN, config.apis.kistuTokenCreatedAt, config.apis.kistuTokenExpiresAt );
 
 //////// Prefix Commands ///////|
 // --- Developer Commands --- //|
@@ -565,6 +568,55 @@ client.on("messageCreate", async (message) => {
     await message.channel.send({ content: " ", embeds: [pingEmbed] });
   }
 });
+
+async function refreshToken(url, refreshToken) {
+  const headers = {
+    'Content-Type': 'application/x-www-form-urlencoded'
+  };
+  
+  const body = {
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken
+  };
+
+  try {
+      const data = await performPostRequest(url, headers, body, 'application/x-www-form-urlencoded');
+
+      const accessToken = data.access_token;
+      config.apis.kitsuToken = accessToken;
+      console.log('[KITSU API] Access Token:', accessToken);
+
+      const createdAt = data.created_at;
+      config.apis.kistuTokenCreatedAt = createdAt
+      console.log('[KITSU API] Created At:', createdAt);
+
+      const expiresIn = data.expires_in;
+      config.apis.kistuTokenExpiresAt = expiresIn;
+      console.log('[KITSU API] Expires In:', expiresIn);
+
+      // Schedule the next refresh
+      scheduleTokenRefresh(url, refreshToken, createdAt, expiresIn);
+
+  } catch (error) {
+      console.error('[KITSU API] Error refreshing token:', error);  
+  }
+}
+
+function scheduleTokenRefresh(url, initalRefreshToken, createdAt, expiresIn) {
+
+  const expirationTime = createdAt * 1000 + expiresIn * 1000; // Expiration time in milliseconds
+  const currentTime = Date.now();
+  const timeUntilExpiration = expirationTime - currentTime;
+
+  // Schedule the refresh for slightly before the token expires
+  const refreshTime = timeUntilExpiration > 60000 ? timeUntilExpiration - 60000 : 0; // 1 minute before expiration
+
+  console.log(`Token will be refreshed in ${refreshTime / 1000} seconds`);
+
+  setTimeout(() => {
+    refreshToken(url, initalRefreshToken);
+  }, refreshTime);
+}
 
 //////////////////////////////////
 

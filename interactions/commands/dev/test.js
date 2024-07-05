@@ -14,11 +14,17 @@ export default {
         await interaction.deferReply();
 
         try {
-          const url = `https://api.consumet.org/anime/9anime/demon?page=2`;
-
-          const data = async () => {
-            
-          }
+            const animeName = interaction.options.getString('test');
+            const headers = {
+                'Content-Type': 'application/vnd.api+json',
+                Accept: 'application/vnd.api+json',
+                'grant_type': 'password',
+                'username': process.env.KITSU_USERNAME,
+                'password': process.env.KITSU_PASSWORD
+            };
+            const data = await Http.performGetRequest('https://kitsu.io/api/oauth/token', headers)
+            console.log(data);
+            interaction.editReply('test');
         } catch (error) {
             DiscordExtensions.sendErrorEmbed(error, interaction);
         }
