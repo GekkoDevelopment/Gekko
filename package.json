@@ -27,7 +27,7 @@
     "openai": "^4.47.0",
     "qs": "^6.12.2",
     "rotate-matrix": "^0.0.3",
-    "superagent": "^8.1.2"
+    "superagent": "^10.2.0"
   },
   "type": "module"
 }
